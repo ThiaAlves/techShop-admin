@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Estoque;
+use Illuminate\Http\Request;
+
+class EstoqueController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $estoques = Estoque::readEstoque();
+        return $estoques;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $estoque = Estoque::createEstoque($data);
+        return $estoque;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Estoque  $estoque
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Estoque $estoque)
+    {
+        $estoque = Estoque::readEstoque($estoque->id);
+        return $estoque;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Estoque  $estoque
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Estoque $estoque)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Estoque  $estoque
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Estoque $estoque)
+    {
+        $data = $request->all();
+        $estoque = Estoque::updateEstoque($data, $estoque->id);
+        return $estoque;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Estoque  $estoque
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Estoque $estoque)
+    {
+        $estoque = Estoque::deleteEstoque($estoque->id);
+        return $estoque;
+    }
+}
