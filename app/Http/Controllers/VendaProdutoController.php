@@ -12,6 +12,21 @@ class VendaProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+        /** @OA\Get(path="/api/venda-produto",
+     *   tags={"Carrinho"},
+     *   summary="Lista todos os produtos na venda",
+     *   description="Retorna todos os produtos na venda",
+     *   operationId="indexVendaProduto",
+     *   @OA\Response(
+     *     response=200,
+     *     description="Retorna todos os produtos na venda"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto na venda"
+     *   )
+     * )
+     */
     public function index()
     {
         $vendaProdutos = VendaProduto::readVendaProdutos();
@@ -34,6 +49,45 @@ class VendaProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /** @OA\Post(path="/api/venda-produto",
+     *   tags={"Carrinho"},
+     *   summary="Cria um novo produto na venda",
+     *   description="Cria um novo produto na venda",
+     *   operationId="storeVendaProduto",
+     *   @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(
+     *         property="id_venda",
+     *         description="ID da venda",
+     *         type="integer",
+     *         format="int64"
+     *       ),
+     *       @OA\Property(
+     *         property="id_produto",
+     *         description="ID do produto",
+     *         type="integer",
+     *         format="int64"
+     *       ),
+     *       @OA\Property(
+     *         property="quantidade",
+     *         description="Quantidade do produto",
+     *         type="integer",
+     *         format="int64"
+     *       )
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Retorna o produto na venda"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto na venda"
+     *   )
+     * )
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -46,6 +100,31 @@ class VendaProdutoController extends Controller
      *
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
+     */
+    /** @OA\Get(path="/api/venda-produto/{id}",
+     *   tags={"Carrinho"},
+     *   summary="Mostra um produto na venda",
+     *   description="Mostra um produto na venda",
+     *   operationId="showVendaProduto",
+     *   @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID do produto na venda",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer",
+     *       format="int64"
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Retorna o produto na venda"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto na venda"
+     *   )
+     * )
      */
     public function show(VendaProduto $vendaProduto)
     {
@@ -71,6 +150,55 @@ class VendaProdutoController extends Controller
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
      */
+    /** @OA\Put(path="/api/venda-produto/{id}",
+     *   tags={"Carrinho"},
+     *   summary="Atualiza um produto na venda",
+     *   description="Atualiza um produto na venda",
+     *   operationId="updateVendaProduto",
+     *   @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID do produto na venda",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer",
+     *       format="int64"
+     *     )
+     *   ),
+     *   @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(
+     *         property="id_venda",
+     *         description="ID da venda",
+     *         type="integer",
+     *         format="int64"
+     *       ),
+     *       @OA\Property(
+     *         property="id_produto",
+     *         description="ID do produto",
+     *         type="integer",
+     *         format="int64"
+     *       ),
+     *       @OA\Property(
+     *         property="quantidade",
+     *         description="Quantidade do produto",
+     *         type="integer",
+     *         format="int64"
+     *       )
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Retorna o produto na venda"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto na venda"
+     *   )
+     * )
+     */
     public function update(Request $request, VendaProduto $vendaProduto)
     {
         $data = $request->all();
@@ -83,6 +211,31 @@ class VendaProdutoController extends Controller
      *
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
+     */
+    /** @OA\Delete(path="/api/venda-produto/{id}",
+     *   tags={"Carrinho"},
+     *   summary="Remove um produto na venda",
+     *   description="Remove um produto na venda",
+     *   operationId="destroyVendaProduto",
+     *   @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID do produto na venda",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer",
+     *       format="int64"
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Retorna o produto na venda"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto na venda"
+     *   )
+     * )
      */
     public function destroy(VendaProduto $vendaProduto)
     {

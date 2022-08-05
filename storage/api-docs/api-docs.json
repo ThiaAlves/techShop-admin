@@ -1,0 +1,1432 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Tech-Admin-Api",
+        "contact": {
+            "name": "Tech-Admin",
+            "url": "  http://tech-admin.com",
+            "email": "  @gmail.com"
+        },
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/acesso": {
+            "get": {
+                "tags": [
+                    "Acesso"
+                ],
+                "summary": "Lista todos os acessos",
+                "description": "Retorna todos os acessos",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os acessos"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o acesso"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Acesso"
+                ],
+                "summary": "Cria um novo acesso",
+                "description": "Cria um novo acesso",
+                "operationId": "store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do acesso",
+                                        "type": "string"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do acesso",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status do acesso",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o acesso criado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o acesso"
+                    }
+                }
+            }
+        },
+        "/api/acesso/{id}": {
+            "get": {
+                "tags": [
+                    "Acesso"
+                ],
+                "summary": "Mostra um acesso",
+                "description": "Mostra um acesso",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do acesso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o acesso"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o acesso"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Acesso"
+                ],
+                "summary": "Atualiza um acesso",
+                "description": "Atualiza um acesso",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do acesso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do acesso",
+                                        "type": "string"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do acesso",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status do acesso",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o acesso atualizado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o acesso"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Acesso"
+                ],
+                "summary": "Deleta um acesso",
+                "description": "Deleta um acesso",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do acesso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o acesso deletado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o acesso"
+                    }
+                }
+            }
+        },
+        "/api/categoria": {
+            "get": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Lista todas as categorias",
+                "description": "Retorna todas as categorias",
+                "operationId": "indexCategoria",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todas as categorias"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a categoria"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Cria uma nova categoria",
+                "description": "Cria uma nova categoria",
+                "operationId": "storeCategoria",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome da categoria",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna a categoria criada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a categoria"
+                    }
+                }
+            }
+        },
+        "/api/categoria/{id}": {
+            "get": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Lista uma categoria",
+                "description": "Retorna uma categoria",
+                "operationId": "showCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna a categoria"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a categoria"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Atualiza uma categoria",
+                "description": "Atualiza uma categoria",
+                "operationId": "updateCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome da categoria",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna a categoria atualizada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a categoria"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Deleta uma categoria",
+                "description": "Deleta uma categoria",
+                "operationId": "destroyCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna a categoria deletada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a categoria"
+                    }
+                }
+            }
+        },
+        "/api/cliente": {
+            "get": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Lista todos os clientes",
+                "description": "Retorna todos os clientes",
+                "operationId": "indexCliente",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os clientes"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o cliente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Cria um novo cliente",
+                "description": "Cria um novo cliente",
+                "operationId": "storeCliente",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "telefone"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do cliente",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do cliente",
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone do cliente",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o cliente criado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o cliente"
+                    }
+                }
+            }
+        },
+        "/api/cliente/{id}": {
+            "get": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Mostra um cliente",
+                "description": "Mostra um cliente",
+                "operationId": "showCliente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o cliente"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o cliente"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Atualiza um cliente",
+                "description": "Atualiza um cliente",
+                "operationId": "updateCliente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "telefone"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do cliente",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do cliente",
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone do cliente",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o cliente atualizado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o cliente"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Deleta um cliente",
+                "description": "Deleta um cliente",
+                "operationId": "destroyCliente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o cliente deletado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o cliente"
+                    }
+                }
+            }
+        },
+        "/api/endereco": {
+            "get": {
+                "tags": [
+                    "Endereco"
+                ],
+                "summary": "Lista todos os endereços",
+                "description": "Retorna todos os endereços",
+                "operationId": "indexEndereco",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os endereços"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o endereço"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Endereco"
+                ],
+                "summary": "Cria um novo endereço",
+                "description": "Cria um novo endereço",
+                "operationId": "storeEndereco",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "logradouro",
+                                    "numero",
+                                    "bairro",
+                                    "cidade",
+                                    "estado",
+                                    "cep"
+                                ],
+                                "properties": {
+                                    "logradouro": {
+                                        "description": "Logradouro do endereço",
+                                        "type": "string"
+                                    },
+                                    "numero": {
+                                        "description": "Número do endereço",
+                                        "type": "string"
+                                    },
+                                    "bairro": {
+                                        "description": "Bairro do endereço",
+                                        "type": "string"
+                                    },
+                                    "cidade": {
+                                        "description": "Cidade do endereço",
+                                        "type": "string"
+                                    },
+                                    "estado": {
+                                        "description": "Estado do endereço",
+                                        "type": "string"
+                                    },
+                                    "cep": {
+                                        "description": "CEP do endereço",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o endereço criado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o endereço"
+                    }
+                }
+            }
+        },
+        "/api/endereco/{id}": {
+            "get": {
+                "tags": [
+                    "Endereco"
+                ],
+                "summary": "Mostra um endereço",
+                "description": "Mostra um endereço",
+                "operationId": "showEndereco",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o endereço"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o endereço"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Endereco"
+                ],
+                "summary": "Atualiza um endereço",
+                "description": "Atualiza um endereço",
+                "operationId": "updateEndereco",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "logradouro",
+                                    "numero",
+                                    "bairro",
+                                    "cidade",
+                                    "estado",
+                                    "cep"
+                                ],
+                                "properties": {
+                                    "logradouro": {
+                                        "description": "Logradouro do endereço",
+                                        "type": "string"
+                                    },
+                                    "numero": {
+                                        "description": "Número do endereço",
+                                        "type": "string"
+                                    },
+                                    "bairro": {
+                                        "description": "Bairro do endereço",
+                                        "type": "string"
+                                    },
+                                    "cidade": {
+                                        "description": "Cidade do endereço",
+                                        "type": "string"
+                                    },
+                                    "estado": {
+                                        "description": "Estado do endereço",
+                                        "type": "string"
+                                    },
+                                    "cep": {
+                                        "description": "CEP do endereço",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o endereço atualizado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o endereço"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Endereco"
+                ],
+                "summary": "Deleta um endereço",
+                "description": "Deleta um endereço",
+                "operationId": "deleteEndereco",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o endereço deletado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o endereço"
+                    }
+                }
+            }
+        },
+        "/api/estoque": {
+            "get": {
+                "tags": [
+                    "Estoque"
+                ],
+                "summary": "Lista todos os estoques",
+                "description": "Retorna todos os estoques",
+                "operationId": "indexEstoque",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os estoques"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o estoque"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Estoque"
+                ],
+                "summary": "Cria um novo estoque",
+                "description": "Cria um novo estoque",
+                "operationId": "storeEstoque",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do estoque",
+                                        "type": "string",
+                                        "example": "Estoque 1"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do estoque",
+                                        "type": "string",
+                                        "example": "Estoque 1"
+                                    },
+                                    "endereco_id": {
+                                        "description": "ID do endereço",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o estoque criado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o estoque"
+                    }
+                }
+            }
+        },
+        "/api/estoque/{id}": {
+            "get": {
+                "tags": [
+                    "Estoque"
+                ],
+                "summary": "Lista um estoque",
+                "description": "Retorna um estoque",
+                "operationId": "showEstoque",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estoque",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna um estoque"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o estoque"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Estoque"
+                ],
+                "summary": "Atualiza um estoque",
+                "description": "Atualiza um estoque",
+                "operationId": "updateEstoque",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estoque",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do estoque",
+                                        "type": "string",
+                                        "example": "Estoque 1"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do estoque",
+                                        "type": "string",
+                                        "example": "Estoque 1"
+                                    },
+                                    "endereco_id": {
+                                        "description": "ID do endereço",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o estoque atualizado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o estoque"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Estoque"
+                ],
+                "summary": "Deleta um estoque",
+                "description": "Deleta um estoque",
+                "operationId": "deleteEstoque",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estoque",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o estoque deletado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o estoque"
+                    }
+                }
+            }
+        },
+        "/api/produto": {
+            "get": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Lista todos os produtos",
+                "description": "Retorna todos os produtos",
+                "operationId": "indexProduto",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os produtos"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Cria um novo produto",
+                "description": "Cria um novo produto",
+                "operationId": "storeProduto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do produto",
+                                        "type": "string",
+                                        "example": "Produto Teste"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do produto",
+                                        "type": "string",
+                                        "example": "Produto Teste"
+                                    },
+                                    "valor": {
+                                        "description": "Valor do produto",
+                                        "type": "number",
+                                        "example": "10.00"
+                                    },
+                                    "quantidade": {
+                                        "description": "Quantidade do produto",
+                                        "type": "number",
+                                        "example": "10"
+                                    },
+                                    "id_estoque": {
+                                        "description": "ID do estoque",
+                                        "type": "number",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto criado"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto"
+                    }
+                }
+            }
+        },
+        "/api/produto/{id}": {
+            "get": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Mostra um produto",
+                "description": "Mostra um produto",
+                "operationId": "showProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Atualiza um produto",
+                "description": "Atualiza um produto",
+                "operationId": "updateProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do produto",
+                                        "type": "string",
+                                        "example": "Produto Teste"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição do produto",
+                                        "type": "string",
+                                        "example": "Produto Teste"
+                                    },
+                                    "valor": {
+                                        "description": "Valor do produto",
+                                        "type": "number",
+                                        "example": "10.00"
+                                    },
+                                    "quantidade": {
+                                        "description": "Quantidade do produto",
+                                        "type": "number",
+                                        "example": "10"
+                                    },
+                                    "id_estoque": {
+                                        "description": "ID do estoque",
+                                        "type": "number",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto atualizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Remove um produto",
+                "description": "Remove um produto",
+                "operationId": "deleteProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto removido"
+                    }
+                }
+            }
+        },
+        "/api/venda": {
+            "get": {
+                "tags": [
+                    "Venda"
+                ],
+                "summary": "Lista todos as vendas",
+                "description": "Retorna todos as vendas",
+                "operationId": "indexVenda",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos as vendas"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a venda"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Venda"
+                ],
+                "summary": "Cria uma nova venda",
+                "description": "Cria uma nova venda",
+                "operationId": "storeVenda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cliente_id": {
+                                        "description": "ID do cliente",
+                                        "type": "integer"
+                                    },
+                                    "categoria_id": {
+                                        "description": "ID da categoria",
+                                        "type": "integer"
+                                    },
+                                    "valor": {
+                                        "description": "Valor da venda",
+                                        "type": "number"
+                                    },
+                                    "data": {
+                                        "description": "Data da venda",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna a venda criada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a venda"
+                    }
+                }
+            }
+        },
+        "/api/venda/{id}": {
+            "get": {
+                "tags": [
+                    "Venda"
+                ],
+                "summary": "Lista uma venda",
+                "description": "Retorna uma venda",
+                "operationId": "showVenda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna a venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a venda"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Venda"
+                ],
+                "summary": "Atualiza uma venda",
+                "description": "Atualiza uma venda",
+                "operationId": "updateVenda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cliente_id": {
+                                        "description": "ID do cliente",
+                                        "type": "integer"
+                                    },
+                                    "categoria_id": {
+                                        "description": "ID da categoria",
+                                        "type": "integer"
+                                    },
+                                    "valor": {
+                                        "description": "Valor da venda",
+                                        "type": "number"
+                                    },
+                                    "data": {
+                                        "description": "Data da venda",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna a venda atualizada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a venda"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Venda"
+                ],
+                "summary": "Deleta uma venda",
+                "description": "Deleta uma venda",
+                "operationId": "destroyVenda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna a venda deletada"
+                    },
+                    "default": {
+                        "description": "Caso não encontre a venda"
+                    }
+                }
+            }
+        },
+        "/api/venda-produto": {
+            "get": {
+                "tags": [
+                    "Carrinho"
+                ],
+                "summary": "Lista todos os produtos na venda",
+                "description": "Retorna todos os produtos na venda",
+                "operationId": "indexVendaProduto",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os produtos na venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto na venda"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Carrinho"
+                ],
+                "summary": "Cria um novo produto na venda",
+                "description": "Cria um novo produto na venda",
+                "operationId": "storeVendaProduto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_venda": {
+                                        "description": "ID da venda",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "id_produto": {
+                                        "description": "ID do produto",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "quantidade": {
+                                        "description": "Quantidade do produto",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto na venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto na venda"
+                    }
+                }
+            }
+        },
+        "/api/venda-produto/{id}": {
+            "get": {
+                "tags": [
+                    "Carrinho"
+                ],
+                "summary": "Mostra um produto na venda",
+                "description": "Mostra um produto na venda",
+                "operationId": "showVendaProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto na venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto na venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto na venda"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Carrinho"
+                ],
+                "summary": "Atualiza um produto na venda",
+                "description": "Atualiza um produto na venda",
+                "operationId": "updateVendaProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto na venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_venda": {
+                                        "description": "ID da venda",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "id_produto": {
+                                        "description": "ID do produto",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "quantidade": {
+                                        "description": "Quantidade do produto",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto na venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto na venda"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Carrinho"
+                ],
+                "summary": "Remove um produto na venda",
+                "description": "Remove um produto na venda",
+                "operationId": "destroyVendaProduto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto na venda",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto na venda"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto na venda"
+                    }
+                }
+            }
+        }
+    }
+}
