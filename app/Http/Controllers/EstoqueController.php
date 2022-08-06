@@ -90,9 +90,12 @@ class EstoqueController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $estoque = Estoque::createEstoque($data);
-        return $estoque;
+        try {
+            $estoque = Estoque::createEstoque($request->all());
+            return $estoque;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -126,9 +129,9 @@ class EstoqueController extends Controller
      *   )
      * )
      */
-    public function show(Estoque $estoque)
+    public function show($id)
     {
-        $estoque = Estoque::readEstoque($estoque->id);
+        $estoque = Estoque::readEstoque($id);
         return $estoque;
     }
 
@@ -201,9 +204,13 @@ class EstoqueController extends Controller
      */
     public function update(Request $request, Estoque $estoque)
     {
-        $data = $request->all();
-        $estoque = Estoque::updateEstoque($data, $estoque->id);
-        return $estoque;
+        try {
+            $data = $request->all();
+            $estoque = Estoque::updateEstoque($estoque->id, $data);
+            return $estoque;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -237,9 +244,13 @@ class EstoqueController extends Controller
      *   )
      * )
      */
-    public function destroy(Estoque $estoque)
+    public function destroy($id)
     {
-        $estoque = Estoque::deleteEstoque($estoque->id);
-        return $estoque;
+        try {
+            $estoque = Estoque::deleteEstoque($id);
+            return $estoque;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

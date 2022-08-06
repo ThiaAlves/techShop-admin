@@ -90,9 +90,12 @@ class VendaProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $vendaProduto = VendaProduto::createVendaProduto($data);
-        return $vendaProduto;
+        try{
+            $vendaProduto = VendaProduto::createVendaProduto($request);
+            return $vendaProduto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -126,9 +129,9 @@ class VendaProdutoController extends Controller
      *   )
      * )
      */
-    public function show(VendaProduto $vendaProduto)
+    public function show($id)
     {
-        $vendaProduto = VendaProduto::readVendaProduto($vendaProduto->id);
+        $vendaProduto = VendaProduto::readVendaProduto($id);
         return $vendaProduto;
     }
 
@@ -201,9 +204,12 @@ class VendaProdutoController extends Controller
      */
     public function update(Request $request, VendaProduto $vendaProduto)
     {
-        $data = $request->all();
-        $vendaProduto = VendaProduto::updateVendaProduto($data, $vendaProduto->id);
-        return $vendaProduto;
+        try{
+            $vendaProduto = VendaProduto::updateVendaProduto($request, $vendaProduto);
+            return $vendaProduto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -239,7 +245,11 @@ class VendaProdutoController extends Controller
      */
     public function destroy(VendaProduto $vendaProduto)
     {
-        $vendaProduto = VendaProduto::deleteVendaProduto($vendaProduto->id);
-        return $vendaProduto;
+        try{
+            $vendaProduto = VendaProduto::destroyVendaProduto($vendaProduto);
+            return $vendaProduto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

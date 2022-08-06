@@ -36,9 +36,12 @@ class TipoUsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $tipoUsuario = TipoUsuario::createTipoUsuario($data);
-        return $tipoUsuario;
+        try{
+            $tipoUsuario = TipoUsuario::createTipoUsuario($request);
+            return response()->json($tipoUsuario, 201);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -47,9 +50,9 @@ class TipoUsuarioController extends Controller
      * @param  \App\Models\TipoUsuario  $tipoUsuario
      * @return \Illuminate\Http\Response
      */
-    public function show(TipoUsuario $tipoUsuario)
+    public function show($id)
     {
-        $tipoUsuario = TipoUsuario::readTipoUsuario($tipoUsuario->id);
+        $tipoUsuario = TipoUsuario::readTipoUsuario($id);
     }
 
     /**
@@ -72,9 +75,12 @@ class TipoUsuarioController extends Controller
      */
     public function update(Request $request, TipoUsuario $tipoUsuario)
     {
-        $data = $request->all();
-        $tipoUsuario = TipoUsuario::updateTipoUsuario($data, $tipoUsuario->id);
-        return $tipoUsuario;
+        try{
+            $tipoUsuario = TipoUsuario::updateTipoUsuario($request, $tipoUsuario->id);
+            return response()->json($tipoUsuario, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -83,9 +89,13 @@ class TipoUsuarioController extends Controller
      * @param  \App\Models\TipoUsuario  $tipoUsuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoUsuario $tipoUsuario)
+    public function destroy($id)
     {
-        $tipoUsuario = TipoUsuario::deleteTipoUsuario($tipoUsuario->id);
-        return $tipoUsuario;
+        try{
+            $tipoUsuario = TipoUsuario::deleteTipoUsuario($id);
+            return response()->json($tipoUsuario, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

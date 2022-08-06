@@ -74,9 +74,14 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $categoria = Categoria::createCategoria($data);
-        return $categoria;
+        try {
+            $categoria = Categoria::createCategoria($request->input());
+            return response()->json(['success' => true,
+                'message' => 'Categoria criada com sucesso!',
+                'data' => $categoria], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -110,9 +115,9 @@ class CategoriaController extends Controller
      *   )
      * )
      */
-    public function show(Categoria $categoria)
+    public function show($id)
     {
-        $categoria = Categoria::readCategoria($categoria->id);
+        $categoria = Categoria::readCategoria($id);
         return $categoria;
     }
 
@@ -168,9 +173,15 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        $data = $request->all();
-        $categoria = Categoria::updateCategoria($data, $categoria->id);
-        return $categoria;
+        try{
+            $categoria = Categoria::updateCategoria($request->input(), $categoria->id);
+            return response()->json(['success' => true,
+                'message' => 'Categoria atualizada com sucesso!',
+                'data' => $categoria], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 
     /**
@@ -204,9 +215,15 @@ class CategoriaController extends Controller
      *   )
      * )
      */
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
     {
-        $categoria = Categoria::deleteCategoria($categoria->id);
-        return $categoria;
+        try{
+            $categoria = Categoria::deleteCategoria($id);
+            return response()->json(['success' => true,
+                'message' => 'Categoria deletada com sucesso!',
+                'data' => $categoria], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

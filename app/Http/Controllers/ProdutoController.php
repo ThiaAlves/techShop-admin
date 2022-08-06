@@ -102,9 +102,12 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $produto = Produto::createProduto($data);
-        return $produto;
+        try{
+            $produto = Produto::createProduto($request);
+            return $produto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -137,9 +140,9 @@ class ProdutoController extends Controller
      *   )
      * )
      */
-    public function show(Produto $produto)
+    public function show($id)
     {
-        $produto = Produto::readProduto($produto->id);
+        $produto = Produto::readProduto($id);
         return $produto;
     }
 
@@ -220,9 +223,12 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        $data = $request->all();
-        $produto = Produto::updateProduto($data, $produto->id);
-        return $produto;
+        try{
+            $produto = Produto::updateProduto($request, $produto->id);
+            return $produto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -251,9 +257,13 @@ class ProdutoController extends Controller
      *   )
      * )
      */
-    public function destroy(Produto $produto)
+    public function destroy($id)
     {
-        $produto = Produto::deleteProduto($produto->id);
-        return $produto;
+        try{
+            $produto = Produto::deleteProduto($id);
+            return $produto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

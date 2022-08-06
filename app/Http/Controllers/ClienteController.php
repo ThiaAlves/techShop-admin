@@ -76,9 +76,12 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $cliente = Cliente::createCliente($data);
-        return $cliente;
+        try {
+            $cliente = Cliente::createCliente($request);
+            return response()->json(['data' => $cliente], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -112,9 +115,9 @@ class ClienteController extends Controller
      *   )
      * )
      */
-    public function show(Cliente $cliente)
+    public function show($id)
     {
-        $cliente = Cliente::readCliente($cliente->id);
+        $cliente = Cliente::readCliente($id);
         return $cliente;
     }
 
@@ -171,11 +174,16 @@ class ClienteController extends Controller
      *   )
      * )
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $cliente = Cliente::updateCliente($data, $cliente->id);
-        return $cliente;
+        try{
+            $cliente = Cliente::updateCliente($request->input(), $id);
+            return response()->json(['success' => true,
+                'message' => 'Cliente atualizado com sucesso!',
+                'data' => $cliente], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -209,9 +217,15 @@ class ClienteController extends Controller
      *   )
      * )
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
-        $cliente = Cliente::deleteCliente($cliente->id);
-        return $cliente;
+        try{
+            $cliente = Cliente::deleteCliente($id);
+            return response()->json(['success' => true,
+                'message' => 'Cliente deletado com sucesso!',
+                'data' => $cliente], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

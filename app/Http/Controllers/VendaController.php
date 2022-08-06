@@ -77,9 +77,12 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $venda = Venda::createVenda($data);
-        return $venda;
+        try{
+            $venda = Venda::createVenda($request->all());
+            return $venda;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -113,9 +116,9 @@ class VendaController extends Controller
      *   )
      * )
      */
-    public function show(Venda $venda)
+    public function show($id)
     {
-        $venda = Venda::readVenda($venda->id);
+        $venda = Venda::readVenda($id);
         return $venda;
     }
 
@@ -174,9 +177,12 @@ class VendaController extends Controller
      */
     public function update(Request $request, Venda $venda)
     {
-        $data = $request->all();
-        $venda = Venda::updateVenda($data, $venda->id);
-        return $venda;
+        try{
+            $venda = Venda::updateVenda($request->all(), $venda->id);
+            return $venda;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -212,7 +218,11 @@ class VendaController extends Controller
      */
     public function destroy(Venda $venda)
     {
-        $venda = Venda::deleteVenda($venda->id);
-        return $venda;
+        try{
+            $venda = Venda::deleteVenda($venda->id);
+            return $venda;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

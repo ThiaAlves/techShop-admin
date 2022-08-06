@@ -36,9 +36,12 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $usuario = Usuario::createUsuario($data);
-        return $usuario;
+        try{
+            $usuario = Usuario::createUsuario($request);
+            return response()->json($usuario, 201);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -47,10 +50,14 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show(Usuario $usuario)
+    public function show($id)
     {
-        $usuario = Usuario::readUsuario($usuario->id);
-        return $usuario;
+        try{
+            $usuario = Usuario::readUsuario($id);
+            return response()->json($usuario, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -73,9 +80,12 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, Usuario $usuario)
     {
-        $data = $request->all();
-        $usuario = Usuario::updateUsuario($data, $usuario->id);
-        return $usuario;
+        try{
+            $usuario = Usuario::updateUsuario($request, $usuario->id);
+            return response()->json($usuario, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -84,9 +94,13 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuario $usuario)
+    public function destroy($id)
     {
-        $usuario = Usuario::deleteUsuario($usuario->id);
-        return $usuario;
+        try{
+            $usuario = Usuario::deleteUsuario($id);
+            return response()->json($usuario, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

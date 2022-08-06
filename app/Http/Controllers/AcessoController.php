@@ -98,9 +98,16 @@ class AcessoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $acesso = Acesso::createAcesso($data);
-        return $acesso;
+        try {
+            $acesso = Acesso::createAcesso($request->input());
+            return response()->json(['success' => true,
+                'message' => 'Acesso criado com sucesso!',
+                'data' => $acesso], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false,
+                'message' => 'Erro ao criar acesso!',
+                'data' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -133,10 +140,14 @@ class AcessoController extends Controller
      *   )
      * )
      */
-    public function show(Acesso $acesso)
+    public function show($id)
     {
-        $acesso = Acesso::readAcesso($acesso->id);
-        return $acesso;
+        try {
+            $acesso = Acesso::readAcesso($id);
+            return $acesso;
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Acesso não encontrado'], 404);
+        }
     }
 
     /**
@@ -206,9 +217,16 @@ class AcessoController extends Controller
      */
     public function update(Request $request, Acesso $acesso)
     {
-        $data = $request->all();
-        $acesso = Acesso::updateAcesso($data, $acesso->id);
-        return $acesso;
+        try {
+            $acesso = Acesso::updateAcesso($request->input(), $acesso->id);
+            return response()->json(['success' => true,
+                'message' => 'Acesso atualizado com sucesso!',
+                'data' => $acesso], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false,
+                'message' => 'Erro ao atualizar acesso!',
+                'data' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -241,9 +259,17 @@ class AcessoController extends Controller
      *   )
      * )
      */
-    public function destroy(Acesso $acesso)
+    public function destroy($id)
     {
-        $acesso = Acesso::deleteAcesso($acesso->id);
-        return $acesso;
+        try {
+            $acesso = Acesso::deleteAcesso($id);
+            return response()->json(['success' => true,
+                'message' => 'Acesso deletado com sucesso!',
+                'data' => $acesso], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false,
+                'message' => 'Erro ao deletar acesso!',
+                'data' => $e->getMessage()], 500);
+        }
     }
 }

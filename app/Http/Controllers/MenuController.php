@@ -36,9 +36,12 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $menu = Menu::createMenu($data);
-        return $menu;
+        try{
+            $menu = Menu::createMenu($request);
+            return response()->json($menu, 201);
+        }catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -73,9 +76,12 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        $data = $request->all();
-        $menu = Menu::updateMenu($data, $menu->id);
-        return $menu;
+        try{
+            $menu = Menu::updateMenu($request, $menu->id);
+            return response()->json($menu, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -86,7 +92,11 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        $menu = Menu::deleteMenu($menu->id);
-        return $menu;
+        try{
+            $menu = Menu::deleteMenu($menu->id);
+            return response()->json($menu, 200);
+        } catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

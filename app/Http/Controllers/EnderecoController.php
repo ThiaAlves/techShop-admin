@@ -79,9 +79,12 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $endereco = Endereco::createEndereco($data);
-        return $endereco;
+        try{
+            $endereco = Endereco::create($request->all());
+            return $endereco;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -115,9 +118,9 @@ class EnderecoController extends Controller
      *   )
      * )
      */
-    public function show(Endereco $endereco)
+    public function show($id)
     {
-        $endereco = Endereco::readEndereco($endereco->id);
+        $endereco = Endereco::readEndereco($id);
         return $endereco;
     }
 
@@ -181,9 +184,12 @@ class EnderecoController extends Controller
 
     public function update(Request $request, Endereco $endereco)
     {
-        $data = $request->all();
-        $endereco = Endereco::updateEndereco($data, $endereco->id);
-        return $endereco;
+        try{
+            $endereco->update($request->all());
+            return $endereco;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -217,9 +223,14 @@ class EnderecoController extends Controller
      *   )
      * )
      */
-    public function destroy(Endereco $endereco)
+    public function destroy($id)
     {
-        $endereco = Endereco::deleteEndereco($endereco->id);
-        return $endereco;
+        try{
+            $endereco = Endereco::deleteEndereco($id);
+            return response()->json(['success' => $endereco], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

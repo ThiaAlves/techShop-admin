@@ -21,8 +21,9 @@ class Acesso extends Model
         return Acesso::orderBy('tipo_id', 'asc')
         ->rightjoin('tipo_usuario as t', 't.id', '=', 'acesso.tipo_id')
         ->rightjoin('menu as m', 'm.id', '=', 'acesso.menu_id')
-        ->select('t.id', 't.nome', 'm.id', 'm.nome', 'acesso.acesso', 'acesso.created_at', 'acesso.updated_at')
-        ->groupBy('t.id', 't.nome', 'm.id', 'm.nome', 'acesso.acesso', 'acesso.created_at', 'acesso.updated_at')
+        ->select('acesso.id as acesso_id',
+        't.id as tipo_usuario_id', 't.nome', 'm.id', 'm.nome', 'acesso.acesso', 'acesso.created_at', 'acesso.updated_at')
+        ->groupBy('acesso.id', 't.id', 't.nome', 'm.id', 'm.nome', 'acesso.acesso', 'acesso.created_at', 'acesso.updated_at')
         ->get();
     }
 
