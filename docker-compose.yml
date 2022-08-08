@@ -37,7 +37,7 @@ services:
     container_name: techshop-nginx
     restart: unless-stopped
     ports:
-      - 8000:80
+      - 8180:80
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
@@ -48,7 +48,7 @@ services:
     container_name: techshop-phpmyadmin
     restart: unless-stopped
     ports:
-      - 9000:80
+      - 8181:80
     volumes:
       - ./docker-compose/phpmyadmin:/var/www/html
     networks:
