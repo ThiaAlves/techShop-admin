@@ -12,7 +12,7 @@ class VendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/venda",
+    /** @OA\Get(path="/api/v1/venda",
      *   tags={"Venda"},
      *   summary="Lista todos as vendas",
      *   description="Retorna todos as vendas",
@@ -50,7 +50,7 @@ class VendaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    /** @OA\Post(path="/api/venda",
+    /** @OA\Post(path="/api/v1/venda",
      *   tags={"Venda"},
      *   summary="Cria uma nova venda",
      *   description="Cria uma nova venda",
@@ -91,7 +91,7 @@ class VendaController extends Controller
      * @param  \App\Models\Venda  $venda
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/venda/{id}",
+    /** @OA\Get(path="/api/v1/venda/{id}",
      *   tags={"Venda"},
      *   summary="Lista uma venda",
      *   description="Retorna uma venda",
@@ -140,7 +140,7 @@ class VendaController extends Controller
      * @param  \App\Models\Venda  $venda
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/venda/{id}",
+    /** @OA\Put(path="/api/v1/venda/{id}",
      *   tags={"Venda"},
      *   summary="Atualiza uma venda",
      *   description="Atualiza uma venda",
@@ -191,7 +191,7 @@ class VendaController extends Controller
      * @param  \App\Models\Venda  $venda
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/venda/{id}",
+    /** @OA\Delete(path="/api/v1/venda/{id}",
      *   tags={"Venda"},
      *   summary="Deleta uma venda",
      *   description="Deleta uma venda",

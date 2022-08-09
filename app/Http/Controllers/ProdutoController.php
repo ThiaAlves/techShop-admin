@@ -12,7 +12,7 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/produto",
+    /** @OA\Get(path="/api/v1/produto",
      *   tags={"Produto"},
      *   summary="Lista todos os produtos",
      *   description="Retorna todos os produtos",
@@ -49,7 +49,7 @@ class ProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/produto",
+    /** @OA\Post(path="/api/v1/produto",
      *   tags={"Produto"},
      *   summary="Cria um novo produto",
      *   description="Cria um novo produto",
@@ -116,7 +116,7 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/produto/{id}",
+    /** @OA\Get(path="/api/v1/produto/{id}",
      *   tags={"Produto"},
      *   summary="Mostra um produto",
      *   description="Mostra um produto",
@@ -165,7 +165,7 @@ class ProdutoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    /** @OA\Put(path="/api/produto/{id}",
+    /** @OA\Put(path="/api/v1/produto/{id}",
      *   tags={"Produto"},
      *   summary="Atualiza um produto",
      *   description="Atualiza um produto",
@@ -237,7 +237,7 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/produto/{id}",
+    /** @OA\Delete(path="/api/v1/produto/{id}",
      *   tags={"Produto"},
      *   summary="Remove um produto",
      *   description="Remove um produto",

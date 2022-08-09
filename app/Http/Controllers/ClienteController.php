@@ -12,7 +12,7 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/cliente",
+    /** @OA\Get(path="/api/v1/cliente",
      *   tags={"Cliente"},
      *   summary="Lista todos os clientes",
      *   description="Retorna todos os clientes",
@@ -49,7 +49,7 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/cliente",
+    /** @OA\Post(path="/api/v1/cliente",
      *   tags={"Cliente"},
      *   summary="Cria um novo cliente",
      *   description="Cria um novo cliente",
@@ -90,7 +90,7 @@ class ClienteController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/cliente/{id}",
+    /** @OA\Get(path="/api/v1/cliente/{id}",
      *   tags={"Cliente"},
      *   summary="Mostra um cliente",
      *   description="Mostra um cliente",
@@ -139,7 +139,7 @@ class ClienteController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/cliente/{id}",
+    /** @OA\Put(path="/api/v1/cliente/{id}",
      *   tags={"Cliente"},
      *   summary="Atualiza um cliente",
      *   description="Atualiza um cliente",
@@ -192,7 +192,7 @@ class ClienteController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/cliente/{id}",
+    /** @OA\Delete(path="/api/v1/cliente/{id}",
      *   tags={"Cliente"},
      *   summary="Deleta um cliente",
      *   description="Deleta um cliente",
@@ -227,5 +227,21 @@ class ClienteController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function logar(Request $cliente) {
+        //Verifica se o cliente existe
+        $cliente = Cliente::where('email', $cliente->email)->first();
+        if(!$cliente) {
+            return response()->json(['error' => 'Cliente não encontrado'], 404);
+        }
+        //Verifica se a senha está correta
+        if(!Hash::check($cliente->senha, $cliente->senha)) {
+            return response()->json(['error' => 'Senha incorreta'], 404);
+        }
+        //Retorna o cliente
+        return response()->json(['success' => true,
+            'message' => 'Cliente logado com sucesso!',
+            'data' => $cliente], 200);
     }
 }

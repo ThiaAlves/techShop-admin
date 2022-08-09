@@ -12,7 +12,7 @@ class EstoqueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/estoque",
+    /** @OA\Get(path="/api/v1/estoque",
      *   tags={"Estoque"},
      *   summary="Lista todos os estoques",
      *   description="Retorna todos os estoques",
@@ -49,7 +49,7 @@ class EstoqueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/estoque",
+    /** @OA\Post(path="/api/v1/estoque",
      *   tags={"Estoque"},
      *   summary="Cria um novo estoque",
      *   description="Cria um novo estoque",
@@ -104,7 +104,7 @@ class EstoqueController extends Controller
      * @param  \App\Models\Estoque  $estoque
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/estoque/{id}",
+    /** @OA\Get(path="/api/v1/estoque/{id}",
      *   tags={"Estoque"},
      *   summary="Lista um estoque",
      *   description="Retorna um estoque",
@@ -153,7 +153,7 @@ class EstoqueController extends Controller
      * @param  \App\Models\Estoque  $estoque
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/estoque/{id}",
+    /** @OA\Put(path="/api/v1/estoque/{id}",
      *   tags={"Estoque"},
      *   summary="Atualiza um estoque",
      *   description="Atualiza um estoque",
@@ -219,7 +219,7 @@ class EstoqueController extends Controller
      * @param  \App\Models\Estoque  $estoque
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/estoque/{id}",
+    /** @OA\Delete(path="/api/v1/estoque/{id}",
      *   tags={"Estoque"},
      *   summary="Deleta um estoque",
      *   description="Deleta um estoque",

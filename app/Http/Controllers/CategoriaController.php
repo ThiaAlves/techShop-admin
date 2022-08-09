@@ -13,7 +13,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    /** @OA\Get(path="/api/categoria",
+    /** @OA\Get(path="/api/v1/categoria",
      *   tags={"Categoria"},
      *   summary="Lista todas as categorias",
      *   description="Retorna todas as categorias",
@@ -50,7 +50,7 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/categoria",
+    /** @OA\Post(path="/api/v1/categoria",
      *   tags={"Categoria"},
      *   summary="Cria uma nova categoria",
      *   description="Cria uma nova categoria",
@@ -90,7 +90,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/categoria/{id}",
+    /** @OA\Get(path="/api/v1/categoria/{id}",
      *   tags={"Categoria"},
      *   summary="Lista uma categoria",
      *   description="Retorna uma categoria",
@@ -139,7 +139,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/categoria/{id}",
+    /** @OA\Put(path="/api/v1/categoria/{id}",
      *   tags={"Categoria"},
      *   summary="Atualiza uma categoria",
      *   description="Atualiza uma categoria",
@@ -190,7 +190,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/categoria/{id}",
+    /** @OA\Delete(path="/api/v1/categoria/{id}",
      *   tags={"Categoria"},
      *   summary="Deleta uma categoria",
      *   description="Deleta uma categoria",

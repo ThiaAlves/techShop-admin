@@ -26,9 +26,8 @@ class Produto extends Model
 
     public static function readProdutos()
     {
-        return Produto::orderBy('nome', 'asc')
-        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
-        ->get();
+        return Produto::select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        ->inRandomOrder()->limit(10)->get();
     }
 
     public static function createProduto($data)

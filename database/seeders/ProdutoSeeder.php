@@ -32,6 +32,21 @@ class ProdutoSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'nome' => 'iPhone X',
+                'descricao' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                'preco' => '3000',
+                'imagem1' => '4.png',
+                'imagem2' => '5.png',
+                'imagem3' => '6.png',
+                'imagem4' => '',
+                'imagem5' => '',
+                'preco_promocional' => '0',
+                'categoria_id' => 1,
+                'status' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

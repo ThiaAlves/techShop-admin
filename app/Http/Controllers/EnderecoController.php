@@ -12,7 +12,7 @@ class EnderecoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/endereco",
+    /** @OA\Get(path="/api/v1/endereco",
      *   tags={"Endereco"},
      *   summary="Lista todos os endereços",
      *   description="Retorna todos os endereços",
@@ -49,7 +49,7 @@ class EnderecoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/endereco",
+    /** @OA\Post(path="/api/v1/endereco",
      *   tags={"Endereco"},
      *   summary="Cria um novo endereço",
      *   description="Cria um novo endereço",
@@ -93,7 +93,7 @@ class EnderecoController extends Controller
      * @param  \App\Models\Endereco  $endereco
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/endereco/{id}",
+    /** @OA\Get(path="/api/v1/endereco/{id}",
      *   tags={"Endereco"},
      *   summary="Mostra um endereço",
      *   description="Mostra um endereço",
@@ -142,7 +142,7 @@ class EnderecoController extends Controller
      * @param  \App\Models\Endereco  $endereco
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/endereco/{id}",
+    /** @OA\Put(path="/api/v1/endereco/{id}",
      *   tags={"Endereco"},
      *   summary="Atualiza um endereço",
      *   description="Atualiza um endereço",
@@ -198,7 +198,7 @@ class EnderecoController extends Controller
      * @param  \App\Models\Endereco  $endereco
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/endereco/{id}",
+    /** @OA\Delete(path="/api/v1/endereco/{id}",
      *   tags={"Endereco"},
      *   summary="Deleta um endereço",
      *   description="Deleta um endereço",

@@ -12,7 +12,7 @@ class VendaProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-        /** @OA\Get(path="/api/venda-produto",
+        /** @OA\Get(path="/api/v1/venda-produto",
      *   tags={"Carrinho"},
      *   summary="Lista todos os produtos na venda",
      *   description="Retorna todos os produtos na venda",
@@ -49,7 +49,7 @@ class VendaProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/venda-produto",
+    /** @OA\Post(path="/api/v1/venda-produto",
      *   tags={"Carrinho"},
      *   summary="Cria um novo produto na venda",
      *   description="Cria um novo produto na venda",
@@ -104,7 +104,7 @@ class VendaProdutoController extends Controller
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/venda-produto/{id}",
+    /** @OA\Get(path="/api/v1/venda-produto/{id}",
      *   tags={"Carrinho"},
      *   summary="Mostra um produto na venda",
      *   description="Mostra um produto na venda",
@@ -153,7 +153,7 @@ class VendaProdutoController extends Controller
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/venda-produto/{id}",
+    /** @OA\Put(path="/api/v1/venda-produto/{id}",
      *   tags={"Carrinho"},
      *   summary="Atualiza um produto na venda",
      *   description="Atualiza um produto na venda",
@@ -218,7 +218,7 @@ class VendaProdutoController extends Controller
      * @param  \App\Models\VendaProduto  $vendaProduto
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/venda-produto/{id}",
+    /** @OA\Delete(path="/api/v1/venda-produto/{id}",
      *   tags={"Carrinho"},
      *   summary="Remove um produto na venda",
      *   description="Remove um produto na venda",

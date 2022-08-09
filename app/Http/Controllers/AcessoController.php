@@ -21,7 +21,7 @@ class AcessoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    /** @OA\Get(path="/api/acesso",
+    /** @OA\Get(path="/api/v1/acesso",
      *   tags={"Acesso"},
      *   summary="Lista todos os acessos",
      *   description="Retorna todos os acessos",
@@ -58,7 +58,7 @@ class AcessoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Post(path="/api/acesso",
+    /** @OA\Post(path="/api/v1/acesso",
      *   tags={"Acesso"},
      *   summary="Cria um novo acesso",
      *   description="Cria um novo acesso",
@@ -116,7 +116,7 @@ class AcessoController extends Controller
      * @param  \App\Models\Acesso  $acesso
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Get(path="/api/acesso/{id}",
+    /** @OA\Get(path="/api/v1/acesso/{id}",
      *   tags={"Acesso"},
      *   summary="Mostra um acesso",
      *   description="Mostra um acesso",
@@ -168,7 +168,7 @@ class AcessoController extends Controller
      * @param  \App\Models\Acesso  $acesso
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Put(path="/api/acesso/{id}",
+    /** @OA\Put(path="/api/v1/acesso/{id}",
      *   tags={"Acesso"},
      *   summary="Atualiza um acesso",
      *   description="Atualiza um acesso",
@@ -235,7 +235,7 @@ class AcessoController extends Controller
      * @param  \App\Models\Acesso  $acesso
      * @return \Illuminate\Http\Response
      */
-    /** @OA\Delete(path="/api/acesso/{id}",
+    /** @OA\Delete(path="/api/v1/acesso/{id}",
      *   tags={"Acesso"},
      *   summary="Deleta um acesso",
      *   description="Deleta um acesso",
