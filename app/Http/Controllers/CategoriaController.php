@@ -226,4 +226,13 @@ class CategoriaController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
+    //Functions para Web Admin
+
+    public function indexAdmin()
+    {
+        $categorias = Categoria::all();
+        return view('laravel-examples/categorias', compact('categorias'));
+    }
 }

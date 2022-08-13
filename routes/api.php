@@ -98,7 +98,7 @@ Route::delete('/v1/acesso/{id}', [AcessoController::class, 'destroy']);
 //Tabela Categoria
 Route::get('/v1/categoria', [CategoriaController::class, 'index']);
 Route::get('/v1/categoria/{id}', [CategoriaController::class, 'show']);
-Route::post('/v1/categoria', [CategoriaController::class, 'store']);
+Route::post('/v1/categoria', [CategoriaController::class, 'store'])->name('categoria.store');
 Route::put('/v1/categoria/{id}', [CategoriaController::class, 'update']);
 Route::delete('/v1/categoria/{id}', [CategoriaController::class, 'destroy']);
 
