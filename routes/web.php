@@ -46,11 +46,10 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('laravel-examples/user-management');
 	})->name('user-management');
 
-    // //Rota CRUD Categoria
-    // Route::get('categorias', function () {
-	// 	return view('laravel-examples/categorias');
-	// })->name('categorias');
-    Route::get('categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias');
+
+    Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
+    Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias.store');
+    Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin'])->name('categorias.destroy');
 
 
 	Route::get('tables', function () {

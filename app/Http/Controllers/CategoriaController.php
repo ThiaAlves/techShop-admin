@@ -230,9 +230,43 @@ class CategoriaController extends Controller
 
     //Functions para Web Admin
 
-    public function indexAdmin()
+    public function indexAdmin(Request $request)
     {
         $categorias = Categoria::all();
-        return view('laravel-examples/categorias', compact('categorias'));
+        $mensagem = $request->session()->get('mensagem');
+        return view('laravel-examples/categorias', compact('categorias', 'mensagem'));
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        //Se o ID for nulo, então é uma nova categoria
+        if($request->id == null){
+            $categoria = new Categoria();
+            $categoria->nome = $request->nome;
+            $categoria->icone = $request->icone;
+            $categoria->status = $request->status;
+            $categoria->save();
+
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Categoria criada com sucesso!");
+        } else {
+            $categoria = Categoria::find($request->id);
+                $categoria->nome = $request->nome;
+                $categoria->icone = $request->icone;
+                $categoria->status = $request->status;
+
+            $categoria->save();
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Categoria atualizada com sucesso!");
+        }
+        return redirect()->route('categorias.index');
+    }
+
+    public function destroyAdmin($id, Request $request)
+    {
+        $categoria = Categoria::deleteCategoria($id);
+        //Mensagem de sucesso
+        $request->session()->flash('mensagem', "Categoria deletada com sucesso!");
+        return redirect()->route('categorias.index');
     }
 }

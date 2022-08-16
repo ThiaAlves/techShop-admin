@@ -1,17 +1,31 @@
 @extends('layouts.user_type.auth')
 @extends('imports')
 @section('content')
+    {{-- Se contém mensagem --}}
+    @if (!empty($mensagem))
+        <script>
+            Swal.fire({
+                title: 'Sucesso!',
+                text: `{{ $mensagem }}`,
+                type: 'success',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+        </script>
+    @endif
+
+
     <div>
         <div class="row text-center m-4" role="alert">
             <div class="col bg-info rounded text-light m-1">
                 <strong>Categorias Cadastradas</strong>
                 <h4> {{ $categorias->count() }}</h4>
             </div>
-            <div class="col bg-success rounded text-light m-1">
+            <div class="col bg-info rounded text-light m-1">
                 <strong>Categorias Ativas</strong>
                 <h4> {{ $categorias->where('status', 1)->count() }}</h4>
             </div>
-            <div class="col bg-danger rounded text-light m-1">
+            <div class="col bg-info rounded text-light m-1">
                 <strong>Categorias Inativas</strong>
                 <h4> {{ $categorias->where('status', 0)->count() }}</h4>
             </div>
@@ -79,10 +93,16 @@
                                                     data-bs-toggle="tooltip" data-bs-original-title="Editar categoria">
                                                     <i class="fa fa-pencil text-white"></i>
                                                 </button>
-                                                <button class="btn rounded bg-gradient-danger" id="editar" class="mx-3"
-                                                    data-bs-toggle="tooltip" data-bs-original-title="Editar categoria">
-                                                    <i class="fa fa-trash text-white"></i>
-                                                </button>
+                                                <form action="categorias/{{ $categoria->id }}" method="POST"
+                                                    id="form-{{ $categoria->id }}" style="display: inline">
+                                                    <button type="button" class="btn rounded bg-gradient-danger"
+                                                        class="mx-3" onclick="excluir('{{ $categoria->id }}')"
+                                                        data-bs-toggle="tooltip" data-bs-original-title="Remover categoria">
+                                                        <i class="fa fa-trash text-white"></i>
+                                                    </button>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -96,62 +116,64 @@
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="modal-categoria">
         <div class="modal-dialog">
-            <form action="{{ route('categoria.store') }}" method="POST" id="form-categoria">
+            <form action="{{ route('categorias.store') }}" method="POST" id="form-categoria">
                 @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitulo"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitulo"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12" hidden>
+                                <div class="form-group">
+                                    <label for="id" class="form-control-label">ID:</label>
+                                    <input type="text" class="form-control" id="id" name="id"
+                                        placeholder="ID da categoria">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" class="form-control" id="nome" name="nome"
+                                        placeholder="Nome da categoria, exemplo: Eletrônicos">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="icone">Ícone: <small class="form-text text-muted">
+                                            <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">
+                                                <i class="fa fa-info-circle"></i>
+                                            </a>
+                                        </small></label>
+                                    <input type="text" class="form-control" id="icone" name="icone"
+                                        placeholder="Ícone da categoria, exemplo: fa fa-tag">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="status">Status:</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="1">Ativo</option>
+                                        <option value="0">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><i
+                                class="fa fa-times"></i> Fechar</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Salvar</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="id" class="form-control-label">ID:</label>
-                                <input type="text" class="form-control" id="id" placeholder="ID da categoria">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="nome">Nome:</label>
-                                <input type="text" class="form-control" id="nome" name="nome"
-                                    placeholder="Nome da categoria, exemplo: Eletrônicos">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="icone">Ícone: <small class="form-text text-muted">
-                                        <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">
-                                            <i class="fa fa-info-circle"></i>
-                                        </a>
-                                    </small></label>
-                                <input type="text" class="form-control" id="icone" name="icone"
-                                    placeholder="Ícone da categoria, exemplo: fa fa-tag">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="status">Status:</label>
-                                <select class="form-select" id="status" name="status">
-                                    <option value="1">Ativo</option>
-                                    <option value="0">Inativo</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
-                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Salvar</button>
-                </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
     <script>
@@ -173,5 +195,28 @@
             $('#modal-categoria').modal('show');
         }
 
+        function excluir($id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá reverter isso!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Não, cancelar!'
+            }).then((result) => {
+                if (result.value) {
+                    $('#form-' + $id).submit();
+                } else {
+                    Swal.fire(
+                        'Cancelado!',
+                        'A categoria não foi excluída.',
+                        'error'
+                    )
+                }
+            })
+        }
     </script>
 @endsection
