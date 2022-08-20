@@ -266,4 +266,37 @@ class ProdutoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
+    /** @OA\Get(path="/api/v1/produto/categoria/{id}"
+     *  tags={"Produto"},
+     * summary="Mostra os produtos de uma categoria",
+     * description="Mostra os produtos de uma categoria",
+     * operationId="showProdutoCategoria",
+     * @OA\Parameter(
+     *    name="id",
+     *   in="path",
+     *  description="ID da categoria",
+     * required=true,
+     * @OA\Schema(
+     *  type="integer"
+     * )
+     * ),
+     * @OA\Response(
+     *     response=200,
+     *     description="Retorna o produto removido"
+     *   )
+     * )
+     */
+    public function showByCategory($id)
+    {
+        $produtos = Produto::readProdutoByCategory($id);
+        return $produtos;
+    }
+
+    public function showProdutoSemelhantes($id)
+    {
+        $produtos = Produto::readProdutoSemelhantes($id);
+        return $produtos;
+    }
 }

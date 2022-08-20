@@ -166,6 +166,10 @@ Route::put('/v1/vendaProduto/{id}', [VendaProdutoController::class, 'update']);
 Route::delete('/v1/vendaProduto/{id}', [VendaProdutoController::class, 'destroy']);
 
 
+//Rota Lista de Produtos por Categoria
+Route::get('/v1/produto/categoria/{id}', [ProdutoController::class, 'showByCategory']);
+//Rota Lista de Produtos Randomicos da mesma categoria
+Route::get('/v1/produto/categoria/{id}/random', [ProdutoController::class, 'showProdutoSemelhantes']);
 
 
 
