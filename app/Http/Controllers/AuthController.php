@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Cliente;
 
 class AuthController extends Controller
 {
@@ -22,15 +23,25 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function login()
     {
-        $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        $credentials = request(['email', 'senha']);
+        try {
+        $cliente = Cliente::where('email', $credentials['email'])->first();
+        if($cliente) {
+            if(password_verify($credentials['senha'], $cliente->senha)) {
+                return $this->respondWithToken($cliente);
+            } else {
+                return response()->json(['error' => 'Usuário ou senha inválidos'], 401);
+            }
+        }
+        else{
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        } catch (\Exception $e) {
+            return json_encode($e);
+        }
     }
 
     /**
@@ -75,10 +86,15 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        return [
+            'id' => $token->id,
+            'nome' => $token->nome,
+            'email' => $token->email,
+            'cpf' => $token->cpf,
+            'telefone' => $token->telefone,
+            'data_nascimento' => $token->data_nascimento,
+        ];
     }
+
+
 }
