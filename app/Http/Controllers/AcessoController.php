@@ -272,4 +272,44 @@ class AcessoController extends Controller
                 'data' => $e->getMessage()], 500);
         }
     }
+
+    public function indexAdmin(Request $request)
+    {
+        $acessos = Acesso::all();
+        $mensagem = $request->session()->get('mensagem');
+        return view('laravel-examples/acessos', compact('acessos', 'mensagem'));
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        //Se o ID for nulo, então é uma nova categoria
+        if($request->id == null){
+            $acesso = new Acesso();
+            $acesso->nome = $request->nome;
+            $acesso->icone = $request->icone;
+            $acesso->status = $request->status;
+            $acesso->save();
+
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Acesso criado com sucesso!");
+        } else {
+            $acesso = Acesso::find($request->id);
+                $acesso->nome = $request->nome;
+                $acesso->icone = $request->icone;
+                $acesso->status = $request->status;
+
+            $acesso->save();
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Acesso atualizado com sucesso!");
+        }
+        return redirect()->route('acessos.index');
+    }
+
+    public function destroyAdmin($id, Request $request)
+    {
+        $acesso = Acesso::deleteAcesso($id);
+        //Mensagem de sucesso
+        $request->session()->flash('mensagem', "Acesso deletado com sucesso!");
+        return redirect()->route('acessos.index');
+    }
 }

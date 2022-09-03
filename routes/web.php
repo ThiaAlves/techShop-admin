@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 // use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\AcessoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
     Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias.store');
     Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin'])->name('categorias.destroy');
+
+    //Tabela Acessos
+    Route::get('/acessos', [AcessoController::class, 'indexAdmin'])->name('acessos.index');
+    Route::post('/acessos', [AcessoController::class, 'storeAdmin'])->name('acessos.store');
+    Route::delete('/acessos/{id}', [AcessoController::class, 'destroyAdmin'])->name('acessos.destroy');
 
 
 	Route::get('tables', function () {

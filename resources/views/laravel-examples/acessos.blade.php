@@ -16,32 +16,16 @@
 
 
     <div>
-        <div class="row text-center m-4" role="alert">
-            <div class="col bg-info rounded text-light m-1">
-                <strong>Categorias Cadastradas</strong>
-                <h4> {{ $categorias->count() }}</h4>
-            </div>
-            <div class="col bg-info rounded text-light m-1">
-                <strong>Categorias Ativas</strong>
-                <h4> {{ $categorias->where('status', 1)->count() }}</h4>
-            </div>
-            <div class="col bg-info rounded text-light m-1">
-                <strong>Categorias Inativas</strong>
-                <h4> {{ $categorias->where('status', 0)->count() }}</h4>
-            </div>
-        </div>
-
-        {{Auth::$user}}
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4 mx-4">
                     <div class="card-header pb-0">
                         <div class="d-flex flex-row justify-content-between">
                             <div>
-                                <h5 class="mb-0"><i class="fa fa-tag"></i> Todas as Categorias</h5>
+                                <h5 class="mb-0"><i class="fa fa-cogs"></i> Todos os Acessos</h5>
                             </div>
                             <button onclick="cadastrar()" class="btn bg-gradient-info btn-sm mb-0" type="button"><i
-                                    class="fa fa-plus"></i> Nova Categoria</button>
+                                    class="fa fa-plus"></i> Novo Acesso</button>
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -75,30 +59,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categorias as $categoria)
+                                    @foreach ($acessos as $acesso)
                                         <tr class="">
-                                            <th scope="row">{{ $categoria->id }}</th>
-                                            <td>{{ $categoria->nome }}</td>
-                                            <td class="text-center"><i class="{{ $categoria->icone }}"></i></td>
-                                            <td>{{ date('d/m/Y H:i', strtotime($categoria->created_at)) }}</td>
+                                            <th scope="row">{{ $acesso->id }}</th>
+                                            <td>{{ $acesso->nome }}</td>
+                                            <td class="text-center"><i class="{{ $acesso->icone }}"></i></td>
+                                            <td>{{ date('d/m/Y H:i', strtotime($acesso->created_at)) }}</td>
                                             <td class="text-center">
-                                                @if ($categoria->status == 1)
+                                                @if ($acesso->status == 1)
                                                     <i class="fa fa-check text-success"></i>
                                                 @else
                                                     <i class="fa fa-times text-danger"></i>
                                                 @endif
                                             <td>
                                                 <button
-                                                    onclick="editar('{{ $categoria->id }}', '{{ $categoria->nome }}', '{{ $categoria->icone }}', '{{ $categoria->status }}')"
+                                                    onclick="editar('{{ $acesso->id }}', '{{ $acesso->nome }}', '{{ $acesso->icone }}', '{{ $acesso->status }}')"
                                                     class="btn rounded bg-gradient-info" id="editar"
-                                                    data-bs-toggle="tooltip" data-bs-original-title="Editar categoria">
+                                                    data-bs-toggle="tooltip" data-bs-original-title="Editar acesso">
                                                     <i class="fa fa-pencil text-white"></i>
                                                 </button>
-                                                <form action="categorias/{{ $categoria->id }}" method="POST"
-                                                    id="form-{{ $categoria->id }}" style="display: inline">
+                                                <form action="acessos/{{ $acesso->id }}" method="POST"
+                                                    id="form-{{ $acesso->id }}" style="display: inline">
                                                     <button type="button" class="btn rounded bg-gradient-danger"
-                                                        class="mx-3" onclick="excluir('{{ $categoria->id }}')"
-                                                        data-bs-toggle="tooltip" data-bs-original-title="Remover categoria">
+                                                        class="mx-3" onclick="excluir('{{ $acesso->id }}')"
+                                                        data-bs-toggle="tooltip" data-bs-original-title="Remover acesso">
                                                         <i class="fa fa-trash text-white"></i>
                                                     </button>
                                                     @csrf
@@ -115,9 +99,9 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" role="dialog" id="modal-categoria">
+    <div class="modal" tabindex="-1" role="dialog" id="modal-acesso">
         <div class="modal-dialog">
-            <form action="{{ route('categorias.store') }}" method="POST" id="form-categoria">
+            <form action="{{ route('acessos.store') }}" method="POST" id="form-acesso">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -130,7 +114,7 @@
                                 <div class="form-group">
                                     <label for="id" class="form-control-label">ID:</label>
                                     <input type="text" class="form-control" id="id" name="id"
-                                        placeholder="ID da categoria">
+                                        placeholder="ID da acesso">
                                 </div>
                             </div>
                         </div>
@@ -139,7 +123,7 @@
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
                                     <input type="text" class="form-control" id="nome" name="nome"
-                                        placeholder="Nome da categoria, exemplo: Eletrônicos">
+                                        placeholder="Nome da acesso, exemplo: Eletrônicos">
                                 </div>
                             </div>
                         </div>
@@ -152,7 +136,7 @@
                                             </a>
                                         </small></label>
                                     <input type="text" class="form-control" id="icone" name="icone"
-                                        placeholder="Ícone da categoria, exemplo: fa fa-tag">
+                                        placeholder="Ícone da acesso, exemplo: fa fa-tag">
                                 </div>
                             </div>
                         </div>
@@ -179,21 +163,21 @@
     </div>
     <script>
         function cadastrar() {
-            $('#modalTitulo').html('Cadastrar categoria');
+            $('#modalTitulo').html('Cadastrar acesso');
             $('#id').val('');
             $('#nome').val('');
             $('#icone').val('');
             $('#status').val('');
-            $('#modal-categoria').modal('show');
+            $('#modal-acesso').modal('show');
         }
 
         function editar(id, nome, icone, status) {
-            $('#modalTitulo').html('Editar Categoria');
+            $('#modalTitulo').html('Editar acesso');
             $('#id').val(id);
             $('#nome').val(nome);
             $('#icone').val(icone);
             $('#status').val(status);
-            $('#modal-categoria').modal('show');
+            $('#modal-acesso').modal('show');
         }
 
         function excluir($id) {
@@ -213,7 +197,7 @@
                 } else {
                     Swal.fire(
                         'Cancelado!',
-                        'A categoria não foi excluída.',
+                        'A acesso não foi excluída.',
                         'error'
                     )
                 }
