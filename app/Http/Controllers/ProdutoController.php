@@ -267,27 +267,32 @@ class ProdutoController extends Controller
         }
     }
 
-
-    /** @OA\Get(path="/api/v1/produto/categoria/{id}"
-     *  tags={"Produto"},
-     * summary="Mostra os produtos de uma categoria",
-     * description="Mostra os produtos de uma categoria",
-     * operationId="showProdutoCategoria",
-     * @OA\Parameter(
-     *    name="id",
-     *   in="path",
-     *  description="ID da categoria",
-     * required=true,
-     * @OA\Schema(
-     *  type="integer"
-     * )
-     * ),
-     * @OA\Response(
+    //Rota mostra produto pela categoria
+    /** @OA\Get(path="/api/v1/produto/categoria/{id}",
+     *   tags={"Produto"},
+     *   summary="Mostra um produto pela categoria",
+     *   description="Mostra um produto pela categoria",
+     *   operationId="showProdutoCategoria",
+     *   @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID da categoria",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer"
+     *     )
+     *   ),
+     *   @OA\Response(
      *     response=200,
-     *     description="Retorna o produto removido"
+     *     description="Retorna o produto"
+     *   ),
+     *   @OA\Response(
+     *     response="default",
+     *     description="Caso não encontre o produto"
      *   )
      * )
      */
+
     public function showByCategory($id)
     {
         $produtos = Produto::readProdutoByCategory($id);

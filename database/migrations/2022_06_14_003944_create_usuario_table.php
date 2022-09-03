@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('foto');
             $table->string('password');
-            $table->unsignedBigInteger('tipo_usuario_id');
-            $table->foreign('tipo_usuario_id')->references('id')->on('tipo_usuario');
+            //Tipo de usuário: 1 - Administrador, 2 - Vendedor, 3 - Analista, 4 - Estagiário
+            $table->integer('tipo');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

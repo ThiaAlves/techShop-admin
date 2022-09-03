@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 // use App\Http\Controllers\InfoUserController;
 // use App\Http\Controllers\RegisterController;
 // use App\Http\Controllers\ResetController;
+use App\Http\Controllers\EntrarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\AcessoController;
@@ -31,26 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('dashboard');
 	})->name('dashboard');
 
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
 
-	Route::get('profile', function () {
-		return view('profile');
-	})->name('profile');
-
-	Route::get('rtl', function () {
-		return view('rtl');
-	})->name('rtl');
-
-	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
-	})->name('user-management');
-
-
-    Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
-    Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias.store');
-    Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin'])->name('categorias.destroy');
 
     //Tabela Acessos
     Route::get('/acessos', [AcessoController::class, 'indexAdmin'])->name('acessos.index');
@@ -96,6 +78,14 @@ Route::group(['middleware' => 'guest'], function () {
 
 });
 
+Route::get('/entrar', [EntrarController::class, 'index'])->name('login');
+Route::post('/entrar', [EntrarController::class, 'entrar'])->name('login');
+
+Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
+Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
+Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
+
+
 Route::get('/login', function () {
-    return view('session/login-session');
-})->name('login');
+    return view('auth/login');
+});

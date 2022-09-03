@@ -10,7 +10,7 @@
         "version": "0.1"
     },
     "paths": {
-        "/api/acesso": {
+        "/api/v1/acesso": {
             "get": {
                 "tags": [
                     "Acesso"
@@ -68,7 +68,7 @@
                 }
             }
         },
-        "/api/acesso/{id}": {
+        "/api/v1/acesso/{id}": {
             "get": {
                 "tags": [
                     "Acesso"
@@ -175,7 +175,7 @@
                 }
             }
         },
-        "/api/categoria": {
+        "/api/v1/categoria": {
             "get": {
                 "tags": [
                     "Categoria"
@@ -228,7 +228,7 @@
                 }
             }
         },
-        "/api/categoria/{id}": {
+        "/api/v1/categoria/{id}": {
             "get": {
                 "tags": [
                     "Categoria"
@@ -333,7 +333,7 @@
                 }
             }
         },
-        "/api/cliente": {
+        "/api/v1/cliente": {
             "get": {
                 "tags": [
                     "Cliente"
@@ -396,7 +396,7 @@
                 }
             }
         },
-        "/api/cliente/{id}": {
+        "/api/v1/cliente/{id}": {
             "get": {
                 "tags": [
                     "Cliente"
@@ -511,7 +511,7 @@
                 }
             }
         },
-        "/api/endereco": {
+        "/api/v1/endereco": {
             "get": {
                 "tags": [
                     "Endereco"
@@ -589,7 +589,7 @@
                 }
             }
         },
-        "/api/endereco/{id}": {
+        "/api/v1/endereco/{id}": {
             "get": {
                 "tags": [
                     "Endereco"
@@ -719,7 +719,7 @@
                 }
             }
         },
-        "/api/estoque": {
+        "/api/v1/estoque": {
             "get": {
                 "tags": [
                     "Estoque"
@@ -780,7 +780,7 @@
                 }
             }
         },
-        "/api/estoque/{id}": {
+        "/api/v1/estoque/{id}": {
             "get": {
                 "tags": [
                     "Estoque"
@@ -893,7 +893,7 @@
                 }
             }
         },
-        "/api/produto": {
+        "/api/v1/produto": {
             "get": {
                 "tags": [
                     "Produto"
@@ -964,7 +964,7 @@
                 }
             }
         },
-        "/api/produto/{id}": {
+        "/api/v1/produto/{id}": {
             "get": {
                 "tags": [
                     "Produto"
@@ -1078,7 +1078,36 @@
                 }
             }
         },
-        "/api/venda": {
+        "/api/v1/produto/categoria/{id}": {
+            "get": {
+                "tags": [
+                    "Produto"
+                ],
+                "summary": "Mostra um produto pela categoria",
+                "description": "Mostra um produto pela categoria",
+                "operationId": "showProdutoCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna o produto"
+                    },
+                    "default": {
+                        "description": "Caso não encontre o produto"
+                    }
+                }
+            }
+        },
+        "/api/v1/venda": {
             "get": {
                 "tags": [
                     "Venda"
@@ -1140,7 +1169,7 @@
                 }
             }
         },
-        "/api/venda/{id}": {
+        "/api/v1/venda/{id}": {
             "get": {
                 "tags": [
                     "Venda"
@@ -1254,7 +1283,7 @@
                 }
             }
         },
-        "/api/venda-produto": {
+        "/api/v1/venda-produto": {
             "get": {
                 "tags": [
                     "Carrinho"
@@ -1315,7 +1344,7 @@
                 }
             }
         },
-        "/api/venda-produto/{id}": {
+        "/api/v1/venda-produto/{id}": {
             "get": {
                 "tags": [
                     "Carrinho"

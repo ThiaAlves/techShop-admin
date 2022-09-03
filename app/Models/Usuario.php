@@ -19,7 +19,7 @@ class Usuario extends Authenticatable
         'nome',
         'email',
         'password',
-        'tipo_usuario_id',
+        'tipo',
         'foto',
         'cpf',
         'status',

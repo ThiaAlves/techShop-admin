@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
+
+    protected $user;
+
+    public function __construct(Usuario $usuario)
+    {
+        $this->middleware('auth');
+        $this->usuario = $usuario;
+    }
     /**
      * Display a listing of the resource.
      *

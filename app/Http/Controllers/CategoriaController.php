@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use stdClass;
 
 class CategoriaController extends Controller
 {
@@ -232,9 +233,14 @@ class CategoriaController extends Controller
 
     public function indexAdmin(Request $request)
     {
+        $count_categorias = new stdClass;
+        $count_categorias->total = Categoria::count();
+        $count_categorias->ativas = Categoria::where('status', 1)->count();
+        $count_categorias->inativas = Categoria::where('status', 0)->count();
+
         $categorias = Categoria::all();
         $mensagem = $request->session()->get('mensagem');
-        return view('laravel-examples/categorias', compact('categorias', 'mensagem'));
+        return view('categorias/index', compact('categorias', 'mensagem', 'count_categorias'));
     }
 
     public function storeAdmin(Request $request)
