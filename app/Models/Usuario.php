@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 
 class Usuario extends Authenticatable
 {
@@ -58,6 +59,21 @@ class Usuario extends Authenticatable
     public static function readUsuario($id)
     {
         return Usuario::where('id', $id)->first();
+    }
+
+    public static function adminlte_profile_url()
+    {
+        return 'profile/username';
+    }
+
+    public static function adminlte_image()
+    {
+        return 'https://picsum.photos/300/300';
+    }
+
+    public static function adminlte_desc()
+    {
+        return Auth::user()->nome;
     }
 
 

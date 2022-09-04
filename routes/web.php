@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EntrarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\AcessoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -27,17 +28,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [HomeController::class, 'home']);
-	Route::get('dashboard', function () {
-		return view('dashboard');
+    // Route::get('/', [HomeController::class, 'home']);
+	Route::get('/', function () {
+		return view('home');
 	})->name('dashboard');
 
+	Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
+Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
+Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
 
-
-    //Tabela Acessos
-    Route::get('/acessos', [AcessoController::class, 'indexAdmin'])->name('acessos.index');
-    Route::post('/acessos', [AcessoController::class, 'storeAdmin'])->name('acessos.store');
-    Route::delete('/acessos/{id}', [AcessoController::class, 'destroyAdmin'])->name('acessos.destroy');
+// Rotas para produto
+Route::get('/produto', [ProdutoController::class, 'indexAdmin'])->name('produtos.index');
+Route::get('/produto/novo', [ProdutoController::class, 'createAdmin'])->name('produtos.create');
+//Rota editar produto
+Route::get('/produto/editar/{id}', [ProdutoController::class, 'editAdmin'])->name('produtos.editar');
+Route::get('/produto/{id}', [ProdutoController::class, 'showAdmin'])->name('produtos.show');
+Route::post('/produto', [ProdutoController::class, 'storeAdmin'])->name('produtos');
+Route::delete('/produto/{id}', [ProdutoController::class, 'destroyAdmin']);
 
 
 	Route::get('tables', function () {
@@ -62,6 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
+
+	
 });
 
 
@@ -81,9 +90,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::get('/entrar', [EntrarController::class, 'index'])->name('login');
 Route::post('/entrar', [EntrarController::class, 'entrar'])->name('login');
 
-Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
-Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
-Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
+
 
 
 Route::get('/login', function () {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use stdClass;
 
 class ProdutoController extends Controller
 {
@@ -303,5 +305,24 @@ class ProdutoController extends Controller
     {
         $produtos = Produto::readProdutoSemelhantes($id);
         return $produtos;
+    }
+
+    public function indexAdmin(Request $request)
+    {
+        $count_produtos = new stdClass;
+        $count_produtos->total = Produto::count();
+        $count_produtos->ativos = Produto::where('status', 1)->count();
+        $count_produtos->inativos = Produto::where('status', 0)->count();
+
+        $mensagem = $request->session()->get('mensagem');
+        $produtos = Produto::all();
+        return view('produtos/index', compact('produtos', 'mensagem', 'count_produtos'));
+    }
+
+    public function createAdmin(Request $request)
+    {
+        $categorias = Categoria::all();
+        $mensagem = $request->session()->get('mensagem');
+        return view('produtos.create', compact('categorias', 'mensagem'));
     }
 }
