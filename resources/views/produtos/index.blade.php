@@ -62,7 +62,7 @@
                             <tr>
                                 <td width="5%" class="text-center">{{ $produto->id }}</td>
                                 <td>{{ $produto->nome }}</td>
-                                <td class="bg-light">
+                                <td class="bg-white">
                                     <div style="display: flex; justify-content: center; align-items: center;">
                                     <img src="/produtos/{{ $produto->imagem1 }}" width="30%">
                                     <img src="/produtos/{{ $produto->imagem2 }}" width="30%">
@@ -90,11 +90,16 @@
                                     <a href="{{ route('produtos.editar', $produto->id) }}" class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline">
-                                        <button type="button" class="btn btn-sm btn-danger m-1"
-                                            onclick="confirmaExclusao()"><span class="fa fa-trash"></span></button>
+                                    <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline" id="formProduto">
+                                        <button type="button" class="btn btn-sm {{$produto->status == 1 ? "btn-danger" : "btn-success"}} m-1"
+                                            onclick="confirmaExclusao()">
+                                        @if ($produto->status == 1)
+                                            <i class="fa fa-times"></i>
+                                        @else
+                                            <i class="fa fa-check"></i>
+                                        @endif
+                                        </button>
                                         @csrf
-                                        @method('DELETE')
                                     </form>
                                 </td>
                             </tr>
@@ -105,45 +110,6 @@
     </div>
     {{-- Fim Div Container --}}
 
-    <!-- Modal -->
-    <form method="post" action="{{ route('categorias') }}" id="formCategoria">
-        @csrf
-        <x-adminlte-modal id="modalCategoria" title="Categoria" size="lg" theme="teal" icon="fas fa-tag" v-centered>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col" hidden>
-                        <label for="id">Id:</label>
-                        <input type="text" id="id" name="id" class="form-control">
-                    </div>
-                    <div class="col">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" class="form-control"
-                            placeholder="Informe o Nome da Categoria">
-                    </div>
-                    <div class="col">
-                        <label for="icone">Icone:</label>
-                        <input type="text" id="icone" name="icone" class="form-control"
-                            placeholder="Informe o Icone: Ex - fa fa-user-circle">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="status">Status:</label>
-                        <select class="form-control" name="status" id="status">
-                            <option value="1">Ativo</option>
-                            <option value="0">Inativo</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <x-slot name="footerSlot">
-                <x-adminlte-button type="button" theme="secondary" icon="fas fa-times" label="Fechar"
-                    data-dismiss="modal" />
-                <x-adminlte-button type="submit" theme="success" icon="fas fa-check" label="Salvar" />
-            </x-slot>
-        </x-adminlte-modal>
-    </form>
 @stop
 
 @section('footer')
@@ -205,17 +171,18 @@
             }
             // end add
         });
+
         function confirmaExclusao() {
             Swal.fire({
-                title: 'Tem certeza?',
-                text: "Você não poderá reverter isso!",
+                title: 'Opa!',
+                text: "Deseja alterar o status do produto?",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, deletar!',
                 cancelButtonText: 'Não, cancelar!'
             }).then((result) => {
-                result.value == true ? $('.formPerfil').submit() : '';
+                result.value == true ? $('#formProduto').submit() : '';
             })
         }
         function abreModal(id, nome, icone, status) {

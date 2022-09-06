@@ -9,6 +9,7 @@ use App\Http\Controllers\EntrarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AcessoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -44,8 +45,15 @@ Route::get('/produto/novo', [ProdutoController::class, 'createAdmin'])->name('pr
 Route::get('/produto/editar/{id}', [ProdutoController::class, 'editAdmin'])->name('produtos.editar');
 Route::get('/produto/{id}', [ProdutoController::class, 'showAdmin'])->name('produtos.show');
 Route::post('/produto', [ProdutoController::class, 'storeAdmin'])->name('produtos');
-Route::delete('/produto/{id}', [ProdutoController::class, 'destroyAdmin']);
+Route::post('/produto/{id}', [ProdutoController::class, 'mudaStatus']);
 
+// Rotas para clientes
+Route::get('/cliente', [ClienteController::class, 'indexAdmin'])->name('cliente.index');
+Route::post('/cliente', [ClienteController::class, 'storeAdmin'])->name('clientes');
+Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
+
+//Rota para deletar imagem
+Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'destroyImageAdmin'])->name('produtos.imagem');
 
 	Route::get('tables', function () {
 		return view('tables');

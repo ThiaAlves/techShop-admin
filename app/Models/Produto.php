@@ -18,6 +18,7 @@ class Produto extends Model
         'imagem3',
         'imagem4',
         'imagem5',
+        'estoque',
         'preco',
         'preco_promocional',
         'categoria_id',
@@ -26,7 +27,7 @@ class Produto extends Model
 
     public static function readProdutos()
     {
-        return Produto::select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        return Produto::select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
         ->inRandomOrder()->limit(10)->get();
     }
 
@@ -40,6 +41,7 @@ class Produto extends Model
             'imagem3' => $data['imagem3'],
             'imagem4' => $data['imagem4'],
             'imagem5' => $data['imagem5'],
+            'estoque' => $data['estoque'],
             'preco' => $data['preco'],
             'preco_promocional' => $data['preco_promocional'],
             'categoria_id' => $data['categoria_id'],
@@ -66,14 +68,14 @@ class Produto extends Model
     {
         return Produto::where('categoria_id', $id)
         ->orderBy('nome', 'asc')
-        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
         ->get();
     }
 
     public static function readProdutoSemelhantes($id)
     {
         return Produto::where('categoria_id', $id)
-        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
         ->inRandomOrder()
         ->limit(5)
         ->get();

@@ -77,7 +77,15 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         try {
-            $cliente = Cliente::createCliente($request);
+            $data = [
+                'nome' => $request->nome,
+                'email' => $request->email,
+                'telefone' => $request->telefone,
+                'data_naascimento' => $request->data_naascimento,
+                'cpf' => $request->cpf,
+                'senha' => bcrypt($request->senha),
+            ];
+            $cliente = Cliente::createCliente($data);
             return response()->json(['data' => $cliente], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -177,7 +185,16 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $cliente = Cliente::updateCliente($request->input(), $id);
+            $data = [
+                'nome' => $request->nome,
+                'email' => $request->email,
+                'telefone' => $request->telefone,
+                'data_naascimento' => $request->data_naascimento,
+                'cpf' => $request->cpf,
+                'senha' => bcrypt($request->senha),
+            ];
+
+            $cliente = Cliente::updateCliente($data, $id);
             return response()->json(['success' => true,
                 'message' => 'Cliente atualizado com sucesso!',
                 'data' => $cliente], 200);

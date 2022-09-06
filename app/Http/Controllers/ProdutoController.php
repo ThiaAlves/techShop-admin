@@ -325,4 +325,130 @@ class ProdutoController extends Controller
         $mensagem = $request->session()->get('mensagem');
         return view('produtos.create', compact('categorias', 'mensagem'));
     }
+
+
+    public function storeAdmin(Request $request)
+    {
+        if($request->hasFile('imagem')){
+
+            //Pega array de imagens
+            $imagens = $request->file('imagem');
+            $imagensArray = [];
+            //faz o upload de cada imagem
+
+            foreach($imagens as $imagem){
+                $nomeImagem = $imagem->getClientOriginalName();
+                $novoNome = time().$nomeImagem;
+                $imagem->move(public_path('produtos'), $novoNome);
+
+                $imagensArray[] = $novoNome;
+            }
+        }
+        $imagem1 = $imagensArray[0] ?? "";
+        $imagem2 = $imagensArray[1] ?? "";
+        $imagem3 = $imagensArray[2] ?? "";
+        $imagem4 = $imagensArray[3] ?? "";
+        $imagem5 = $imagensArray[4] ?? "";
+        
+        //Se o ID for nulo, então é um novo produto
+        if($request->id == null){
+            $produto = new Produto();
+            $produto->nome = $request->nome;
+            $produto->categoria_id = $request->id_categoria;
+            $produto->descricao = $request->descricao;
+            $produto->preco = $request->preco;
+            $produto->preco_promocional = $request->preco_promocional;
+            $produto->status = $request->status;
+            $produto->imagem1 = $imagem1;
+            $produto->imagem2 = $imagem2;
+            $produto->imagem3 = $imagem3;
+            $produto->imagem4 = $imagem4;
+            $produto->imagem5 = $imagem5;
+            $produto->estoque = $request->estoque;
+            $produto->save();
+            $request->session()->flash('mensagem', "Produto {$produto->nome} criado com sucesso!");
+        } else {
+            $produto = Produto::find($request->id);
+            $produto->nome = $request->nome;
+            $produto->categoria_id = $request->id_categoria;
+            $produto->descricao = $request->descricao;
+            $produto->preco = $request->preco;
+            $produto->preco_promocional = $request->preco_promocional;
+            $produto->status = $request->status;
+            $produto->imagem1 = $imagem1;
+            $produto->imagem2 = $imagem2;
+            $produto->imagem3 = $imagem3;
+            $produto->imagem4 = $imagem4;
+            $produto->imagem5 = $imagem5;
+            $produto->estoque = $request->estoque;
+            $produto->save();
+            $request->session()->flash('mensagem', "Produto {$produto->nome} atualizado com sucesso!");
+        }
+        //Mensagem de sucesso
+        return redirect()->route('produtos.index');
+    }
+
+    public function editAdmin($id) {
+
+        $produto = Produto::find($id);
+        $categorias = Categoria::all();
+        return view('produtos.create', compact('produto','categorias'));
+    }
+
+    public function mudaStatus($id, Request $request)
+    {
+        $produto = Produto::find($id);
+
+        if($produto->status == 1){
+            $produto->status = 0;
+            $produto->save();
+            $request->session()->flash('mensagem', "Produto {$produto->nome} desativado com sucesso!");
+        } else {
+            $produto->status = 1;
+            $produto->save();
+            $request->session()->flash('mensagem', "Produto {$produto->nome} ativado com sucesso!");
+        }
+        //Mensagem de sucesso
+        return redirect()->route('produtos.index');
+    }
+
+    public function destroyImageAdmin($idProduto, $nomeImagem)
+    {
+
+        function deletaImagem($nomeImagem){
+            $caminhoImagem = public_path('produtos/'.$nomeImagem);
+            if(file_exists($caminhoImagem)){
+                unlink($caminhoImagem);
+            }
+        }
+
+        $produto = Produto::find($idProduto);
+        switch ($nomeImagem) {
+            case 'imagem1':
+                deletaImagem($produto->imagem1);
+                $produto->imagem1 = "";
+                break;
+            case 'imagem2':
+                deletaImagem($produto->imagem2);
+                $produto->imagem2 = "";
+                break;
+            case 'imagem3':
+                deletaImagem($produto->imagem3);
+                $produto->imagem3 = "";
+                break;
+            case 'imagem4':
+                deletaImagem($produto->imagem4);
+                $produto->imagem4 = "";
+                break;
+            case 'imagem5':
+                deletaImagem($produto->imagem5);
+                $produto->imagem5 = "";
+                break;
+        }
+        $produto->save();
+
+        return response()->json(['mensagem' => 'Imagem removida com sucesso!']);
+    }
+
+
 }

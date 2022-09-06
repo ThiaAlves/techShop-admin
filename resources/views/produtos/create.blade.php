@@ -1,5 +1,4 @@
 @extends('adminlte::page')
-
 @section('plugins.Datatables', true)
 @section('plugins.DatatablesPlugin', true)
 @section('plugins.Sweetalert2', true)
@@ -33,18 +32,19 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
+                                    <input type="hidden" name="id" id="id" class="form-control" value="{{$produto->id ?? null}}">
                                     <label for="nome">Nome do Produto: </label>
                                     <input type="text" name="nome" id="nome" class="form-control"
-                                        placeholder="Informe o nome do produto" value="{{ old('nome') }}">
+                                        placeholder="Informe o nome do produto" value="{{ $produto->nome ?? null }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="categoria">Categoria</label>
-                                    <select name="categoria" id="categoria" class="form-control">
+                                    <select name="id_categoria" id="categoria" class="form-control">
                                         <option value="">Selecione uma Categoria</option>
                                         @foreach ($categorias as $categoria)
-                                            <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                                            <option value="{{ $categoria->id }}" {{$produto->categoria_id == $categoria->id ? "selected" : null}}>{{ $categoria->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -54,7 +54,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="imagem">Imagem</label>
-                                    <input id="imagem" name="imagem" type="file" class="file" multiple
+                                    <input id="imagem" name="imagem[]" type="file" class="file" multiple
                                         data-show-upload="false" data-show-caption="true"
                                         data-msg-placeholder="Selecionado {files} para salvar...">
                                 </div>
@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     <label for="descricao">Descrição</label>
                                     <textarea name="descricao" id="descricao" class="form-control" rows="5"
-                                        placeholder="Informe a descrição do produto">{{ old('descricao') }}</textarea>
+                                        placeholder="Informe a descrição do produto">{{ $produto->descricao ?? null }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     <label for="preco">Preço</label>
                                     <input type="text" name="preco" id="preco" class="form-control"
-                                        placeholder="Preço do Produto" value="{{ old('preco') }}">
+                                        placeholder="Preço do Produto" value="{{$produto->preco ?? null}}">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -82,7 +82,7 @@
                                     <label for="preco_promocional">Preço Promocional</label>
                                     <input type="text" name="preco_promocional" id="preco_promocional"
                                         class="form-control" placeholder="Preço Promocional do Produto"
-                                        value="{{ old('preco_promocional') }}">
+                                        value="{{ $produto->preco_promocional ?? null }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -97,8 +97,8 @@
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
                                         <option value="">Selecione um Status</option>
-                                        <option value="1">Ativo</option>
-                                        <option value="0">Inativo</option>
+                                        <option value="1" {{$produto->status == 1 ? "selected" : null}}>Ativo</option>
+                                        <option value="0" {{$produto->status == 0 ? "selected" : null}}>Inativo</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,7 +148,29 @@
             removeMaskOnSubmit: true,
         };
 
+    var imagens = [];
+    imagens = [@if(!empty($produto->imagem1))  "{{asset('produtos/'.$produto->imagem1)}}", @endif 
+                @if(!empty($produto->imagem2))  "{{asset('produtos/'.$produto->imagem2)}}", @endif
+                @if(!empty($produto->imagem3))  "{{asset('produtos/'.$produto->imagem3)}}", @endif
+                @if(!empty($produto->imagem4))  "{{asset('produtos/'.$produto->imagem4)}}", @endif
+                @if(!empty($produto->imagem5))  "{{asset('produtos/'.$produto->imagem5)}}", @endif
+            ];
+
+
         const fileinput = {
+            'initialPreview': imagens,
+            'initialPreviewAsData': true,
+            'initialPreviewConfig': [
+                {caption: "imagem1.jpg", downloadUrl: imagens[0], size: 930321, width: "20px", key: '{{$produto->imagem1}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem1']) }}"},
+                {caption: "imagem2.jpg", downloadUrl: imagens[1], size: 1218822, width: "120px", key: '{{$produto->imagem2}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem2']) }}"},
+                {caption: "imagem3.jpg", downloadUrl: imagens[2], size: 1218822, width: "120px", key: '{{$produto->imagem3}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem3']) }}"},
+                {caption: "imagem4.jpg", downloadUrl: imagens[3], size: 1218822, width: "120px", key: '{{$produto->imagem4}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem4']) }}"},
+                {caption: "imagem5.jpg", downloadUrl: imagens[4], size: 1218822, width: "120px", key: '{{$produto->imagem5}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem5']) }}"},
+            ],
+            'deleteExtraData': {
+                '_token': "{{ csrf_token() }}",
+                '_method': "DELETE",
+            },
             'previewFileType': 'any',
             'language': 'pt-BR',
             'theme': 'fa5',
@@ -156,7 +178,7 @@
             'allowedFileExtensions': ['jpg', 'png', 'gif', 'jpeg', 'webp'],
             'removeFromPreviewOnError': true,
             'selectOnClose': true,
-        };            
+        };     
         
         $("#imagem").fileinput(fileinput);
 

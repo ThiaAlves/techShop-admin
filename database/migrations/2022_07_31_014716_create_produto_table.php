@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('imagem3');
             $table->string('imagem4');
             $table->string('imagem5');
+            $table->integer('estoque');
             $table->float('preco');
             $table->float('preco_promocional')->nullable();
             $table->unsignedBigInteger('categoria_id');
