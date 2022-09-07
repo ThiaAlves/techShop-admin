@@ -254,7 +254,7 @@ class ClienteController extends Controller
             return response()->json(['error' => 'Cliente não encontrado'], 404);
         }
         //Verifica se a senha está correta
-        if(!Hash::check($cliente->senha, $request->senha)) {
+        if(!Hash::check($request->senha, $cliente->senha)) {
             return response()->json(['error' => 'Senha incorreta'], 404);
         }
         //Retorna o cliente
