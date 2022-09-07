@@ -172,4 +172,4 @@ Route::get('/v1/produto/categoria/{id}', [ProdutoController::class, 'showByCateg
 Route::get('/v1/produto/categoria/{id}/random', [ProdutoController::class, 'showProdutoSemelhantes']);
 
 
-
+Route::post('/v1/loginCliente', [ClienteController::class, 'logar']);

@@ -105,5 +105,3 @@ Route::post('/entrar', [EntrarController::class, 'entrar'])->name('login');
 Route::get('/login', function () {
     return view('auth/login');
 });
-
-Route::post('/loginCliente', [ClienteController::class, 'logar']);
