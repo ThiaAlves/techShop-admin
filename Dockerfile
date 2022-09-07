@@ -28,12 +28,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 #     chown -R $user:$user /home/$user
 
 # # Set working directory
-# WORKDIR /var/www
+WORKDIR /var/www
 
-# COPY . .
+COPY . .
 
 # # USER $user
-# USER root
+USER root
 
 RUN composer update
 
