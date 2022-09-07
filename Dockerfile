@@ -108,6 +108,7 @@ RUN chmod -R 775 bootstrap/cache
 RUN cp .env.example .env
 
 RUN composer update
+composer require jeroennoten/laravel-adminlte
 RUN php artisan adminlte:install
 RUN php artisan migrate:refresh --seed --force
 
