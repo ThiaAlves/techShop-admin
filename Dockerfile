@@ -40,10 +40,10 @@ RUN composer update
 # RUN php artisan key:generate
 
 RUN chown -R www-data:www-data /var/www
-RUN chmod +777 storage/logs/laravel.log
-RUN chmod +777 storage/framework/cache/
-RUN chmod +777 storage/framework/sessions/
-RUN chmod +777 storage/framework/cache/data
+#RUN chmod +777 storage/logs/laravel.log
+#RUN chmod +777 storage/framework/cache/
+#RUN chmod +777 storage/framework/sessions/
+#RUN chmod +777 storage/framework/cache/data
 RUN php artisan cache:clear
 
 
