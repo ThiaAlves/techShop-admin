@@ -47,5 +47,5 @@ RUN chown -R www-data:www-data /var/www
 RUN php artisan cache:clear
 
 
-RUN php artisan migrate --seed
+RUN php artisan migrate --seed --force
 
