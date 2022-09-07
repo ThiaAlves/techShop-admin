@@ -247,14 +247,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function logar(Request $cliente) {
+    public function logar(Request $request) {
         //Verifica se o cliente existe
-        $cliente = Cliente::where('email', $cliente->email)->first();
+        $cliente = Cliente::where('email', $request->email)->first();
         if(!$cliente) {
             return response()->json(['error' => 'Cliente não encontrado'], 404);
         }
         //Verifica se a senha está correta
-        if(!Hash::check($cliente->senha, $cliente->senha)) {
+        if(!Hash::check($cliente->senha, $request->senha)) {
             return response()->json(['error' => 'Senha incorreta'], 404);
         }
         //Retorna o cliente
