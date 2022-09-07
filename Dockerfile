@@ -108,6 +108,9 @@ RUN chmod -R 775 bootstrap/cache
 RUN cp .env.example .env
 
 RUN composer update
+RUN php artisan adminlte:install
+RUN php artisan migrate --seed --force
+
 
 ENTRYPOINT ["start-container"]
 
