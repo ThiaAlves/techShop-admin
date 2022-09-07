@@ -39,7 +39,7 @@ RUN composer update
 
 # RUN php artisan key:generate
 
-RUN chown -R techshop:techshop /var/www
+RUN chown -R www-data:www-data /var/www
 RUN chmod +777 storage/logs/laravel.log
 RUN chmod +777 storage/framework/cache/
 RUN chmod +777 storage/framework/sessions/
