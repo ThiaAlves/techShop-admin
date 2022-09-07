@@ -51,7 +51,7 @@ Route::post('/produto/{id}', [ProdutoController::class, 'mudaStatus']);
 Route::get('/cliente', [ClienteController::class, 'indexAdmin'])->name('cliente.index');
 Route::post('/cliente', [ClienteController::class, 'storeAdmin'])->name('clientes');
 Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
-Route::post('/loginCliente', [ClienteController::class, 'logar']);
+
 
 //Rota para deletar imagem
 Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'destroyImageAdmin'])->name('produtos.imagem');
@@ -105,3 +105,5 @@ Route::post('/entrar', [EntrarController::class, 'entrar'])->name('login');
 Route::get('/login', function () {
     return view('auth/login');
 });
+
+Route::post('/loginCliente', [ClienteController::class, 'logar']);
