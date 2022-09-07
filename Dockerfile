@@ -109,7 +109,7 @@ RUN cp .env.example .env
 
 RUN composer update
 RUN php artisan adminlte:install
-RUN php artisan migrate --seed --force
+RUN php artisan migrate:refresh --seed --force
 
 
 ENTRYPOINT ["start-container"]
