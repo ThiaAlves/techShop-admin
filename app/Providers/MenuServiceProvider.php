@@ -25,13 +25,6 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Lista todos os menus com submenu = C
-        $menuCadastros = Menu::where('submenu', 'C')->get();
-        $menuProcessos = Menu::where('submenu', 'P')->get();
-        $menuRelatorios = Menu::where('submenu', 'R')->get();
-
-        View::share('menuCadastros', $menuCadastros);
-        View::share('menuProcessos', $menuProcessos);
-        View::share('menuRelatorios', $menuRelatorios);
+        
     }
 }
