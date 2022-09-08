@@ -343,13 +343,14 @@ class ProdutoController extends Controller
 
                 $imagensArray[] = $novoNome;
             }
+
+            $imagem1 = $imagensArray[0] ?? "";
+            $imagem2 = $imagensArray[1] ?? "";
+            $imagem3 = $imagensArray[2] ?? "";
+            $imagem4 = $imagensArray[3] ?? "";
+            $imagem5 = $imagensArray[4] ?? "";
         }
-        $imagem1 = $imagensArray[0] ?? "";
-        $imagem2 = $imagensArray[1] ?? "";
-        $imagem3 = $imagensArray[2] ?? "";
-        $imagem4 = $imagensArray[3] ?? "";
-        $imagem5 = $imagensArray[4] ?? "";
-        
+
         //Se o ID for nulo, então é um novo produto
         if($request->id == null){
             $produto = new Produto();
@@ -358,6 +359,7 @@ class ProdutoController extends Controller
             $produto->descricao = $request->descricao;
             $produto->preco = $request->preco;
             $produto->preco_promocional = $request->preco_promocional;
+            $produto->estoque = $request->estoque;
             $produto->status = $request->status;
             $produto->imagem1 = $imagem1;
             $produto->imagem2 = $imagem2;
@@ -374,12 +376,13 @@ class ProdutoController extends Controller
             $produto->descricao = $request->descricao;
             $produto->preco = $request->preco;
             $produto->preco_promocional = $request->preco_promocional;
+            $produto->estoque = $request->estoque;
             $produto->status = $request->status;
-            $produto->imagem1 = $imagem1;
-            $produto->imagem2 = $imagem2;
-            $produto->imagem3 = $imagem3;
-            $produto->imagem4 = $imagem4;
-            $produto->imagem5 = $imagem5;
+            $produto->imagem1 = $imagem1 ?? $produto->imagem1;
+            $produto->imagem2 = $imagem2 ?? $produto->imagem2;
+            $produto->imagem3 = $imagem3 ?? $produto->imagem3;
+            $produto->imagem4 = $imagem4 ?? $produto->imagem4;
+            $produto->imagem5 = $imagem5 ?? $produto->imagem5;
             $produto->estoque = $request->estoque;
             $produto->save();
             $request->session()->flash('mensagem', "Produto {$produto->nome} atualizado com sucesso!");

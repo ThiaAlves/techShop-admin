@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('home');
 	})->name('dashboard');
 
-	Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
+Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
 Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
 Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
 
@@ -46,6 +46,9 @@ Route::get('/produto/editar/{id}', [ProdutoController::class, 'editAdmin'])->nam
 Route::get('/produto/{id}', [ProdutoController::class, 'showAdmin'])->name('produtos.show');
 Route::post('/produto', [ProdutoController::class, 'storeAdmin'])->name('produtos');
 Route::post('/produto/{id}', [ProdutoController::class, 'mudaStatus']);
+//Rota para deletar imagem
+Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'destroyImageAdmin'])->name('produtos.imagem');
+
 
 // Rotas para clientes
 Route::get('/cliente', [ClienteController::class, 'indexAdmin'])->name('cliente.index');
@@ -53,55 +56,19 @@ Route::post('/cliente', [ClienteController::class, 'storeAdmin'])->name('cliente
 Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
 
 
-//Rota para deletar imagem
-Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'destroyImageAdmin'])->name('produtos.imagem');
 
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
 
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
 
-    Route::get('static-sign-in', function () {
-		return view('static-sign-in');
-	})->name('sign-in');
 
-    Route::get('static-sign-up', function () {
-		return view('static-sign-up');
-	})->name('sign-up');
-
-    Route::get('/logout', [SessionsController::class, 'destroy']);
-	Route::get('/user-profile', [InfoUserController::class, 'create']);
-	Route::post('/user-profile', [InfoUserController::class, 'store']);
-    Route::get('/login', function () {
-		return view('dashboard');
-	})->name('sign-up');
-
+Route::post('/sair', [SessionsController::class, 'destroy']);
+Route::get('/login', function () {
+	return view('dashboard');
+})->name('sign-up');
 	
-});
-
-
-
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [RegisterController::class, 'create']);
-    Route::post('/register', [RegisterController::class, 'store']);
-    Route::get('/login', [SessionsController::class, 'create']);
-    Route::post('/session', [SessionsController::class, 'store']);
-	Route::get('/login/forgot-password', [ResetController::class, 'create']);
-	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
-	Route::get('/reset-password/{token}', [ResetController::class, 'resetPass'])->name('password.reset');
-	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-
 });
 
 Route::get('/entrar', [EntrarController::class, 'index'])->name('login');
 Route::post('/entrar', [EntrarController::class, 'entrar'])->name('login');
-
-
-
-
 Route::get('/login', function () {
     return view('auth/login');
 });

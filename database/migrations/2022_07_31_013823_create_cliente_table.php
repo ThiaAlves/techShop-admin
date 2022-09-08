@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('senha');
             $table->date('data_nascimento');
             $table->string('telefone');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

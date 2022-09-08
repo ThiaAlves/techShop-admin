@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Validate;
+use stdClass;
 
 class ClienteController extends Controller
 {
@@ -77,16 +79,47 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validate = new Validate();
+
+        if (!$validate->validaEmail($request->email)) {
+            return response()->json(['message' => 'Email inválido'], 400);
+        }
+
+        if (!$validate->validaCPF($request->cpf)) {
+            return response()->json(['message' => 'CPF inválido'], 400);
+        }
+
+        if ($validate->emailExiste($request->email)) {
+            return response()->json(['message' => 'Email já cadastrado'], 400);
+        }
+
+        if ($validate->cpfExiste($request->cpf)) {
+            return response()->json(['message' => 'CPF já cadastrado'], 400);
+        }
+
         try {
             $data = [
                 'nome' => $request->nome,
                 'email' => $request->email,
                 'telefone' => $request->telefone,
-                'data_naascimento' => $request->data_naascimento,
+                'data_nascimento' => $validate->formataDataAmericano($request->data_nascimento),
                 'cpf' => $request->cpf,
                 'senha' => bcrypt($request->senha),
+                'status' => 1,
             ];
             $cliente = Cliente::createCliente($data);
+
+            $cliente = [
+                'id' => $cliente->id,
+                'nome' => $cliente->nome,
+                'email' => $cliente->email,
+                'telefone' => $cliente->telefone,
+                'data_nascimento' => $validate->formataDataBrasileiro($cliente->data_nascimento),
+                'cpf' => $cliente->cpf,
+                'status' => $cliente->status,
+            ];
+
             return response()->json(['data' => $cliente], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -193,6 +226,7 @@ class ClienteController extends Controller
                 'data_naascimento' => $request->data_naascimento,
                 'cpf' => $request->cpf,
                 'senha' => bcrypt($request->senha),
+                'status' => 1,
             ];
 
             $cliente = Cliente::updateCliente($data, $id);
@@ -257,9 +291,74 @@ class ClienteController extends Controller
         if(!Hash::check($request->senha, $cliente->senha)) {
             return response()->json(['error' => 'Senha incorreta'], 404);
         }
+
+        $data = [
+            'id' => $cliente->id,
+            'nome' => $cliente->nome,
+            'email' => $cliente->email,
+            'telefone' => $cliente->telefone,
+            'data_nascimento' => $cliente->data_nascimento,
+            'cpf' => $cliente->cpf,
+        ];
+
         //Retorna o cliente
         return response()->json(['success' => true,
             'message' => 'Cliente logado com sucesso!',
-            'data' => $cliente], 200);
+            'data' => $data], 200);
     }
+
+        //Functions para Web Admin
+
+        public function indexAdmin(Request $request)
+        {
+            $count_clientes = new stdClass;
+            $count_clientes->total = Cliente::count();
+            $count_clientes->ativos = Cliente::where('status', 1)->count();
+            $count_clientes->inativos = Cliente::where('status', 0)->count();
+    
+            $clientes = Cliente::select('id', 'nome', 'email', 'telefone', 'data_nascimento', 'cpf', 'status')->get();
+
+            $mensagem = $request->session()->get('mensagem');
+            return view('clientes/index', compact('clientes', 'mensagem', 'count_clientes'));
+        }
+    
+        public function storeAdmin(Request $request)
+        {
+            //Se o ID for nulo, então é um novo cliente
+            if($request->id == null){
+                $cliente = new Cliente();
+                $cliente->nome = $request->nome;
+                $cliente->email = $request->email;
+                $cliente->telefone = $request->telefone;
+                $cliente->data_nascimento = $request->data_nascimento;
+                $cliente->cpf = $request->cpf;
+                $cliente->senha = bcrypt($request->senha);
+                $cliente->status = $request->status;
+                $cliente->save();
+    
+                //Mensagem de sucesso
+                $request->session()->flash('mensagem', "Cliente cadastrado com sucesso!");
+            } else {
+                $cliente = Cliente::find($request->id);
+                $cliente->nome = $request->nome;
+                $cliente->email = $request->email;
+                $cliente->telefone = $request->telefone;
+                $cliente->data_nascimento = $request->data_nascimento;
+                $cliente->cpf = $request->cpf;
+                $cliente->senha = bcrypt($request->senha);
+                $cliente->status = $request->status;
+                $cliente->save();
+                //Mensagem de sucesso
+                $request->session()->flash('mensagem', "Cliente atualizado com sucesso!");
+            }
+            return redirect()->route('cliente.index');
+        }
+    
+        public function destroyAdmin($id, Request $request)
+        {
+            $cliente = Cliente::deleteCliente($id);
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Cliente deletado com sucesso!");
+            return redirect()->route('cliente.index');
+        }
 }

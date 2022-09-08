@@ -17,12 +17,13 @@ class Cliente extends Model
         'data_nascimento',
         'telefone',
         'senha',
+        'status',
     ];
 
     public static function readClientes()
     {
         return Cliente::orderBy('nome', 'asc')
-        ->select('id', 'nome', 'cpf', 'email', 'data_nascimento', 'telefone', 'senha', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'cpf', 'email', 'data_nascimento', 'telefone', 'status' , 'created_at', 'updated_at')
         ->get();
     }
 
@@ -35,6 +36,7 @@ class Cliente extends Model
             'data_nascimento' => $data['data_nascimento'],
             'telefone' => $data['telefone'],
             'senha' => $data['senha'],
+            'status' => $data['status'],
         ]);
     }
 

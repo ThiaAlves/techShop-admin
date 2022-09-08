@@ -50,10 +50,6 @@ class AppServiceProvider extends ServiceProvider
             ],
         ];
 
-        if (env('APP_ENV') !== 'local') {
-            $this->app['request']->server->set('HTTPS', true);
-        }
-
         View::share('configDatatable', $configDatatable);
     }
 }

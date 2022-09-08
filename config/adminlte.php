@@ -192,7 +192,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-secondary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-olive elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-light navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -254,8 +254,8 @@ return [
 
     'use_route_url' => false,
     'dashboard_url' => 'home',
-    'logout_url' => 'logout',
-    'login_url' => 'login',
+    'logout_url' => 'sair',
+    'login_url' => 'entrar',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
@@ -332,7 +332,7 @@ return [
         ],
         [
             'text' => 'Clientes',
-            'url'  => 'clientes',
+            'url'  => 'cliente',
             'icon' => 'fas fa-user',
         ],
         ['header' => 'Processos'],

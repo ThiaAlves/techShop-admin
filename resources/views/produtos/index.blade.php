@@ -41,27 +41,18 @@
     <hr>
     {{-- Div Container --}}
     <div class="container">
-        @if (!empty($mensagem))
-            <div class="alert bg-success">
-                {{ $mensagem }}
-            </div>
-        @endif
-
-        @if(!empty($error))
-        <div class="alert bg-danger" title="Erro ao tentar salvar" :dismissable="true">
-            {{ $error }}
-        </div>
-        @endif
         {{-- Tabela --}}
         @php
-            $heads = ['ID', 'Nome', ['label' => 'Imagem', 'width' => 15],['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
+            $heads = ['ID', 'Nome', 'Estoque', ['label' => 'Imagem', 'width' => 15],['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
         @endphp
 
         <x-adminlte-datatable id="table" :heads="$heads" hoverable bordered with-buttons :config="$configDatatable" head-theme="dark" theme="light">
             @foreach ($produtos as $produto)
                             <tr>
                                 <td width="5%" class="text-center">{{ $produto->id }}</td>
-                                <td>{{ $produto->nome }}</td>
+                                {{-- Mostrar nome do produto até 50 caracteres --}}
+                                <td>{{ Str::limit($produto->nome, 50) }}</td>
+                                <td width="10%" class="text-center">{{ $produto->estoque }}</td>
                                 <td class="bg-white">
                                     <div style="display: flex; justify-content: center; align-items: center;">
                                     <img src="/produtos/{{ $produto->imagem1 }}" width="30%">
@@ -129,6 +120,24 @@
 @stop
 
 @section('js')
+@if (!empty($mensagem))
+<script>
+    Swal.fire(
+        'Pronto!',
+        '{{ $mensagem }}',
+        'success'
+    );
+</script>
+@endif
+@if (!empty($error))
+<script>
+    Swal.fire(
+        'Ops!',
+        '{{ $error }}',
+        'error'
+    );
+</script>
+@endif
     <script>
         $(document).ready(function() {
             $('#formCategoria').validate({

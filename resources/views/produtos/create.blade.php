@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <label for="estoque">Estoque</label>
                                     <input type="text" name="estoque" id="estoque" class="form-control"
-                                        placeholder="Estoque do Produto" value="{{ old('estoque') }}">
+                                        placeholder="Estoque do Produto" value="{{ $produto->estoque }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -197,7 +197,7 @@
                     nome: {
                         required: true,
                         minlength: 3,
-                        maxlength: 100,
+                        maxlength: 300,
                     },
                     categoria: {
                         required: true,

@@ -24,6 +24,7 @@ class ClienteSeeder extends Seeder
                 'senha' => bcrypt('123456'),
                 'data_nascimento' => '2020-01-01',
                 'telefone' => '123456789',
+                'status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

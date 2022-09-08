@@ -68,14 +68,14 @@ class Produto extends Model
     {
         return Produto::where('categoria_id', $id)
         ->orderBy('nome', 'asc')
-        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional','estoque','categoria_id', 'status', 'created_at', 'updated_at')
         ->get();
     }
 
     public static function readProdutoSemelhantes($id)
     {
         return Produto::where('categoria_id', $id)
-        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'categoria_id', 'status', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'estoque','categoria_id', 'status', 'created_at', 'updated_at')
         ->inRandomOrder()
         ->limit(5)
         ->get();
