@@ -223,7 +223,7 @@ class ClienteController extends Controller
                 'nome' => $request->nome,
                 'email' => $request->email,
                 'telefone' => $request->telefone,
-                'data_naascimento' => $request->data_naascimento,
+                'data_nascimento' => $request->data_nascimento,
                 'cpf' => $request->cpf,
                 'senha' => bcrypt($request->senha),
                 'status' => 1,

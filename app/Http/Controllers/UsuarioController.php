@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use stdClass;
 
 class UsuarioController extends Controller
 {
@@ -110,5 +111,57 @@ class UsuarioController extends Controller
         } catch(\Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+
+    public function indexAdmin(Request $request)
+    {
+        $count_usuarios = new stdClass;
+        $count_usuarios->total = Usuario::count();
+        $count_usuarios->ativos = Usuario::where('status', 1)->count();
+        $count_usuarios->inativos = Usuario::where('status', 0)->count();
+
+        $usuarios = Usuario::select('id', 'nome', 'email', 'tipo', 'foto', 'cpf', 'status')->get();
+        $mensagem = $request->session()->get('mensagem');
+        return view('usuarios/index', compact('usuarios', 'mensagem', 'count_usuarios'));
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        //Se o ID for nulo, então é um novo usuario
+        if($request->id == null){
+            $usuario = new Usuario();
+            $usuario->nome = $request->nome;
+            $usuario->email = $request->email;
+            $usuario->password = bcrypt($request->password);
+            $usuario->tipo = $request->tipo;
+            $usuario->foto = $request->foto ?? 'default.png';
+            $usuario->cpf = $request->cpf;
+            $usuario->status = $request->status;
+            $usuario->save();
+
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Usuario cadastrado com sucesso!");
+        } else {
+            $usuario = Usuario::find($request->id);
+            $usuario->nome = $request->nome;
+            $usuario->email = $request->email;
+            $usuario->password = bcrypt($request->password) ?? $usuario->password;
+            $usuario->tipo = $request->tipo;
+            $usuario->foto = $request->foto ?? 'default.png';
+            $usuario->cpf = $request->cpf;
+            $usuario->status = $request->status;
+            $usuario->save();
+            //Mensagem de sucesso
+            $request->session()->flash('mensagem', "Usuario atualizado com sucesso!");
+        }
+        return redirect()->route('usuario.index');
+    }
+
+    public function destroyAdmin($id, Request $request)
+    {
+        $usuario = Usuario::deleteUsuario($id);
+        //Mensagem de sucesso
+        $request->session()->flash('mensagem', "Usuario deletado com sucesso!");
+        return redirect()->route('usuario.index');
     }
 }

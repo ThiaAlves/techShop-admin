@@ -115,6 +115,8 @@ Route::get('/v1/endereco/{id}', [EnderecoController::class, 'show']);
 Route::post('/v1/endereco', [EnderecoController::class, 'store']);
 Route::put('/v1/endereco/{id}', [EnderecoController::class, 'update']);
 Route::delete('/v1/endereco/{id}', [EnderecoController::class, 'destroy']);
+Route::get('/v1/enderecoCliente/{id}', [EnderecoController::class, 'listaEnderecosByCliente']);
+Route::post('/v1/enderecoPrincipal/{id}', [EnderecoController::class, 'enderecoPrincipal']);
 
 //Tabela Estoque
 Route::get('/v1/estoque', [EstoqueController::class, 'index']);

@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -63,10 +63,10 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Tech</b>SHOP',
+    'logo_img' => 'vendor/adminlte/dist/img/icon.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
-    'logo_img_xl' => null,
+    'logo_img_xl' => false,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'Admin Logo',
 
@@ -84,13 +84,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
+            'alt' => 'TechShop',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => '200px',
+            'height' => '200px',
         ],
     ],
 
@@ -109,11 +109,11 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'vendor/adminlte/dist/img/icon.png',
+            'alt' => 'TechsShop',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'width' => 100,
+            'height' => 100,
         ],
     ],
 
@@ -253,13 +253,13 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'sair',
     'login_url' => 'entrar',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -314,53 +314,61 @@ return [
     ],
         [
             'text'        => 'Dashboard',
-            'url'         => 'home',
-            'icon'        => '	fa fa-dashboard',
-            'label'       => 4,
-            'label_color' => 'success',
+            'url'         => '/',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
+            'can'         => ['admin', 'analista'],
+            // 'label'       => 4,
+            // 'label_color' => 'success',
         ],
         ['header' => 'Cadastros'],
         [
             'text' => 'Produtos',
             'url'  => 'produto',
             'icon' => 'fas fa-box-open',
+            'can'  => ['admin'],
         ],
         [
             'text' => 'Categorias',
             'url'  => 'categorias',
             'icon' => 'fas fa-tags',
+            'can'  => ['admin'],
         ],
         [
             'text' => 'Clientes',
             'url'  => 'cliente',
             'icon' => 'fas fa-user',
+            'can'  => ['admin', 'vendedor'],
         ],
         ['header' => 'Processos'],
         [
             'text' => 'Vendas',
             'url'  => 'vendas',
             'icon' => 'fas fa-shopping-cart',
+            'can'  => ['admin', 'vendedor'],
         ],
         ['header' => 'Relatórios'],
         [
             'text'       => 'Vendas',
             'icon' => 'fa fa-shopping-cart',
             'url'        => '#',
+            'can'  => ['admin', 'analista', 'vendedor'],
         ],
         [
             'text'       => 'Log',
             'icon' => '	far fa-file-alt',
             'url'        => '#',
+            'can'  => ['admin'],
         ],
         [
             'text'       => 'Vendedores',
             'icon' => 'fa fa-user',
             'url'        => '#',
+            'can'  => ['admin', 'analista'],
         ],
         ['header' => 'Admin'],
         [
             'text' => 'Usuários',
-            'url'  => 'usuarios',
+            'url'  => 'usuario',
             'icon' => 'fas fa-user-shield',
             'can'  => 'admin',
         ],

@@ -103,11 +103,7 @@
 
 @stop
 
-@section('footer')
-    <div class="text-center">
-        Exemplo de Footer {{ date('Y') }}
-    </div>
-@stop
+@extends('components.footer')
 
 @section('css')
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
@@ -185,6 +181,7 @@
             Swal.fire({
                 title: 'Opa!',
                 text: "Deseja alterar o status do produto?",
+                type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',

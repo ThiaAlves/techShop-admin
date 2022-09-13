@@ -18,7 +18,7 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.login_message'))
+@section('auth_header', "Entrar")
 
 @section('auth_body')
     <form action="/entrar" method="post">
@@ -45,7 +45,7 @@
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                   placeholder="{{ __('adminlte::adminlte.password') }}">
+                   placeholder="Informe sua senha">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -67,7 +67,7 @@
                     <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                     <label for="remember">
-                        {{ __('adminlte::adminlte.remember_me') }}
+                        Lembre-me
                     </label>
                 </div>
             </div>
@@ -75,7 +75,7 @@
             <div class="col-5">
                 <button type=submit class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
                     <span class="fas fa-sign-in-alt"></span>
-                    {{ __('adminlte::adminlte.sign_in') }}
+                    Entrar
                 </button>
             </div>
         </div>
@@ -88,16 +88,7 @@
     @if($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
-                {{ __('adminlte::adminlte.i_forgot_my_password') }}
-            </a>
-        </p>
-    @endif
-
-    {{-- Register link --}}
-    @if($register_url)
-        <p class="my-0">
-            <a href="{{ $register_url }}">
-                {{ __('adminlte::adminlte.register_a_new_membership') }}
+                Esqueci minha senha
             </a>
         </p>
     @endif

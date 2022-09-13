@@ -63,5 +63,19 @@ class Endereco extends Model
         return Endereco::where('id', $id)->first();
     }
 
+    public static function listaEnderecosByCliente($id)
+    {
+        return Endereco::where('cliente_id', $id)->get();
+    }
+
+    public static function enderecoPrincipal($id)
+    {
+        $cliente_id = Endereco::where('id', $id)->first()->cliente_id;
+        //Inativa todos os endereços do cliente
+        Endereco::where('cliente_id', $cliente_id)->update(['ativo' => 0]);
+        //Ativa o endereço principal
+        Endereco::where('id', $id)->update(['ativo' => 1]);
+    }
+
 
 }

@@ -68,7 +68,7 @@ class Usuario extends Authenticatable
 
     public static function adminlte_image()
     {
-        return 'https://picsum.photos/300/300';
+        return '/usuarios/'.Auth::user()->foto;
     }
 
     public static function adminlte_desc()

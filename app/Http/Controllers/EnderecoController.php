@@ -182,11 +182,22 @@ class EnderecoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, Endereco $endereco)
-    {
+    public function update(Request $request, $id)
+    {       
+        $data = [
+            'logradouro' => $request->logradouro,
+            'numero' => $request->numero,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'cep' => $request->cep
+        ];
         try{
-            $endereco->update($request->all());
-            return $endereco;
+            $endereco = Endereco::updateEndereco($data, $id); 
+            $principal = enderecoPrincipal($id);
+            return response()->json(['success' => true,
+                'message' => 'Endereço atualizado com sucesso!',
+                'data' => $endereco], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -233,4 +244,26 @@ class EnderecoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function listaEnderecosByCliente($id)
+    {
+        try{
+            $enderecos = Endereco::listaEnderecosByCliente($id);
+            return response()->json($enderecos, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+   
+     }
+
+     public function enderecoPrincipal($id)
+     {
+         try{
+             $endereco = Endereco::enderecoPrincipal($id);
+             return response()->json($endereco, 200);
+         } catch (\Exception $e) {
+             return response()->json(['error' => $e->getMessage()], 500);
+         }
+    
+      }
 }
