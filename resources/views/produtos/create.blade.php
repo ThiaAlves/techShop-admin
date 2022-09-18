@@ -44,7 +44,12 @@
                                     <select name="id_categoria" id="categoria" class="form-control">
                                         <option value="">Selecione uma Categoria</option>
                                         @foreach ($categorias as $categoria)
-                                            <option value="{{ $categoria->id }}" {{$produto->categoria_id == $categoria->id ? "selected" : null}}>{{ $categoria->nome }}</option>
+                                        @if (isset($produto))
+                                        <option value="{{ $categoria->id }}" {{ $produto->categoria_id == $categoria->id ? "selected" : '' }}>{{ $categoria->nome }}</option>
+                                        @else
+                                        <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                                        @endif
+
                                         @endforeach
                                     </select>
                                 </div>
@@ -89,7 +94,7 @@
                                 <div class="form-group">
                                     <label for="estoque">Estoque</label>
                                     <input type="text" name="estoque" id="estoque" class="form-control"
-                                        placeholder="Estoque do Produto" value="{{ $produto->estoque }}">
+                                        placeholder="Estoque do Produto" value="{{ $produto->estoque ?? "" }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -97,8 +102,8 @@
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
                                         <option value="">Selecione um Status</option>
-                                        <option value="1" {{$produto->status == 1 ? "selected" : null}}>Ativo</option>
-                                        <option value="0" {{$produto->status == 0 ? "selected" : null}}>Inativo</option>
+                                        <option value="1" {{$produto->status ?? '' == 1 ? "selected" : null}}>Ativo</option>
+                                        <option value="0" {{$produto->status ?? '' == 0 ? "selected" : null}}>Inativo</option>
                                     </select>
                                 </div>
                             </div>
@@ -161,11 +166,11 @@
             'initialPreview': imagens,
             'initialPreviewAsData': true,
             'initialPreviewConfig': [
-                {caption: "imagem1.jpg", downloadUrl: imagens[0], size: 930321, width: "20px", key: '{{$produto->imagem1}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem1']) }}"},
-                {caption: "imagem2.jpg", downloadUrl: imagens[1], size: 1218822, width: "120px", key: '{{$produto->imagem2}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem2']) }}"},
-                {caption: "imagem3.jpg", downloadUrl: imagens[2], size: 1218822, width: "120px", key: '{{$produto->imagem3}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem3']) }}"},
-                {caption: "imagem4.jpg", downloadUrl: imagens[3], size: 1218822, width: "120px", key: '{{$produto->imagem4}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem4']) }}"},
-                {caption: "imagem5.jpg", downloadUrl: imagens[4], size: 1218822, width: "120px", key: '{{$produto->imagem5}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem5']) }}"},
+                @if(!empty($produto->imagem1)){caption: "imagem1.jpg", downloadUrl: imagens[0], size: 930321, width: "20px", key: '{{$produto->imagem1}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem1']) }}"}@endif,
+                @if(!empty($produto->imagem2)){caption: "imagem2.jpg", downloadUrl: imagens[1], size: 1218822, width: "120px", key: '{{$produto->imagem2}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem2']) }}"}@endif,
+                @if(!empty($produto->imagem3)){caption: "imagem3.jpg", downloadUrl: imagens[2], size: 1218822, width: "120px", key: '{{$produto->imagem3}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem3']) }}"}@endif,
+                @if(!empty($produto->imagem4)){caption: "imagem4.jpg", downloadUrl: imagens[3], size: 1218822, width: "120px", key: '{{$produto->imagem4}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem4']) }}"}@endif,
+                @if(!empty($produto->imagem5)){caption: "imagem5.jpg", downloadUrl: imagens[4], size: 1218822, width: "120px", key: '{{$produto->imagem5}}', url: "{{ route('produtos.imagem', [$produto->id, 'imagem5']) }}"}@endif,
             ],
             'deleteExtraData': {
                 '_token': "{{ csrf_token() }}",

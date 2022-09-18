@@ -55,5 +55,4 @@ class Cliente extends Model
     {
         return Cliente::where('id', $id)->first();
     }
-
 }

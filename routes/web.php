@@ -10,6 +10,7 @@ use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AcessoController;
 use Illuminate\Http\Request;
@@ -52,9 +53,16 @@ Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'd
 
 
 // Rotas para clientes
-Route::get('/cliente', [ClienteController::class, 'indexAdmin'])->name('cliente.index');
+Route::get('/cliente', [ClienteController::class, 'indexAdmin'])->name('clientes.index');
+Route::get('/cliente/novo', [ClienteController::class, 'createAdmin'])->name('cliente.create');
+//Rota editar cliente
+Route::get('/cliente/editar/{id}', [ClienteController::class, 'editAdmin'])->name('cliente.editar');
 Route::post('/cliente', [ClienteController::class, 'storeAdmin'])->name('clientes');
 Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
+
+// Rotas para endereços
+Route::post('/endereco', [EnderecoController::class, 'storeAdmin'])->name('enderecos');
+Route::delete('/endereco/{id}', [EnderecoController::class, 'destroyAdmin']);
 
 // Rotas para usuario 
 Route::get('/usuario', [UsuarioController::class, 'indexAdmin'])->name('usuario.index');

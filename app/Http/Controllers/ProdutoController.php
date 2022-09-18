@@ -390,7 +390,7 @@ class ProdutoController extends Controller
         //Mensagem de sucesso
         return redirect()->route('produtos.index');
     }
-
+    
     public function editAdmin($id) {
 
         $produto = Produto::find($id);

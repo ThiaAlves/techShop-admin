@@ -266,4 +266,54 @@ class EnderecoController extends Controller
          }
     
       }
+
+
+      // Functions para o painel admin
+      public function storeAdmin(Request $request)
+      {
+
+        $cliente_id = $request->cliente_id;
+
+          //Se o ID for nulo, então é um novo endereco
+          if($request->id == null){
+                $endereco = new Endereco();
+                $endereco->logradouro = $request->logradouro;
+                $endereco->numero = $request->numero;
+                $endereco->bairro = $request->bairro;
+                $endereco->cidade = $request->cidade;
+                $endereco->estado = $request->estado;
+                $endereco->cep = $request->cep;
+                $endereco->complemento = $request->complemento;
+                $endereco->cliente_id = $request->cliente_id;
+                $endereco->ativo = $request->ativo;
+                $endereco->save();
+              //Mensagem de sucesso
+              $request->session()->flash('mensagem', "Endereço cadastrado com sucesso!");
+          } else {
+                $endereco = Endereco::find($request->id);
+                $endereco->logradouro = $request->logradouro;
+                $endereco->numero = $request->numero;
+                $endereco->bairro = $request->bairro;
+                $endereco->cidade = $request->cidade;
+                $endereco->estado = $request->estado;
+                $endereco->cep = $request->cep;
+                $endereco->complemento = $request->complemento;
+                $endereco->cliente_id = $request->cliente_id;
+                $endereco->ativo = $request->ativo;
+
+                $endereco->save();
+              //Mensagem de sucesso
+              $request->session()->flash('mensagem', "Endereco atualizado com sucesso!");
+          }
+          return redirect()->route('cliente.editar', $cliente_id);
+      }
+
+      public function destroyAdmin($id, Request $request)
+      {
+          $endereco = Endereco::find($id);
+             $endereco->delete();
+          //Mensagem de sucesso
+          $request->session()->flash('mensagem', "Endereço deletado com sucesso!");
+          return redirect()->route('cliente.editar', $endereco->cliente_id);
+      }
 }

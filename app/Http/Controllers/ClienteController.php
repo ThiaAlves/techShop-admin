@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Endereco;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Validate;
@@ -282,8 +283,8 @@ class ClienteController extends Controller
     }
 
     public function logar(Request $request) {
-        //Verifica se o cliente existe
-        $cliente = Cliente::where('email', $request->email)->first();
+        //Verifica se o cliente existe e está ativo
+        $cliente = Cliente::where('email', $request->email)->where('status', 1)->first(); 
         if(!$cliente) {
             return response()->json(['error' => 'Cliente não encontrado'], 404);
         }
@@ -345,13 +346,26 @@ class ClienteController extends Controller
                 $cliente->telefone = $request->telefone;
                 $cliente->data_nascimento = $request->data_nascimento;
                 $cliente->cpf = $request->cpf;
-                $cliente->senha = bcrypt($request->senha);
+                $cliente->senha = bcrypt($request->senha) ?? $cliente->senha;
                 $cliente->status = $request->status;
                 $cliente->save();
                 //Mensagem de sucesso
                 $request->session()->flash('mensagem', "Cliente atualizado com sucesso!");
             }
-            return redirect()->route('cliente.index');
+            return redirect()->route('clientes.index');
+        }
+
+        public function createAdmin(Request $request)
+        {
+            $mensagem = $request->session()->get('mensagem');
+            return view('clientes.create', compact('mensagem'));
+        }
+    
+        public function editAdmin($id) {
+    
+            $cliente = Cliente::find($id);
+            $enderecos = Endereco::where('cliente_id', $id)->get();
+            return view('clientes.create', compact('cliente', 'enderecos'));
         }
     
         public function destroyAdmin($id, Request $request)
@@ -359,6 +373,6 @@ class ClienteController extends Controller
             $cliente = Cliente::deleteCliente($id);
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Cliente deletado com sucesso!");
-            return redirect()->route('cliente.index');
+            return redirect()->route('clientes.index');
         }
 }
