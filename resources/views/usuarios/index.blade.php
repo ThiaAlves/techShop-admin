@@ -67,8 +67,12 @@
                                     @endif
                                 </td>
                                 <td width="5%" class="text-center">
-                                    <img src="/usuarios/{{$usuario->foto}}" width="40px" 
-                                    class="img-fluid img-circle elevation-3">
+                                    @if ($usuario->foto)
+                                    <img src="/usuarios/{{$usuario->foto}}" width="40px" class="img-fluid img-circle elevation-3">
+                                    @else
+                                    <img src="/usuarios/default.png" width="40px" class="img-fluid img-circle elevation-3">
+                                    @endif
+                                    
                                 </td>
 
                                 <td width="10%" class="text-center">
@@ -77,7 +81,6 @@
                                     @else
                                         <span class="badge bg-danger"><i class="fa fa-times"></i> Inativo</span>
                                     @endif
-
                                 <td width="10%" class="text-center">
                                     <button type="button"
                                         onclick="abreModal('{{ $usuario->id }}', '{{ $usuario->nome }}', '{{$usuario->email}}', '{{$usuario->cpf}}' , '{{$usuario->tipo}}', {{ $usuario->status ?? false }})"

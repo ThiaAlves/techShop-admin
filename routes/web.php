@@ -38,7 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
 Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
-Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
+Route::post('/categorias/{id}', [CategoriaController::class, 'mudaStatus']);
+// Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
 
 // Rotas para produto
 Route::get('/produto', [ProdutoController::class, 'indexAdmin'])->name('produtos.index');
@@ -58,7 +59,8 @@ Route::get('/cliente/novo', [ClienteController::class, 'createAdmin'])->name('cl
 //Rota editar cliente
 Route::get('/cliente/editar/{id}', [ClienteController::class, 'editAdmin'])->name('cliente.editar');
 Route::post('/cliente', [ClienteController::class, 'storeAdmin'])->name('clientes');
-Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
+// Route::delete('/cliente/{id}', [ClienteController::class, 'destroyAdmin']);
+Route::post('/cliente/{id}', [ClienteController::class, 'mudaStatus']);
 
 // Rotas para endereços
 Route::post('/endereco', [EnderecoController::class, 'storeAdmin'])->name('enderecos');

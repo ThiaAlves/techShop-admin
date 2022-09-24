@@ -126,10 +126,17 @@
                                             class="fa fa-pen"></span></button>
                                     <form action="/cliente/{{ $cliente->id }}" method="POST" style="display: inline"
                                         class="formExclusao">
-                                        <button type="button" class="btn btn-sm btn-danger m-1"
-                                            onclick="confirmaExclusao()"><span class="fa fa-trash"></span></button>
+                                        <button type="button" class="btn btn-sm m-1 {{$cliente->status == 1 ? "btn-danger" : "btn-success"}}"
+                                            onclick="confirmaExclusao()">
+                                            @if ($cliente->status == 1)
+                                            <span class="fa fa-times"></span>
+                                            @else
+                                            <span class="fa fa-check"></span>
+                                            @endif
+
+                                        
+                                        </button>
                                         @csrf
-                                        @method('DELETE')
                                     </form>
                                 </td>
                             </tr>
@@ -375,7 +382,7 @@
                 type: 'warning',
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, deletar!',
+                confirmButtonText: 'Sim, alterar!',
                 cancelButtonText: 'Não, cancelar!'
             }).then((result) => {
                 result.value == true ? $('.formExclusao').submit() : '';

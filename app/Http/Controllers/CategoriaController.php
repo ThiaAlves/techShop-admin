@@ -268,6 +268,23 @@ class CategoriaController extends Controller
         return redirect()->route('categorias.index');
     }
 
+    public function mudaStatus($id, Request $request)
+    {
+        $categoria = Categoria::find($id);
+
+        if($categoria->status == 1){
+            $categoria->status = 0;
+            $categoria->save();
+            $request->session()->flash('mensagem', "Categoria {$categoria->nome} desativada com sucesso!");
+        } else {
+            $categoria->status = 1;
+            $categoria->save();
+            $request->session()->flash('mensagem', "Categoria {$categoria->nome} ativada com sucesso!");
+        }
+        //Mensagem de sucesso
+        return redirect()->route('categorias.index');
+    }
+
     public function destroyAdmin($id, Request $request)
     {
         $categoria = Categoria::deleteCategoria($id);

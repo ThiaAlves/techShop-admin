@@ -70,20 +70,20 @@
 
                                 <td width="10%" class="text-center">
                                     {{-- Button Vizualização --}}
-                                    <a href="{{ url('produtos/' . $produto->id) }}" class="btn btn-sm btn-success" title="Visualizar">
+                                    {{-- <a href="{{ url('produtos/' . $produto->id) }}" class="btn btn-sm btn-success m-1"  style="width: 30px; height: 30px;" title="Visualizar">
                                         <i class="fa fa-fw fa-eye"></i>
-                                    </a>
+                                    </a> --}}
                                     {{-- Button Acessar Produto na Loja --}}
-                                    <a href="{{ url('loja/produto/' . $produto->id) }}" class="btn btn-sm btn-dark" title="Acessar Produto na Loja">
+                                    {{-- <a href="{{ url('loja/produto/' . $produto->id) }}" class="btn btn-sm btn-dark m-1"  style="width: 30px; height: 30px;" title="Acessar Produto na Loja">
                                         <i class="fa fa-fw fa-shopping-cart"></i>
-                                    </a>
+                                    </a> --}}
 
-                                    <a href="{{ route('produtos.editar', $produto->id) }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('produtos.editar', $produto->id) }}" class="btn btn-sm btn-primary"  style="width: 30px; height: 30px;">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline" id="formProduto">
-                                        <button type="button" class="btn btn-sm {{$produto->status == 1 ? "btn-danger" : "btn-success"}} m-1"
-                                            onclick="confirmaExclusao()">
+                                        <button type="button" class="btn btn-sm {{$produto->status == 1 ? "btn-danger" : "btn-success"}}" style="width: 30px; height: 30px;"
+                                            onclick="confirmaInativacao()">
                                         @if ($produto->status == 1)
                                             <i class="fa fa-times"></i>
                                         @else
@@ -177,7 +177,7 @@
             // end add
         });
 
-        function confirmaExclusao() {
+        function confirmaInativacao() {
             Swal.fire({
                 title: 'Opa!',
                 text: "Deseja alterar o status do produto?",
@@ -185,7 +185,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, deletar!',
+                confirmButtonText: 'Sim, alterar!',
                 cancelButtonText: 'Não, cancelar!'
             }).then((result) => {
                 result.value == true ? $('#formProduto').submit() : '';

@@ -42,17 +42,6 @@
     <hr>
     {{-- Div Container --}}
     <div class="container">
-        @if (!empty($mensagem))
-            <div class="alert bg-success">
-                {{ $mensagem }}
-            </div>
-        @endif
-
-        @if(!empty($error))
-        <div class="alert bg-danger" title="Erro ao tentar salvar" :dismissable="true">
-            {{ $error }}
-        </div>
-        @endif
         {{-- Tabela --}}
         @php
             $heads = ['ID', 'Nome', 'Icone',['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
@@ -79,10 +68,15 @@
                                             class="fa fa-pen"></span></button>
                                     <form action="/categorias/{{ $categoria->id }}" method="POST" style="display: inline"
                                         class="formPerfil">
-                                        <button type="button" class="btn btn-sm btn-danger m-1"
-                                            onclick="confirmaExclusao()"><span class="fa fa-trash"></span></button>
+                                        <button type="button" class="btn btn-sm  {{$categoria->status == 1 ? "btn-danger" : "btn-success"}} m-1"
+                                            onclick="confirmaExclusao()">
+                                            @if ($categoria->status == 1)
+                                                <span class="fa fa-times"></span>
+                                            @else
+                                                <span class="fa fa-check"></span>
+                                            @endif
+                                        </button>
                                         @csrf
-                                        @method('DELETE')
                                     </form>
                                 </td>
                             </tr>
@@ -147,6 +141,24 @@
 @stop
 
 @section('js')
+@if (!empty($mensagem))
+<script>
+    Swal.fire(
+        'Pronto!',
+        '{{ $mensagem }}',
+        'success'
+    );
+</script>
+@endif
+@if (!empty($error))
+<script>
+    Swal.fire(
+        'Ops!',
+        '{{ $error }}',
+        'error'
+    );
+</script>
+@endif
     <script>
         $(document).ready(function() {
             $('#formCategoria').validate({
@@ -197,7 +209,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, deletar!',
+                confirmButtonText: 'Sim, alterar!',
                 cancelButtonText: 'Não, cancelar!'
             }).then((result) => {
                 result.value == true ? $('.formPerfil').submit() : '';

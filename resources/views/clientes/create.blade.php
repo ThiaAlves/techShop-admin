@@ -155,15 +155,7 @@
                 <div class="text-right mt-4">
                     <x-adminlte-button type="button" theme="secondary" icon="fas fa-arrow-left" label="Voltar"
                         onclick="window.location.href='{{ route('clientes.index') }}'" />
-                    @if (isset($cliente))
-                        <form action="/cliente/{{ $cliente->id }}" method="POST" style="display: inline"
-                            class="formExclusao">
-                            <x-adminlte-button type="button" theme="danger" label="Excluir" icon="fas fa-trash"
-                                onclick="confirmaExclusao()" />
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    @endif
+                    
                     <x-adminlte-button type="submit" theme="success" icon="fas fa-check" label="Salvar" />
                 </div>
     </form>
@@ -271,7 +263,7 @@
                             </button>
                         </h2>
                     </div>
-                    <form action="/endereco" method="POST">
+                    <form action="/endereco" method="POST" id="formEndereco">
                         @csrf
                     <div id="collapse{{ $endereco->id }}" class="collapse" aria-labelledby="heading{{ $endereco->id }}"
                         data-parent="#accordionExample">
@@ -472,6 +464,60 @@
 
                 },
             });
+
+            $('#formEndereco').validate({
+                rules: {
+                    cep: {
+                        required: true,
+                        minlength: 8
+                    },
+                    logradouro: {
+                        required: true,
+                        minlength: 4
+                    },
+                    numero: {
+                        required: true,
+                    },
+                    bairro: {
+                        required: true,
+                        minlength: 4
+                    },
+                    cidade: {
+                        required: true,
+                        minlength: 4
+                    },
+                    estado: {
+                        required: true,
+                        minlength: 2
+                    },
+                },
+                messages: {
+                    cep: {
+                        required: `Por Favor, preencha o CEP do cliente!`,
+                        minlength: 'O CEP deve ter pelo menos 8 Caracteres'
+                    },
+                    logradouro: {
+                        required: `Por Favor, preencha o Logradouro do cliente!`,
+                        minlength: 'O Logradouro deve ter pelo menos 4 Caracteres'
+                    },
+                    numero: {
+                        required: `Por Favor, preencha o Número do cliente!`,
+                    },
+                    bairro: {
+                        required: `Por Favor, preencha o Bairro do cliente!`,
+                        minlength: 'O Bairro deve ter pelo menos 4 Caracteres'
+                    },
+                    cidade: {
+                        required: `Por Favor, preencha a Cidade do cliente!`,
+                        minlength: 'A Cidade deve ter pelo menos 4 Caracteres'
+                    },
+                    estado: {
+                        required: `Por Favor, preencha o Estado do cliente!`,
+                        minlength: 'O Estado deve ter pelo menos 2 Caracteres'
+                    },
+                },
+            });
+
         });
         $.validator.setDefaults({
             highlight: function(element) {

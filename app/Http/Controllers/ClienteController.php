@@ -375,4 +375,21 @@ class ClienteController extends Controller
             $request->session()->flash('mensagem', "Cliente deletado com sucesso!");
             return redirect()->route('clientes.index');
         }
+
+        public function mudaStatus($id, Request $request)
+        {
+            $cliente = Cliente::find($id);
+    
+            if($cliente->status == 1){
+                $cliente->status = 0;
+                $cliente->save();
+                $request->session()->flash('mensagem', "Cliente {$cliente->nome} desativado com sucesso!");
+            } else {
+                $cliente->status = 1;
+                $cliente->save();
+                $request->session()->flash('mensagem', "Cliente {$cliente->nome} ativado com sucesso!");
+            }
+            //Mensagem de sucesso
+            return redirect()->route('clientes.index');
+        }
 }
