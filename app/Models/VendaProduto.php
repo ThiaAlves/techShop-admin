@@ -50,8 +50,18 @@ class VendaProduto extends Model
         return VendaProduto::where('id', $id)->first();
     }
 
+    public static function destroyVendaProduto($id_venda, $id_produto)
+    {
+        return VendaProduto::where('venda_id', $id_venda)->where('produto_id', $id_produto)->delete();
+    }
 
-
+    public static function carrinho($id_venda)
+    {
+        return VendaProduto::where('venda_produto.venda_id', $id_venda)
+        ->join('produto', 'produto.id', '=', 'venda_produto.produto_id')
+        ->select('produto.nome', 'produto.descricao', 'produto.imagem1', 'produto.preco', 'venda_produto.quantidade', 'venda_produto.valor')
+        ->get();
+    }
 
 
 }

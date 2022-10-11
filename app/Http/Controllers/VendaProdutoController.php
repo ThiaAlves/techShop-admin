@@ -252,4 +252,60 @@ class VendaProdutoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function storeProduto(Request $request)
+    {
+        $data = array(
+            'id_venda' => $request->id_venda,
+            'id_produto' => $request->id_produto,
+            'quantidade' => $request->quantidade,
+            'valor' => $request->valor,
+        );
+        try{
+            $vendaProduto = VendaProduto::createVendaProduto($data);
+            return $vendaProduto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroyAdmin(Request $request)
+    {
+        try{
+            $vendaProduto = VendaProduto::destroyVendaProduto($request->produto_id);
+            return $vendaProduto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function novoProduto(Request $request)
+    {
+        try{
+            $produto = VendaProduto::createVendaProduto($request);
+            return $produto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function removerProduto(Request $request)
+    {
+        try{
+            $produto = VendaProduto::destroyVendaProduto($request->venda_id ,$request->produto_id);
+            return $produto;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function carrinho($id_venda)
+    {
+       try{
+         $produtos = VendaProduto::carrinho($id_venda);
+         return $produtos;
+       } catch (\Exception $e) {
+           return response()->json(['error' => $e->getMessage()], 500);
+       }
+    }
 }

@@ -29,7 +29,7 @@ class Venda extends Model
         return Venda::create([
             'cliente_id' => $data['cliente_id'],
             'usuario_id' => $data['usuario_id'],
-            'data_venda' => $data['data_venda'],
+            'data_venda' => $data['data_venda'] ?? date('Y-m-d'),
             'status' => $data['status'],
         ]);
     }

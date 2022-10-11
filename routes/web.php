@@ -13,6 +13,8 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AcessoController;
+use App\Http\Controllers\VendaController;
+use App\Http\Controllers\VendaProdutoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -72,7 +74,12 @@ Route::post('/usuario', [UsuarioController::class, 'storeAdmin'])->name('usuario
 Route::delete('/usuario/{id}', [UsuarioController::class, 'destroyAdmin']);
 
 
-
+//Rotas para venda
+Route::get('/vendas', [VendaController::class, 'indexAdmin'])->name('vendas.index');
+Route::post('/vendas', [VendaController::class, 'storeAdmin'])->name('vendas.store');
+Route::post('/venda_produto', [VendaProdutoController::class, 'storeAdmin'])->name('venda.addProduto');
+Route::post('/venda_produto/remove/', [VendaProdutoController::class, 'destroyAdmin'])->name('venda.removeProduto');
+Route::post('/venda_produto/update/', [VendaProdutoController::class, 'updateAdmin'])->name('venda.updateProduto');
 
 
 

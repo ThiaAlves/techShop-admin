@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Venda;
+use App\Models\Produto;
+use App\Models\Cliente;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class VendaController extends Controller
@@ -220,6 +223,28 @@ class VendaController extends Controller
     {
         try{
             $venda = Venda::deleteVenda($venda->id);
+            return $venda;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function indexAdmin()
+    {
+        //Listar todos os clientes
+        $clientes = Cliente::all();
+        //Listar todos os produtos
+        $produtos = Produto::all();
+        //Listar todos os vendedores
+        $vendedores = Usuario::all();  
+        
+        return view('vendas.index', compact('clientes', 'produtos', 'vendedores'));
+    }
+
+    public function novaVenda(Request $request)
+    {
+        try{
+            $venda = Venda::createVenda($request->all());
             return $venda;
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

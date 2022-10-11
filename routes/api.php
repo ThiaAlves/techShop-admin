@@ -139,6 +139,9 @@ Route::post('/v1/produto', [ProdutoController::class, 'store']);
 Route::put('/v1/produto/{id}', [ProdutoController::class, 'update']);
 Route::delete('/v1/produto/{id}', [ProdutoController::class, 'destroy']);
 
+//Get Admin Produtos
+Route::get('/produtos/{id}', [ProdutoController::class, 'buscaValorProduto']);
+
 //Tabela TipoUsuario
 Route::get('/v1/tipoUsuario', [TipoUsuarioController::class, 'index']);
 Route::get('/v1/tipoUsuario/{id}', [TipoUsuarioController::class, 'show']);
@@ -167,6 +170,11 @@ Route::post('/v1/vendaProduto', [VendaProdutoController::class, 'store']);
 Route::put('/v1/vendaProduto/{id}', [VendaProdutoController::class, 'update']);
 Route::delete('/v1/vendaProduto/{id}', [VendaProdutoController::class, 'destroy']);
 
+//Admin Nova Venda
+Route::post('/nova_venda', [VendaController::class, 'novaVenda']);
+Route::post('/venda/novo_produto', [VendaProdutoController::class, 'novoProduto']);
+Route::post('/venda/remover_produto', [VendaProdutoController::class, 'removerProduto']);
+Route::get('/venda/carrinho/{id}', [VendaProdutoController::class, 'carrinho']);
 
 //Rota Lista de Produtos por Categoria
 Route::get('/v1/produto/categoria/{id}', [ProdutoController::class, 'showByCategory']);

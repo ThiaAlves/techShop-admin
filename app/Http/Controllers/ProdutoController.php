@@ -453,5 +453,18 @@ class ProdutoController extends Controller
         return response()->json(['mensagem' => 'Imagem removida com sucesso!']);
     }
 
+    public function buscaValorProduto($idProduto)
+    {
+        //verifica se o produto está em promoção
+        $produto = Produto::find($idProduto);
+        if($produto->preco_promocional != null){
+            $valor = $produto->preco_promocional;
+        } else {
+            $valor = $produto->preco;
+        }
+        return response()->json(['valor' => $valor]);
+
+    }
+
 
 }
