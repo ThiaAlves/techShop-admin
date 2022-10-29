@@ -110,6 +110,8 @@ class ClienteController extends Controller
                 'status' => 1,
             ];
             $cliente = Cliente::createCliente($data);
+            activity()->on($cliente)->event('create')->withProperties($cliente)->log("Cliente {$request->nome} criado!");
+
 
             $cliente = [
                 'id' => $cliente->id,
@@ -231,6 +233,8 @@ class ClienteController extends Controller
             ];
 
             $cliente = Cliente::updateCliente($data, $id);
+            activity()->on($cliente)->event('update')->withProperties($cliente)->log("Cliente {$request->nome} atualizado!");
+
             return response()->json(['success' => true,
                 'message' => 'Cliente atualizado com sucesso!',
                 'data' => $cliente], 200);
@@ -273,7 +277,10 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         try{
-            $cliente = Cliente::deleteCliente($id);
+            $cliente = Cliente::find($id);
+            $cliente_destroy = Cliente::deleteCliente($id);
+            activity()->on($cliente)->event('destroy')->withProperties($cliente)->log("Cliente {$cliente->nome} excluído!");
+
             return response()->json(['success' => true,
                 'message' => 'Cliente deletado com sucesso!',
                 'data' => $cliente], 200);
@@ -336,6 +343,8 @@ class ClienteController extends Controller
                 $cliente->senha = bcrypt($request->senha);
                 $cliente->status = $request->status;
                 $cliente->save();
+                activity()->on($cliente)->event('create')->withProperties($cliente)->log("Cliente {$cliente->nome} criado!");
+
     
                 //Mensagem de sucesso
                 $request->session()->flash('mensagem', "Cliente cadastrado com sucesso!");
@@ -349,6 +358,8 @@ class ClienteController extends Controller
                 $cliente->senha = bcrypt($request->senha) ?? $cliente->senha;
                 $cliente->status = $request->status;
                 $cliente->save();
+                activity()->on($cliente)->event('update')->withProperties($cliente)->log("Cliente {$cliente->nome} atualizado!");
+
                 //Mensagem de sucesso
                 $request->session()->flash('mensagem', "Cliente atualizado com sucesso!");
             }
@@ -370,9 +381,12 @@ class ClienteController extends Controller
     
         public function destroyAdmin($id, Request $request)
         {
-            $cliente = Cliente::deleteCliente($id);
+            $cliente = Cliente::find($id);
+            $cliente_destroy = Cliente::deleteCliente($id);
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Cliente deletado com sucesso!");
+            activity()->on($cliente)->event('destroy')->withProperties($cliente)->log("Cliente {$cliente->nome} excluído!");
+
             return redirect()->route('clientes.index');
         }
 
@@ -383,11 +397,17 @@ class ClienteController extends Controller
             if($cliente->status == 1){
                 $cliente->status = 0;
                 $cliente->save();
-                $request->session()->flash('mensagem', "Cliente {$cliente->nome} desativado com sucesso!");
+                $mensagem = "Cliente {$cliente->nome} desativado com sucesso!";
+                $request->session()->flash('mensagem', $mensagem);
+                activity()->on($cliente)->event('create')->withProperties($cliente)->log($mensagem);
+
             } else {
                 $cliente->status = 1;
                 $cliente->save();
-                $request->session()->flash('mensagem', "Cliente {$cliente->nome} ativado com sucesso!");
+                $mensagem = "Cliente {$cliente->nome} ativado com sucesso!";
+                $request->session()->flash('mensagem', $mensagem);
+                activity()->on($cliente)->event('update')->withProperties($cliente)->log($mensagem);
+
             }
             //Mensagem de sucesso
             return redirect()->route('clientes.index');

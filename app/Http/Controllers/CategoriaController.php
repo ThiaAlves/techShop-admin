@@ -252,6 +252,7 @@ class CategoriaController extends Controller
             $categoria->icone = $request->icone;
             $categoria->status = $request->status;
             $categoria->save();
+            activity()->on($categoria)->event('create')->withProperties($categoria)->log('Categoria Cadastrada!');
 
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Categoria criada com sucesso!");
@@ -262,6 +263,7 @@ class CategoriaController extends Controller
                 $categoria->status = $request->status;
 
             $categoria->save();
+            activity()->on($categoria)->event('update')->withProperties($categoria)->log('Categoria Atualizada!');
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Categoria atualizada com sucesso!");
         }
@@ -276,10 +278,13 @@ class CategoriaController extends Controller
             $categoria->status = 0;
             $categoria->save();
             $request->session()->flash('mensagem', "Categoria {$categoria->nome} desativada com sucesso!");
+            activity()->on($categoria)->event('update')->withProperties($categoria)->log("Categoria {$categoria->nome} desativada com sucesso!");
         } else {
             $categoria->status = 1;
             $categoria->save();
             $request->session()->flash('mensagem', "Categoria {$categoria->nome} ativada com sucesso!");
+            activity()->on($categoria)->event('update')->withProperties($categoria)->log("Categoria {$categoria->nome} ativada com sucesso!");
+
         }
         //Mensagem de sucesso
         return redirect()->route('categorias.index');
@@ -287,9 +292,12 @@ class CategoriaController extends Controller
 
     public function destroyAdmin($id, Request $request)
     {
-        $categoria = Categoria::deleteCategoria($id);
+        $categoria = Categoria::find($id);
+        $categoria_destroy = Categoria::deleteCategoria($id);
         //Mensagem de sucesso
         $request->session()->flash('mensagem', "Categoria deletada com sucesso!");
+        activity()->on($categoria)->event('destroy')->withProperties($categoria)->log("Categoria {$categoria->nome} excluída com sucesso!");
+
         return redirect()->route('categorias.index');
     }
 }

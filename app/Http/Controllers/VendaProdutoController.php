@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VendaProduto;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class VendaProdutoController extends Controller
@@ -282,8 +283,14 @@ class VendaProdutoController extends Controller
     public function novoProduto(Request $request)
     {
         try{
-            $produto = VendaProduto::createVendaProduto($request);
-            return $produto;
+            $produto_carrinho = VendaProduto::createVendaProduto($request);
+            //Agrega todas as informações do produto no carrinho
+            $produto_carrinho->produto = Produto::find($request->produto_id);
+            
+            return $produto_carrinho;
+
+
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

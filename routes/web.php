@@ -15,6 +15,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AcessoController;
 use App\Http\Controllers\VendaController;
 use App\Http\Controllers\VendaProdutoController;
+use App\Http\Controllers\LogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -75,14 +76,17 @@ Route::delete('/usuario/{id}', [UsuarioController::class, 'destroyAdmin']);
 
 
 //Rotas para venda
-Route::get('/vendas', [VendaController::class, 'indexAdmin'])->name('vendas.index');
+Route::get('/vendas', [VendaController::class, 'listAdmin'])->name('vendas.index');
+Route::get('/vendas/{id}', [VendaController::class, 'indexAdmin'])->name('vendas.create');
 Route::post('/vendas', [VendaController::class, 'storeAdmin'])->name('vendas.store');
 Route::post('/venda_produto', [VendaProdutoController::class, 'storeAdmin'])->name('venda.addProduto');
 Route::post('/venda_produto/remove/', [VendaProdutoController::class, 'destroyAdmin'])->name('venda.removeProduto');
 Route::post('/venda_produto/update/', [VendaProdutoController::class, 'updateAdmin'])->name('venda.updateProduto');
 
+//Rotas para relatorios
+Route::match(['post', 'get'], '/relatorio/vendas', [VendaController::class, 'relatorioVendas'])->name('relatorios.vendas');
 
-
+Route::match(['get', 'post'], '/log_activity', [LogController::class, 'index'])->name('logs.index');
 
 Route::post('/sair', [SessionsController::class, 'destroy']);
 Route::get('/login', function () {

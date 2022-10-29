@@ -368,6 +368,8 @@ class ProdutoController extends Controller
             $produto->imagem5 = $imagem5;
             $produto->estoque = $request->estoque;
             $produto->save();
+            activity()->on($produto)->event('create')->withProperties($produto)->log("Produto {$produto->nome} criado");
+
             $request->session()->flash('mensagem', "Produto {$produto->nome} criado com sucesso!");
         } else {
             $produto = Produto::find($request->id);
@@ -385,6 +387,8 @@ class ProdutoController extends Controller
             $produto->imagem5 = $imagem5 ?? $produto->imagem5;
             $produto->estoque = $request->estoque;
             $produto->save();
+            activity()->on($produto)->event('update')->withProperties($produto)->log("Produto {$produto->nome} alterado!");
+
             $request->session()->flash('mensagem', "Produto {$produto->nome} atualizado com sucesso!");
         }
         //Mensagem de sucesso
@@ -405,12 +409,17 @@ class ProdutoController extends Controller
         if($produto->status == 1){
             $produto->status = 0;
             $produto->save();
-            $request->session()->flash('mensagem', "Produto {$produto->nome} desativado com sucesso!");
+            $mensagem = "Produto {$produto->nome} desativado com sucesso!";
+            $request->session()->flash('mensagem', $mensagem);
         } else {
             $produto->status = 1;
             $produto->save();
-            $request->session()->flash('mensagem', "Produto {$produto->nome} ativado com sucesso!");
+            $mensagem = "Produto {$produto->nome} ativado com sucesso!";
+            $request->session()->flash('mensagem', $mensagem);
         }
+
+        activity()->on($produto)->event('update')->withProperties($produto)->log($mensagem);
+
         //Mensagem de sucesso
         return redirect()->route('produtos.index');
     }

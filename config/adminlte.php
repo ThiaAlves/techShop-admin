@@ -350,13 +350,13 @@ return [
         [
             'text'       => 'Vendas',
             'icon' => 'fa fa-shopping-cart',
-            'url'        => '#',
+            'url'        => 'relatorio/vendas',
             'can'  => ['admin', 'analista', 'vendedor'],
         ],
         [
             'text'       => 'Log',
             'icon' => '	far fa-file-alt',
-            'url'        => '#',
+            'url'        => '/log_activity',
             'can'  => ['admin'],
         ],
         [

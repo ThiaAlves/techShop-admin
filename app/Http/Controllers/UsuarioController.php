@@ -138,6 +138,8 @@ class UsuarioController extends Controller
             $usuario->cpf = $request->cpf;
             $usuario->status = $request->status;
             $usuario->save();
+            activity()->on($usuario)->event('create')->withProperties($usuario)->log("Usuário {$usuario->nome} criado");
+
 
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Usuario cadastrado com sucesso!");
@@ -151,6 +153,8 @@ class UsuarioController extends Controller
             $usuario->cpf = $request->cpf;
             $usuario->status = $request->status;
             $usuario->save();
+            activity()->on($usuario)->event('update')->withProperties($usuario)->log("Usuário {$request->nome} atualizado");
+
             //Mensagem de sucesso
             $request->session()->flash('mensagem', "Usuario atualizado com sucesso!");
         }
@@ -159,7 +163,10 @@ class UsuarioController extends Controller
 
     public function destroyAdmin($id, Request $request)
     {
-        $usuario = Usuario::deleteUsuario($id);
+        $usuario = Usuario::find($id);
+        $usuario_destroy = Usuario::deleteUsuario($id);
+        activity()->on($usuario)->event('destroy')->withProperties($usuario)->log("Usuário {$usuario->nome} excluído");
+
         //Mensagem de sucesso
         $request->session()->flash('mensagem', "Usuario deletado com sucesso!");
         return redirect()->route('usuario.index');

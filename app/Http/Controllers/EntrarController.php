@@ -22,6 +22,9 @@ class EntrarController extends Controller
             return redirect()->back()->withErrors(['email' => 'Usuário ou senha inválidos']);
         } 
 
+        activity()->on(Auth::user())->event('login')->log('login');
+
+
         return view('home');
     }
 }

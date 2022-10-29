@@ -8,16 +8,10 @@
 @section('title', 'Vendas')
 
 @section('content_header')
-
     <div class="row">
         <div class="col">
-            <h1><i class="fa fa-tags"></i> Vendas</h1>
-            <p>Informações sobre vendas realizadas</p>
-        </div>
-        <div class="col text-right">
-            <a href="{{route('vendas.create', 'novo')}}" class="btn bg-none text-end btn-lg">
-                <i class="fa fa-plus"></i>
-            </a>
+            <h1><i class="fa fa-tags"></i> Relatório de Vendas</h1>
+            <p>Relatórios com filtros para vendas realizadas</p>
         </div>
     </div>
 @stop
@@ -38,6 +32,55 @@
         theme="olive" />
     </div>
     </div>
+    <x-adminlte-card title="Filtro" theme="olive" icon="fas fa-lg fa-filter" collapsible>
+        <form action="{{route('relatorios.vendas')}}" method="POST">
+            @csrf
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="data_inicial">Data Inicial</label>
+                        <input type="date" name="data_inicio" id="data_inicio" class="form-control" value="{{$filtro->data_inicio ?? ''}}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="data_final">Data Final</label>
+                        <input type="date" name="data_final" id="data_final" class="form-control" value="{{$filtro->data_fim ?? ''}}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="">Selecione um status</option>
+                            <option value="A" {{!empty($filtro->status) && $filtro->status == 'A' ? 'selected' : '' }}>Aberto</option>
+                            <option value="P" {{!empty($filtro->status) && $filtro->status == 'P' ? 'selected' : '' }}>Pago</option>
+                            <option value="C" {{!empty($filtro->status) && $filtro->status == 'C' ? 'selected' : '' }}>Cancelado</option>
+                            <option value="E" {{!empty($filtro->status) && $filtro->status == 'E' ? 'selected' : '' }}>Expirado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" name="cliente" id="cliente" class="form-control" value="{{$filtro->cliente ?? ''}}" list="clientes"
+                        placeholder="Informe o Cliente">
+                        <datalist id="clientes">
+                            @foreach ($clientes as $cliente)
+                                <option value="{{$cliente->id.' - '.$cliente->nome}}">
+                            @endforeach
+                        </datalist>  
+                    </div>     
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                </div>
+            </div>
+        </form>
+    </x-adminlte-card>
+
     
         <hr>
         {{-- Div Container --}}
