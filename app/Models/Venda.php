@@ -97,4 +97,18 @@ class Venda extends Model
     {
         return Venda::where('id', $venda_id)->update(['status' => $status]);
     }
+
+    public static function carrinhoCliente($cliente_id)
+    {
+        return Venda::orderBy('venda.updated_at', 'desc')
+        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('cliente', 'venda.cliente_id', '=', 'cliente.id')
+        ->join('produto', 'venda_produto.produto_id', '=', 'produto.id')
+        ->select('venda.id as venda_id', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),
+        'venda.status', 'venda.updated_at as data_atualizacao', 'cliente.nome as cliente')
+        ->where('venda.cliente_id', $cliente_id)
+        ->where('venda.status', 'A')
+        ->groupBy('venda.id', 'venda.status', 'venda.updated_at', 'cliente.nome')
+        ->first();
+    }
 }

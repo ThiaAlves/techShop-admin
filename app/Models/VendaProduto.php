@@ -18,6 +18,11 @@ class VendaProduto extends Model
         'valor'
     ];
 
+    protected $primaryKey = null;
+
+    public $incrementing = false;
+
+
     public static function readVendaProdutos()
     {
         return VendaProduto::orderBy('venda_id', 'asc')

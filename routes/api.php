@@ -177,6 +177,8 @@ Route::post('/venda/finalizar', [VendaController::class, 'finalizarVenda']);
 Route::post('/venda/remover_produto', [VendaProdutoController::class, 'removerProduto']);
 Route::get('/venda/carrinho/{id}', [VendaProdutoController::class, 'carrinho']);
 
+Route::get('/carrinho/cliente/{id}', [VendaProdutoController::class, 'carrinhoCliente']);
+
 //Rota Lista de Produtos por Categoria
 Route::get('/v1/produto/categoria/{id}', [ProdutoController::class, 'showByCategory']);
 //Rota Lista de Produtos Randomicos da mesma categoria

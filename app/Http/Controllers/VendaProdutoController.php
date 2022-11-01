@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VendaProduto;
+use App\Models\Venda;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
@@ -283,9 +284,33 @@ class VendaProdutoController extends Controller
     public function novoProduto(Request $request)
     {
         try{
-            $produto_carrinho = VendaProduto::createVendaProduto($request);
+
+            //Verifica se o produto já está na venda
+            $vendaProduto = VendaProduto::where('venda_id', $request->venda_id)
+                ->where('produto_id', $request->produto_id)
+                ->first();
+
+            if($vendaProduto){
+                //Se já estiver na venda, atualiza a quantidade
+                $vendaProduto->quantidade = $vendaProduto->quantidade + $request->quantidade;
+
+                $vendaProduto->save();
+
+                
+            } else {
+                //Se não estiver na venda, cria um novo produto na venda
+                $data = array(
+                    'venda_id' => $request->venda_id,
+                    'produto_id' => $request->produto_id,
+                    'quantidade' => $request->quantidade,
+                    'valor' => $request->valor,
+                );
+
+                $vendaProduto = VendaProduto::createVendaProduto($data);
+            }
+
             //Agrega todas as informações do produto no carrinho
-            $produto_carrinho->produto = Produto::find($request->produto_id);
+            $produto_carrinho = Produto::find($request->produto_id);
             
             return $produto_carrinho;
 
@@ -314,5 +339,15 @@ class VendaProdutoController extends Controller
        } catch (\Exception $e) {
            return response()->json(['error' => $e->getMessage()], 500);
        }
+    }
+
+    public static function carrinhoCliente($id) {
+        try{
+            $carrinho = Venda::carrinhoCliente($id);
+            $carrinho->produtos = VendaProduto::carrinho($carrinho->venda_id);
+            return $carrinho;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
