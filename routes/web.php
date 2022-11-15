@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EntrarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EnderecoController;
@@ -35,9 +36,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
 
     // Route::get('/', [HomeController::class, 'home']);
-	Route::get('/', function () {
-		return view('home');
-	})->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/categorias', [CategoriaController::class, 'indexAdmin'])->name('categorias.index');
 Route::post('/categorias', [CategoriaController::class, 'storeAdmin'])->name('categorias');
@@ -85,6 +84,8 @@ Route::post('/venda_produto/update/', [VendaProdutoController::class, 'updateAdm
 
 //Rotas para relatorios
 Route::match(['post', 'get'], '/relatorio/vendas', [VendaController::class, 'relatorioVendas'])->name('relatorios.vendas');
+Route::match(['post', 'get'], '/relatorio/vendedores', [VendaController::class, 'relatorioVendedores'])->name('relatorios.vendedores');
+Route::match(['post', 'get'], '/relatorio/produtos', [ProdutoController::class, 'relatorioProdutos'])->name('relatorios.produtos');
 
 Route::match(['get', 'post'], '/log_activity', [LogController::class, 'index'])->name('logs.index');
 

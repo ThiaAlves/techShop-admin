@@ -48,6 +48,13 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ],
             ],
+            //FIX bug ordenação de colunas
+            'order' => [],
+            'columnDefs' => [
+                ['orderable' => false, 'targets' => 'no-sort'],
+            ],
+            
+
         ];
 
         View::share('configDatatable', $configDatatable);

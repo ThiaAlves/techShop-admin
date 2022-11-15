@@ -245,10 +245,10 @@ class VendaProdutoController extends Controller
      *   )
      * )
      */
-    public function destroy(VendaProduto $vendaProduto)
+    public function destroy(Request $request)
     {
         try{
-            $vendaProduto = VendaProduto::destroyVendaProduto($vendaProduto);
+            $vendaProduto = VendaProduto::destroyVendaProduto($request->venda_id, $request->produto_id);
             return $vendaProduto;
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -274,7 +274,7 @@ class VendaProdutoController extends Controller
     public function destroyAdmin(Request $request)
     {
         try{
-            $vendaProduto = VendaProduto::destroyVendaProduto($request->produto_id);
+            $vendaProduto = VendaProduto::destroyVendaProduto($request->venda_id, $request->produto_id);
             return $vendaProduto;
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -290,11 +290,15 @@ class VendaProdutoController extends Controller
                 ->where('produto_id', $request->produto_id)
                 ->first();
 
-            if($vendaProduto){
-                //Se já estiver na venda, atualiza a quantidade
-                $vendaProduto->quantidade = $vendaProduto->quantidade + $request->quantidade;
+            if(isset($vendaProduto)){
+                return $vendaProduto;
+                //Se já estiver na venda, atualiza a quantidade soma mais 1 somente no produto
+                
+                $vendaProduto->quantidade = $vendaProduto->quantidade + 1;
 
-                $vendaProduto->save();
+                VendaProduto::where('venda_id', $request->venda_id)
+                    ->where('produto_id', $request->produto_id)
+                    ->update(['quantidade' => $vendaProduto->quantidade]);
 
                 
             } else {
@@ -316,6 +320,30 @@ class VendaProdutoController extends Controller
 
 
 
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function diminuirProduto(Request $request){
+        try{
+
+            //Verifica se o produto já está na venda
+            $vendaProduto = VendaProduto::where('venda_id', $request->venda_id)
+                ->where('produto_id', $request->produto_id)
+                ->first();
+
+            if($vendaProduto){
+                //Se já estiver na venda, atualiza a quantidade
+                $vendaProduto->quantidade = $vendaProduto->quantidade - 1;
+
+                VendaProduto::where('venda_id', $request->venda_id)
+                ->where('produto_id', $request->produto_id)
+                ->update(['quantidade' => $vendaProduto->quantidade]);
+                //Retorna mensagem de sucesso
+                return response()->json(['success' => "Sucesso ao diminuir o produto"], 200);
+
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -343,9 +371,20 @@ class VendaProdutoController extends Controller
 
     public static function carrinhoCliente($id) {
         try{
+
             $carrinho = Venda::carrinhoCliente($id);
-            $carrinho->produtos = VendaProduto::carrinho($carrinho->venda_id);
-            return $carrinho;
+            //Verifica se a venda já passou de 24 horas e se o status é 1 (Aguardando pagamento)
+            if($carrinho->status == 'A' && $carrinho->data_atualizacao->diffInHours() > 24){
+                //Se sim, atualiza o status para E (Expirado)
+                $carrinho->status = 'E';
+                $carrinho->save();
+
+                return response()->json(['error' => 'Carrinho expirado'], 500);
+            } else {
+                $carrinho->produtos = VendaProduto::carrinho($carrinho->venda_id);
+                return $carrinho;
+            }
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

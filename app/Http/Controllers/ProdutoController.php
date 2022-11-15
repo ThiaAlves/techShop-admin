@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use App\Models\Categoria;
+use App\Models\Venda;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -473,6 +474,35 @@ class ProdutoController extends Controller
         }
         return response()->json(['valor' => $valor]);
 
+    }
+
+    public function relatorioProdutos(Request $request)
+    {
+                //Retorna Todas as vendas com os dados do cliente, valor total e data
+                $ranking = new stdClass;
+
+                $categorias = Categoria::all();
+                //Intervalo de datas 
+                // Se data_inicio for nulo, retorna o a data atual no mes anterior
+                $data_inicio = $request->data_inicio ?? date('Y-m-d', strtotime('-1 month'));
+                $data_fim = $request->data_final ?? date('Y-m-d');
+                $categoria_id = $request->categoria ?? 0;
+        
+                $filtro = new stdClass;
+                $filtro->data_inicio = $data_inicio;
+                $filtro->data_fim = $data_fim;
+                $filtro->categoria = $request->categoria;
+        
+                $vendas = Venda::listaProdutosRelatorio($data_inicio, $data_fim, $categoria_id);
+                //Ranking de produtos pelo período selecionado
+                $ranking->primeiro = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->first();
+                $ranking->primeiro = $ranking->primeiro->produto;
+                $ranking->segundo = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->skip(1)->first();
+                $ranking->segundo = $ranking->segundo->produto ?? 'Não há';
+                $ranking->terceiro = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->skip(2)->first();
+                $ranking->terceiro = $ranking->terceiro->produto ?? 'Não há';
+        
+                return view('relatorios.produtos', compact('vendas', 'ranking', 'categorias', 'filtro'));
     }
 
 

@@ -64,9 +64,19 @@ class VendaProduto extends Model
     {
         return VendaProduto::where('venda_produto.venda_id', $id_venda)
         ->join('produto', 'produto.id', '=', 'venda_produto.produto_id')
-        ->select('produto.id as produto_id', 'produto.nome', 'produto.descricao', 'produto.imagem1', 'produto.preco', 'venda_produto.quantidade', 'venda_produto.valor')
+        ->select('produto.id as id', 'produto.nome', 'produto.descricao', 'produto.imagem1', 'produto.preco', 'venda_produto.quantidade', 'venda_produto.valor')
         ->get();
     }
 
+    public static function listaProdutosRelatorio($data_inicio, $data_fim)
+    {
+        //Retorna a lista de produtos vendidos no período com a quantidade vendida
+        return VendaProduto::whereBetween('venda.data_venda', [$data_inicio, $data_fim])
+        ->join('venda', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('produto', 'produto.id', '=', 'venda_produto.produto_id')
+        ->select('produto.nome', 'produto.descricao', 'produto.imagem1', 'produto.preco', DB::raw('SUM(venda_produto.quantidade) as quantidade'))
+        ->groupBy('produto.nome', 'produto.descricao', 'produto.imagem1', 'produto.preco')
+        ->get();
+    }
 
 }

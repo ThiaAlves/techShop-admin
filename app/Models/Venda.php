@@ -93,6 +93,50 @@ class Venda extends Model
         ->get();
     }
 
+    public static function listaVendedoresRelatorio($dataInicial, $dataFinal, $status)
+    {
+
+        //Retorn Ranking de Vendas realizadas por vendedores
+        return Venda::orderBy('data_venda', 'asc')
+        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('usuario', 'venda.usuario_id', '=', 'usuario.id')
+        ->select('usuario.nome as vendedor', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),
+        db::raw('count(venda.id) as quantidade_vendas'))
+        ->groupBy('usuario.nome')
+        ->where(function($query) use ($dataInicial, $dataFinal, $status) {
+            if($dataInicial != null && $dataFinal != null) {
+                $query->whereBetween('venda.updated_at', [$dataInicial, $dataFinal]);
+            }
+            if($status != null) {
+                $query->where('venda.status', $status);
+            }
+            // if($vendedor_id != null) {
+            //     $query->where('venda.usuario_id', $vendedor_id);
+            // }
+        })
+        ->get();
+    }
+
+    public static function rankingVendedores($dataInicial, $dataFinal, $status)
+    {
+        return Venda::orderBy('data_venda', 'asc')
+        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('cliente', 'venda.cliente_id', '=', 'cliente.id')
+        ->join('usuario', 'venda.usuario_id', '=', 'usuario.id')
+        ->select('usuario.id as vendedor_id', 'usuario.nome as vendedor', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'))
+        ->groupBy('vendedor_id', 'usuario.nome')
+        ->where(function($query) use ($dataInicial, $dataFinal, $status) {
+            if($dataInicial != null && $dataFinal != null) {
+                $query->whereBetween('venda.updated_at', [$dataInicial, $dataFinal]);
+            }
+            if($status != null) {
+                $query->where('venda.status', $status);
+            }
+        })
+        ->get();
+    }
+
+
     public static function finalizarVenda($venda_id, $status)
     {
         return Venda::where('id', $venda_id)->update(['status' => $status]);
@@ -110,5 +154,41 @@ class Venda extends Model
         ->where('venda.status', 'A')
         ->groupBy('venda.id', 'venda.status', 'venda.updated_at', 'cliente.nome')
         ->first();
+    }
+
+    public static function listaProdutosRelatorio($data_inicial, $data_final, $categoria_id)
+    {
+        return Venda::orderBy('data_venda', 'asc')
+        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('produto', 'venda_produto.produto_id', '=', 'produto.id')
+        ->select('produto.imagem1 as imagem', 'produto.nome as produto', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),
+        db::raw('count(venda.id) as quantidade_vendas'))
+        ->groupBy('produto.imagem1', 'produto.nome')
+        ->where(function($query) use ($data_inicial, $data_final, $categoria_id) {
+            if($data_inicial != null && $data_final != null) {
+                $query->whereBetween('venda.updated_at', [$data_inicial, $data_final]);
+            }
+            if($categoria_id != null) {
+                $query->where('produto.categoria_id', $categoria_id);
+            }
+        })
+        ->get();
+    }
+
+    public static function rankingProdutos($data_inicial, $data_final, $categoria_id){
+        return Venda::orderBy('data_venda', 'asc')
+        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('produto', 'venda_produto.produto_id', '=', 'produto.id')
+        ->select('produto.id as produto_id', 'produto.nome as produto', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'))
+        ->groupBy('produto.id', 'produto.nome')
+        ->where(function($query) use ($data_inicial, $data_final, $categoria_id) {
+            if($data_inicial != null && $data_final != null) {
+                $query->whereBetween('venda.updated_at', [$data_inicial, $data_final]);
+            }
+            if($categoria_id != null) {
+                $query->where('produto.categoria_id', $categoria_id);
+            }
+        })
+        ->get();
     }
 }

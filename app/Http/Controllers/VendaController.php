@@ -6,6 +6,7 @@ use App\Models\Venda;
 use App\Models\Produto;
 use App\Models\Cliente;
 use App\Models\Usuario;
+use App\Models\Categoria;
 use App\Models\VendaProduto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -271,10 +272,17 @@ class VendaController extends Controller
     public function novaVenda(Request $request)
     {
         try{
-            $venda = Venda::createVenda($request->all());
-            activity()->on($venda)->event('create')->withProperties($venda)->log("Venda criada");
+            //Verifica se usuário já tem venda criada com status A
+            $venda = Venda::where('cliente_id', $request->cliente_id)->where('status', 'A')->first();
 
-            return $venda;
+            if(isset($venda)){
+                return $venda;
+            } else {
+
+                $venda = Venda::createVenda($request->all());
+                activity()->on($venda)->event('create')->withProperties($venda)->log("Venda criada");
+                return $venda;
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -345,5 +353,63 @@ class VendaController extends Controller
 
 
         return view('relatorios.vendas', compact('vendas', 'count_vendas', 'clientes', 'filtro'));
+    }
+
+    public function relatorioVendedores(Request $request)
+    {
+        //Retorna Todas as vendas com os dados do cliente, valor total e data
+        $ranking = new stdClass;
+
+        $vendedores = Usuario::all();
+        //Intervalo de datas 
+        // Se data_inicio for nulo, retorna o a data atual no mes anterior
+        $data_inicio = $request->data_inicio ?? date('Y-m-d', strtotime('-1 month'));
+        $data_fim = $request->data_final ?? date('Y-m-d');
+        $status = $request->status ?? 'P';
+        $vendedor_id = $request->vendedor ?? 2;
+
+        $filtro = new stdClass;
+        $filtro->data_inicio = $data_inicio;
+        $filtro->data_fim = $data_fim;
+        $filtro->status = $status;
+        $filtro->vendedor = $request->vendedor;
+
+        $vendas = Venda::listaVendedoresRelatorio($data_inicio, $data_fim, $status);
+        //Ranking de vendedores pelo período selecionado
+        $ranking->primeiro = Venda::rankingVendedores($data_inicio, $data_fim, $status)->first();
+        $ranking->primeiro = $ranking->primeiro->vendedor;
+        $ranking->segundo = Venda::rankingVendedores($data_inicio, $data_fim, $status)->skip(1)->first();
+        $ranking->segundo = $ranking->segundo->vendedor ?? 'Não há';
+        $ranking->terceiro = Venda::rankingVendedores($data_inicio, $data_fim, $status)->skip(2)->first();
+        $ranking->terceiro = $ranking->terceiro->vendedor ?? 'Não há';
+
+        return view('relatorios.vendedores', compact('vendas', 'ranking', 'vendedores', 'filtro'));
+    }
+
+    public static function relatorioProdutos(Request $request){
+        //Retorna a listagem de produtos mais vendidos com a quantidade vendida
+        $ranking = new stdClass;
+
+        $categorias = Categoria::all();
+        //Intervalo de datas
+        $data_inicio = $request->data_inicio ?? date('Y-m-d', strtotime('-1 month'));
+        $data_fim = $request->data_final ?? date('Y-m-d');
+
+        $filtro = new stdClass;
+        $filtro->data_inicio = $data_inicio;
+        $filtro->data_fim = $data_fim;
+
+        $produtos = VendaProduto::listaProdutosRelatorio($data_inicio, $data_fim);
+
+        //Ranking de produtos pelo período selecionado
+        $ranking->primeiro = VendaProduto::rankingProdutos($data_inicio, $data_fim)->first();
+        $ranking->primeiro = $ranking->primeiro->produto;
+        $ranking->segundo = VendaProduto::rankingProdutos($data_inicio, $data_fim)->skip(1)->first();
+        $ranking->segundo = $ranking->segundo->produto ?? 'Não há';
+        $ranking->terceiro = VendaProduto::rankingProdutos($data_inicio, $data_fim)->skip(2)->first();
+        $ranking->terceiro = $ranking->terceiro->produto ?? 'Não há';
+
+        return view('relatorios.produtos', compact('produtos', 'ranking', 'categorias', 'filtro'));
+        
     }
 }

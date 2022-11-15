@@ -362,7 +362,13 @@ return [
         [
             'text'       => 'Vendedores',
             'icon' => 'fa fa-user',
-            'url'        => '#',
+            'url'        => 'relatorio/vendedores',
+            'can'  => ['admin', 'analista'],
+        ],
+        [
+            'text'       => 'Produtos',
+            'icon' => 'fa fa-box-open',
+            'url'        => 'relatorio/produtos',
             'can'  => ['admin', 'analista'],
         ],
         ['header' => 'Admin'],

@@ -173,6 +173,7 @@ Route::delete('/v1/vendaProduto/{id}', [VendaProdutoController::class, 'destroy'
 //Admin Nova Venda
 Route::post('/nova_venda', [VendaController::class, 'novaVenda']);
 Route::post('/venda/novo_produto', [VendaProdutoController::class, 'novoProduto']);
+Route::post('/venda/diminuir_produto', [VendaProdutoController::class, 'diminuirProduto']);
 Route::post('/venda/finalizar', [VendaController::class, 'finalizarVenda']);
 Route::post('/venda/remover_produto', [VendaProdutoController::class, 'removerProduto']);
 Route::get('/venda/carrinho/{id}', [VendaProdutoController::class, 'carrinho']);
