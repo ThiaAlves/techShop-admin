@@ -15,7 +15,9 @@
                     <x-adminlte-info-box title="Clientes Cadastrados" text="{{$dashboard->total_clientes}}" icon="fas fa-lg fa-users text-light" theme="gradient-info"/>
                 </div>
                 <div class="col">
-                    <x-adminlte-info-box title="Produto Mais Vendido" text="{{$dashboard->mais_vendido}}" icon="fas fa-lg fa-box-open text-light" theme="gradient-info"/>
+                    <x-adminlte-info-box title="Produto Mais Vendido" text="{{
+                        Str::limit($dashboard->mais_vendido, 13)
+                        }}" icon="fas fa-lg fa-box-open text-light" theme="gradient-info"/>
                 </div>
                 <div class="col">
                     <x-adminlte-info-box title="Vendas no Mês" text="{{$dashboard->vendas_mes}}" icon="fas fa-lg fa-calendar text-light" theme="gradient-info"/>

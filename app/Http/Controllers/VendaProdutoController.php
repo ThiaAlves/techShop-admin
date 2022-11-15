@@ -290,26 +290,33 @@ class VendaProdutoController extends Controller
                 ->where('produto_id', $request->produto_id)
                 ->first();
 
-            if(isset($vendaProduto)){
-                return $vendaProduto;
-                //Se já estiver na venda, atualiza a quantidade soma mais 1 somente no produto
-                
+            if(isset($vendaProduto) && empty($request->quantidade)){
+    
+                //Se já estiver na venda, atualiza a quantidade soma mais 1 somente no produto            
                 $vendaProduto->quantidade = $vendaProduto->quantidade + 1;
 
                 VendaProduto::where('venda_id', $request->venda_id)
                     ->where('produto_id', $request->produto_id)
                     ->update(['quantidade' => $vendaProduto->quantidade]);
+            
+            }else if(isset($vendaProduto) && !empty($request->quantidade)){
+                //Se já estiver na venda, atualiza a quantidade soma mais 1 somente no produto            
+                $vendaProduto->quantidade = $request->quantidade;
 
+                VendaProduto::where('venda_id', $request->venda_id)
+                    ->where('produto_id', $request->produto_id)
+                    ->update(['quantidade' => $vendaProduto->quantidade]);
                 
             } else {
+                //Converte valor para inteiro
+                $valor = str_replace(',', '.', str_replace('.', '', $request->valor));
                 //Se não estiver na venda, cria um novo produto na venda
                 $data = array(
                     'venda_id' => $request->venda_id,
                     'produto_id' => $request->produto_id,
                     'quantidade' => $request->quantidade,
-                    'valor' => $request->valor,
+                    'valor' => $valor,
                 );
-
                 $vendaProduto = VendaProduto::createVendaProduto($data);
             }
 

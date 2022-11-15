@@ -374,7 +374,7 @@
                 linha += '<td><input type="hidden" name="quantidade[]" value="' + quantidade + '">' + quantidade + '</td>';
                 linha += '<td><input type="hidden" name="valor[]" value="' + valor + '">' + valor + '</td>';
                 linha += '<td>' + subtotal + '</td>';
-                linha += '<td><button type="button" class="btn btn-danger btn-sm btn-remove"><i class="fa fa-trash"></i></button></td>';
+                linha += '<td><button type="button" id="remove_'+produto_id+'"  class="btn btn-danger btn-sm btn-remove"><i class="fa fa-trash"></i></button></td>';
                 linha += '</tr>';
 
                 $('#tabela-produtos tbody').append(linha);
@@ -411,7 +411,10 @@
                     total = parseFloat(total) - parseFloat(subtotal);
                     $('#total').val(total);
                     linha.remove();
-                    removerProduto(linha.find('input[name="produto_id[]"]').val());
+
+                    //Pega data-id do botão
+                    var id = $(this).attr('data-id');
+                    removerProduto(id);
                 }
             });
         });

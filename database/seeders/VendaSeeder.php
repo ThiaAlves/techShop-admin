@@ -21,7 +21,7 @@ class VendaSeeder extends Seeder
                 'cliente_id' => 1,
                 'usuario_id' => 1,
                 'data_venda' => '2020-01-01',
-                'status' => 'Aguardando Pagamento',
+                'status' => 'P',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

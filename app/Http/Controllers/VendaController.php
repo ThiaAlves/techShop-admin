@@ -291,7 +291,6 @@ class VendaController extends Controller
     public function finalizarVenda(Request $request)
     {
         try{
-
             //Verifica se o carrinho está vazio 
             $carrinho = VendaProduto::carrinho($request->venda_id);
             if(count($carrinho) == 0) {
@@ -299,10 +298,11 @@ class VendaController extends Controller
             }
             //Verifica se contém estoque suficiente para cada produto
             foreach($carrinho as $item) {
-                $produto = Produto::find($item->produto_id);
+                $produto = Produto::find($item->id);
+
                 if($produto->estoque < $item->quantidade) {
                     return response()->json(['error' => 'Estoque insuficiente para o produto '.$produto->nome], 500);
-                }
+                } 
             }
 
             //Verifica se a venda foi paga para atualizar o estoque
