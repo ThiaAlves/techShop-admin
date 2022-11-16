@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use App\Models\Categoria;
 use App\Models\Venda;
+use App\Models\VendaProduto;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -317,6 +318,11 @@ class ProdutoController extends Controller
 
         $mensagem = $request->session()->get('mensagem');
         $produtos = Produto::all();
+        //Encontra vendas do produto
+        foreach ($produtos as $produto) {
+            $produto->vendas = VendaProduto::where('produto_id', $produto->id)->count();
+        }
+
         return view('produtos/index', compact('produtos', 'mensagem', 'count_produtos'));
     }
 
@@ -503,6 +509,22 @@ class ProdutoController extends Controller
                 $ranking->terceiro = $ranking->terceiro->produto ?? 'Não há';
         
                 return view('relatorios.produtos', compact('vendas', 'ranking', 'categorias', 'filtro'));
+    }
+
+    public function destroyAdmin($id) {
+
+        try {
+            $produto = Produto::find($id);
+            $produto->delete();
+            $mensagem = "Produto {$produto->nome} excluído com sucesso!";
+            activity()->on($produto)->event('delete')->withProperties($produto)->log($mensagem);
+            session()->flash('mensagem', $mensagem);
+        } catch (\Exception $e) {
+            $mensagem = "Não foi possível excluir o produto {$produto->nome}!";
+            session()->flash('mensagem', $mensagem);
+        }
+
+        return redirect()->route('produtos.index');
     }
 
 

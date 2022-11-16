@@ -69,21 +69,13 @@
                                     @endif
 
                                 <td width="10%" class="text-center">
-                                    {{-- Button Vizualização --}}
-                                    {{-- <a href="{{ url('produtos/' . $produto->id) }}" class="btn btn-sm btn-success m-1"  style="width: 30px; height: 30px;" title="Visualizar">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a> --}}
-                                    {{-- Button Acessar Produto na Loja --}}
-                                    {{-- <a href="{{ url('loja/produto/' . $produto->id) }}" class="btn btn-sm btn-dark m-1"  style="width: 30px; height: 30px;" title="Acessar Produto na Loja">
-                                        <i class="fa fa-fw fa-shopping-cart"></i>
-                                    </a> --}}
-
                                     <a href="{{ route('produtos.editar', $produto->id) }}" class="btn btn-sm btn-primary"  style="width: 30px; height: 30px;">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline" id="formProduto">
+                                    @if($produto->vendas > 0)
+                                    <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline" id="formProduto_{{ $produto->id }}">
                                         <button type="button" class="btn btn-sm {{$produto->status == 1 ? "btn-danger" : "btn-success"}}" style="width: 30px; height: 30px;"
-                                            onclick="confirmaInativacao()">
+                                            onclick="confirmaInativacao('{{ $produto->id }}')">
                                         @if ($produto->status == 1)
                                             <i class="fa fa-times"></i>
                                         @else
@@ -92,6 +84,18 @@
                                         </button>
                                         @csrf
                                     </form>
+                                    @else
+                                    <form action="/produto/{{ $produto->id }}" method="POST" style="display: inline" id="formProduto_excluir_{{ $produto->id }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="button" class="btn btn-sm btn-danger" style="width: 30px; height: 30px;"
+                                            onclick="confirmaExclusao('{{ $produto->id }}')">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        @csrf
+                                    </form>
+
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -177,7 +181,7 @@
             // end add
         });
 
-        function confirmaInativacao() {
+        function confirmaInativacao(produto_id) {
             Swal.fire({
                 title: 'Opa!',
                 text: "Deseja alterar o status do produto?",
@@ -188,7 +192,22 @@
                 confirmButtonText: 'Sim, alterar!',
                 cancelButtonText: 'Não, cancelar!'
             }).then((result) => {
-                result.value == true ? $('#formProduto').submit() : '';
+                result.value == true ? $(`#formProduto_${produto_id}`).submit() : '';
+            })
+        }
+
+        function confirmaExclusao(produto_id) {
+            Swal.fire({
+                title: 'Opa!',
+                text: "Deseja excluir o produto?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Não, cancelar!'
+            }).then((result) => {
+                result.value == true ? $(`#formProduto_excluir_${produto_id}`).submit() : '';
             })
         }
         function abreModal(id, nome, icone, status) {

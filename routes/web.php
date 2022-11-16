@@ -44,6 +44,7 @@ Route::get('/produto/editar/{id}', [ProdutoController::class, 'editAdmin'])->nam
 Route::get('/produto/{id}', [ProdutoController::class, 'showAdmin'])->name('produtos.show');
 Route::post('/produto', [ProdutoController::class, 'storeAdmin'])->name('produtos');
 Route::post('/produto/{id}', [ProdutoController::class, 'mudaStatus']);
+Route::delete('/produto/{id}', [ProdutoController::class, 'destroyAdmin']);
 //Rota para deletar imagem
 Route::delete('/produto/{id}/imagem/{nomeImagem}', [ProdutoController::class, 'destroyImageAdmin'])->name('produtos.imagem');
 
