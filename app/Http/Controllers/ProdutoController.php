@@ -315,6 +315,7 @@ class ProdutoController extends Controller
         $count_produtos->total = Produto::count();
         $count_produtos->ativos = Produto::where('status', 1)->count();
         $count_produtos->inativos = Produto::where('status', 0)->count();
+        $categorias = Categoria::all();
 
         $mensagem = $request->session()->get('mensagem');
         $produtos = Produto::all();
@@ -323,7 +324,25 @@ class ProdutoController extends Controller
             $produto->vendas = VendaProduto::where('produto_id', $produto->id)->count();
         }
 
-        return view('produtos/index', compact('produtos', 'mensagem', 'count_produtos'));
+        return view('produtos/index', compact('produtos', 'mensagem', 'count_produtos', 'categorias'));
+    }
+
+    public function listaProdutosCategoria(Request $request)
+    {
+        $count_produtos = new stdClass;
+        $count_produtos->total = Produto::count();
+        $count_produtos->ativos = Produto::where('status', 1)->count();
+        $count_produtos->inativos = Produto::where('status', 0)->count();
+        $categorias = Categoria::all();
+
+        $mensagem = $request->session()->get('mensagem');
+        $produtos = Produto::all()->where('categoria_id', $request->categoria);
+        //Encontra vendas do produto
+        foreach ($produtos as $produto) {
+            $produto->vendas = VendaProduto::where('produto_id', $produto->id)->count();
+        }
+
+        return view('produtos/index', compact('produtos', 'mensagem', 'count_produtos', 'categorias', 'request'));
     }
 
     public function createAdmin(Request $request)

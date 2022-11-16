@@ -102,8 +102,8 @@
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
                                         <option value="">Selecione um Status</option>
-                                        <option value="1" {{$produto->status ?? '' == 1 ? "selected" : null}}>Ativo</option>
-                                        <option value="0" {{$produto->status ?? '' == 0 ? "selected" : null}}>Inativo</option>
+                                        <option value="1" {{!empty($produto->status) && $produto->status == 1 ? 'selected' : ''}}>Ativo</option>
+                                        <option value="0" {{!empty($produto->status) && $produto->status == 0 ? 'selected' : ''}}>Inativo</option>
                                     </select>
                                 </div>
                             </div>

@@ -37,7 +37,9 @@ Route::post('/categorias/{id}', [CategoriaController::class, 'mudaStatus']);
 // Route::delete('/categorias/{id}', [CategoriaController::class, 'destroyAdmin']);
 
 // Rotas para produto
-Route::get('/produto', [ProdutoController::class, 'indexAdmin'])->name('produtos.index');
+Route::match(['get','post'], '/produto', [ProdutoController::class, 'indexAdmin'])->name('produtos.index');
+Route::post('/produto/categoria', [ProdutoController::class, 'listaProdutosCategoria'])->name('produtos.search');
+
 Route::get('/produto/novo', [ProdutoController::class, 'createAdmin'])->name('produtos.create');
 //Rota editar produto
 Route::get('/produto/editar/{id}', [ProdutoController::class, 'editAdmin'])->name('produtos.editar');

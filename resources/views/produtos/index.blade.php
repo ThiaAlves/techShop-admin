@@ -41,6 +41,23 @@
     <hr>
     {{-- Div Container --}}
     <div class="container">
+        <form method="POST" action="{{route('produtos.search')}}" id="formCategoria">
+            @csrf
+        <div class="row pb-4">
+            <div class="col-md-12">
+                <label for="categoria">Categoria:</label>
+                <select name="categoria" id="categoria" class="form-control">
+                    <option value="">Selecione a Categoria</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{$categoria->id}}"
+                            {{!empty($request->categoria) && $request->categoria == $categoria->id ? 'selected' : ''}}>
+                            {{$categoria->nome}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        </form>
+
         {{-- Tabela --}}
         @php
             $heads = ['ID', 'Nome', 'Estoque', ['label' => 'Imagem', 'width' => 15],['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
@@ -217,5 +234,9 @@
             $('#icone').val(icone);
             $('#status').val(status);
         }
+
+        $('#categoria').on('change', function() {
+            $('#formCategoria').submit();
+        });
     </script>
 @endsection
