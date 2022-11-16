@@ -63,7 +63,7 @@ class Venda extends Model
     public static function listaVendas()
     {   
         //Retorna venda com o valor_total 
-        return Venda::orderBy('data_venda', 'asc')
+        return Venda::orderBy('venda.created_at', 'desc')
         ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
         ->join('cliente', 'venda.cliente_id', '=', 'cliente.id')
         ->select('venda.id', 'cliente.nome as cliente', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'), 'venda.updated_at  as data_atualizacao', 'venda.status')
@@ -74,7 +74,7 @@ class Venda extends Model
     public static function listaVendasRelatorio($dataInicial, $dataFinal, $status, $cliente_id)
     {   
         //Retorna venda com o valor_total 
-        return Venda::orderBy('data_venda', 'asc')
+        return Venda::orderBy('venda.created_at', 'desc')
         ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
         ->join('cliente', 'venda.cliente_id', '=', 'cliente.id')
         ->select('venda.id', 'cliente.nome as cliente', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'), 'venda.updated_at  as data_atualizacao', 'venda.status')
@@ -158,7 +158,7 @@ class Venda extends Model
 
     public static function listaProdutosRelatorio($data_inicial, $data_final, $categoria_id)
     {
-        return Venda::orderBy('data_venda', 'asc')
+        return Venda::orderBy('venda.created_at', 'desc')
         ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
         ->join('produto', 'venda_produto.produto_id', '=', 'produto.id')
         ->select('produto.imagem1 as imagem', 'produto.nome as produto', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),

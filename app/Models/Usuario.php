@@ -29,7 +29,7 @@ class Usuario extends Authenticatable
     public static function readUsuarios()
     {
         return Usuario::orderBy('nome', 'asc')
-        ->select('id', 'nome', 'email', 'tipo_usuario_id', 'foto', 'cpf', 'status', 'created_at', 'updated_at')
+        ->select('id', 'nome', 'email', 'tipo', 'foto', 'cpf', 'status', 'created_at', 'updated_at')
         ->get();
     }
 
@@ -39,7 +39,7 @@ class Usuario extends Authenticatable
             'nome' => $data['nome'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'tipo_usuario_id' => $data['tipo_usuario_id'],
+            'tipo' => $data['tipo'],
             'foto' => $data['foto'],
             'cpf' => $data['cpf'],
             'status' => $data['status'],
@@ -63,17 +63,31 @@ class Usuario extends Authenticatable
 
     public static function adminlte_profile_url()
     {
-        return 'profile/username';
+        return '/perfil';
     }
 
-    public static function adminlte_image()
-    {
-        return '/usuarios/'.Auth::user()->foto;
-    }
+    public function adminlte_image(){
+
+        $usuario = Auth::user()->nome;
+        $background = "&background=3F88C5&color=fff";
+
+         return "https://ui-avatars.com/api/?name=$usuario?rounded=true$background";
+     }
 
     public static function adminlte_desc()
     {
         return Auth::user()->nome;
+    }
+
+    public static function buscaUsuarioMesmoEmail($email)
+    {
+        return Usuario::where('email', $email)->get();
+    }
+
+
+    public static function buscaUsuarioMesmoEmailUpdate($id, $email)
+    {
+        return Usuario::where('id', '!=', $id)->where('email', $email)->get();
     }
 
 

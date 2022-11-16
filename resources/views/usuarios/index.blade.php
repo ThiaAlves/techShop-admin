@@ -45,7 +45,7 @@
     <div class="container">
         {{-- Tabela --}}
         @php
-            $heads = ['ID', 'Nome', 'E-mail', 'CPF', 'Tipo', 'Foto', ['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
+            $heads = ['ID', 'Nome', 'E-mail', 'CPF', 'Tipo', ['label' => 'Status', 'width' => 40], ['label' => 'Ações', 'no-export' => true, 'width' => 5]];
         @endphp
 
         <x-adminlte-datatable id="table" :heads="$heads" striped hoverable bordered with-buttons :config="$configDatatable" head-theme="dark">
@@ -66,15 +66,6 @@
                                         Estagiário
                                     @endif
                                 </td>
-                                <td width="5%" class="text-center">
-                                    @if ($usuario->foto)
-                                    <img src="/usuarios/{{$usuario->foto}}" width="40px" class="img-fluid img-circle elevation-3">
-                                    @else
-                                    <img src="/usuarios/default.png" width="40px" class="img-fluid img-circle elevation-3">
-                                    @endif
-                                    
-                                </td>
-
                                 <td width="10%" class="text-center">
                                     @if ($usuario->status == 1)
                                         <span class="badge bg-success"><i class="fa fa-check"></i> Ativo</span>
@@ -153,6 +144,7 @@
                     <div class="col">
                         <label for="status">Status:</label>
                         <select class="form-control" name="status" id="status">
+                            <option value="">Selecione o Status</option>
                             <option value="1">Ativo</option>
                             <option value="0">Inativo</option>
                         </select>

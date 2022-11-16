@@ -20,15 +20,15 @@
 <div class="row">
 
     <div class="col-md-4">
-    <x-adminlte-small-box title="{{$count_vendas->total}}" text="Total de Vendas" icon="fas fa-shopping-cart text-teal"
-         theme="primary"/>
+    <x-adminlte-small-box title="{{$count_vendas->total}}" text="Total de Vendas" icon="fas fa-shopping-cart text-light"
+         theme="info"/>
     </div>
         <div class="col-md-4">
-        <x-adminlte-small-box title="{{$count_vendas->aguardando_pagamento}}" text="Aguardando Pagamento" icon="fa fa-clock text-teal"
-        theme="dark"/>
+        <x-adminlte-small-box title="{{$count_vendas->aguardando_pagamento}}" text="Aguardando Pagamento" icon="fa fa-clock text-light"
+        theme="purple"/>
     </div>
     <div class="col-md-4">
-        <x-adminlte-small-box title="{{$count_vendas->pago}}" text="Efetivadas" icon="fas fa-check text-teal"
+        <x-adminlte-small-box title="{{$count_vendas->pago}}" text="Efetivadas" icon="fas fa-check text-light"
         theme="olive" />
     </div>
     </div>

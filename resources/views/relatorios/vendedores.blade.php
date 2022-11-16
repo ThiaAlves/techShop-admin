@@ -48,7 +48,7 @@
                         <input type="date" name="data_final" id="data_final" class="form-control" value="{{$filtro->data_fim ?? ''}}">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
@@ -59,17 +59,6 @@
                             <option value="E" {{!empty($filtro->status) && $filtro->status == 'E' ? 'selected' : '' }}>Expirado</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="vendedor">Vendedor</label>
-                        <select name="vendedor" id="vendedor" class="form-control">
-                            <option value="">Selecione um vendedor</option>
-                            @foreach($vendedores as $vendedor)
-                                <option value="{{$vendedor->id}}" {{!empty($filtro->vendedor) && $filtro->vendedor == $vendedor->id ? 'selected' : '' }}>{{$vendedor->nome}}</option>
-                            @endforeach
-                        </select>
-                    </div>     
                 </div>
             </div>
             <div class="row">

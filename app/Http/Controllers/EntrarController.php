@@ -25,6 +25,6 @@ class EntrarController extends Controller
         activity()->on(Auth::user())->event('login')->log('login');
 
 
-        return view('home');
+        return redirect('/');
     }
 }

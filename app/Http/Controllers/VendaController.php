@@ -377,7 +377,7 @@ class VendaController extends Controller
         $vendas = Venda::listaVendedoresRelatorio($data_inicio, $data_fim, $status);
         //Ranking de vendedores pelo período selecionado
         $ranking->primeiro = Venda::rankingVendedores($data_inicio, $data_fim, $status)->first();
-        $ranking->primeiro = $ranking->primeiro->vendedor;
+        $ranking->primeiro = $ranking->primeiro->vendedor ?? 'Não Há';
         $ranking->segundo = Venda::rankingVendedores($data_inicio, $data_fim, $status)->skip(1)->first();
         $ranking->segundo = $ranking->segundo->vendedor ?? 'Não há';
         $ranking->terceiro = Venda::rankingVendedores($data_inicio, $data_fim, $status)->skip(2)->first();

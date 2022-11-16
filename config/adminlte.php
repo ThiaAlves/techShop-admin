@@ -378,6 +378,12 @@ return [
             'icon' => 'fas fa-user-shield',
             'can'  => 'admin',
         ],
+        [
+            'text' => 'Perfil',
+            'icon' => 'fas fa-user-circle',
+            'url'  => '/perfil',
+            'classes' => 'fixed-bottom',
+        ],
     ],
 
     /*

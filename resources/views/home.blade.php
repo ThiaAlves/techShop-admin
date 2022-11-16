@@ -1,5 +1,10 @@
 @extends('adminlte::page')
 
+@section('plugins.Datatables', true)
+@section('plugins.DatatablesPlugin', true)
+@section('plugins.Sweetalert2', true)
+@section('plugins.JqueryValidation', true)
+@section('plugins.Inputmask', true)
 @section('title', 'Dashboard')
 
 @section('content_header')
@@ -29,7 +34,7 @@
             <div class="row">
                 <div class="col-12">
                     <x-adminlte-card title="Vendas Por Dia" theme="info" icon="fas fa-lg fa-chart-line">
-                        <iframe src="http://187.87.223.235:3000/d-solo/a3-oG6vVk/new-dashboard?orgId=1&from=1668446612107&to=1668468212107&theme=light&panelId=2" width="100%" height="400" frameborder="0"></iframe>
+                        <iframe src="http://187.87.223.235:3000/d-solo/a3-oG6vVk/dashboard-techshop?from=1665966335792&to=1668561935792&orgId=1&theme=light&panelId=2" width="100%" height="400" frameborder="0"></iframe>
                     </x-adminlte-card>
                 </div>
             </div>

@@ -1,10 +1,5 @@
 <?php
 
-// use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\HomeController;
-// use App\Http\Controllers\InfoUserController;
-// use App\Http\Controllers\RegisterController;
-// use App\Http\Controllers\ResetController;
 use App\Http\Controllers\EntrarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\CategoriaController;
@@ -13,12 +8,10 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\AcessoController;
 use App\Http\Controllers\VendaController;
 use App\Http\Controllers\VendaProdutoController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\LogController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +65,12 @@ Route::delete('/endereco/{id}', [EnderecoController::class, 'destroyAdmin']);
 Route::get('/usuario', [UsuarioController::class, 'indexAdmin'])->name('usuario.index');
 Route::post('/usuario', [UsuarioController::class, 'storeAdmin'])->name('usuarios');
 Route::delete('/usuario/{id}', [UsuarioController::class, 'destroyAdmin']);
+
+//Rotas do Perfil
+Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
+Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
+
+
 
 
 //Rotas para venda
