@@ -244,6 +244,15 @@ class VendaController extends Controller
 
         $vendas = Venda::listaVendas();
 
+        //Formata Valor Total
+        foreach ($vendas as $venda) {
+            //Remove .00 do valor
+            $venda->valor_total = str_replace('.00', '', $venda->valor_total);
+
+        //     $venda->valor_total = $venda->valor_total * 0.1;
+            $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+        }
+
         return view('vendas.index', compact('vendas', 'count_vendas'));
     }
 
@@ -344,6 +353,15 @@ class VendaController extends Controller
         $filtro->cliente = $request->cliente;
 
         $vendas = Venda::listaVendasRelatorio($data_inicio, $data_fim, $status, $cliente_id);
+
+        //Formata Valor Total
+        foreach ($vendas as $venda) {
+            //Remove .00 do valor
+            $venda->valor_total = str_replace('.00', '', $venda->valor_total);
+
+        //     $venda->valor_total = $venda->valor_total * 0.1;
+            $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+        }
 
         //Contagem de vendas com o filtro aplicado
         $count_vendas->total = $vendas->count();

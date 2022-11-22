@@ -54,7 +54,8 @@
                                     <td>{{$venda->cliente }}</td>
                                     <td>
                                         {{-- Mostra valor total em formato brasileiro --}}
-                                        R${{ number_format($venda->valor_total, 2, ',', '.') }}
+                                        {{-- R${{ number_format($venda->valor_total, 2, ',', '.') }} --}}
+                                        R${{$venda->valor_total}}
                                     </td>
                                     <td>{{ $venda->data_atualizacao
                                         ->format('d/m/Y H:i:s') }}</td>

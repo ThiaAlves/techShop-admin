@@ -33,7 +33,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::readProdutos();
+        $produtos = Produto::readProdutos()->where('status', 1)->get();
         return $produtos;
     }
 

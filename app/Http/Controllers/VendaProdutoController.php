@@ -347,6 +347,12 @@ class VendaProdutoController extends Controller
                 VendaProduto::where('venda_id', $request->venda_id)
                 ->where('produto_id', $request->produto_id)
                 ->update(['quantidade' => $vendaProduto->quantidade]);
+
+                if($vendaProduto->quantidade == 0){
+                    VendaProduto::destroyVendaProduto($request->venda_id, $request->produto_id);
+                }
+
+
                 //Retorna mensagem de sucesso
                 return response()->json(['success' => "Sucesso ao diminuir o produto"], 200);
 

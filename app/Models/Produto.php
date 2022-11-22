@@ -61,7 +61,8 @@ class Produto extends Model
 
     public static function readProduto($id)
     {
-        return Produto::where('id', $id)->first();
+        return Produto::where('id', $id)
+        ->first();
     }
 
     public static function readProdutoByCategory($id)
@@ -69,6 +70,7 @@ class Produto extends Model
         return Produto::where('categoria_id', $id)
         ->orderBy('nome', 'asc')
         ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional','estoque','categoria_id', 'status', 'created_at', 'updated_at')
+        ->where('status', 1)
         ->get();
     }
 
@@ -76,6 +78,7 @@ class Produto extends Model
     {
         return Produto::where('categoria_id', $id)
         ->select('id', 'nome', 'descricao', 'imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5', 'estoque', 'preco', 'preco_promocional', 'estoque','categoria_id', 'status', 'created_at', 'updated_at')
+        ->where('status', 1)
         ->inRandomOrder()
         ->limit(5)
         ->get();
