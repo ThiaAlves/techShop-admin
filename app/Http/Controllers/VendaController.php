@@ -246,12 +246,12 @@ class VendaController extends Controller
 
         //Formata Valor Total
         foreach ($vendas as $venda) {
-            //Remove .00 do valor
-            $venda->valor_total = str_replace('.00', '', $venda->valor_total);
 
-            try{
+            if(!empty($venda_valor_total)) {
+            //Remove .00 do valor
+                $venda->valor_total = str_replace('.00', '', $venda->valor_total);
                 $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
-            } catch (\Exception $e) {
+            } else {
                 $venda->valor_total = '0,00';
             }
         }
@@ -359,13 +359,14 @@ class VendaController extends Controller
 
         //Formata Valor Total
         foreach ($vendas as $venda) {
-            //Remove .00 do valor
-            $venda->valor_total = str_replace('.00', '', $venda->valor_total);
-            try{
-                $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
-            } catch (\Exception $e) {
-                $venda->valor_total = '0,00';
-            }
+
+            if(!empty($venda_valor_total)) {
+                //Remove .00 do valor
+                    $venda->valor_total = str_replace('.00', '', $venda->valor_total);
+                    $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+                } else {
+                    $venda->valor_total = '0,00';
+                }
         }
 
         //Contagem de vendas com o filtro aplicado
