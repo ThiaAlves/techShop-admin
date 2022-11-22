@@ -250,7 +250,7 @@ class VendaController extends Controller
             $venda->valor_total = str_replace('.00', '', $venda->valor_total);
 
         //     $venda->valor_total = $venda->valor_total * 0.1;
-            $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+            $venda->valor_total = number_format($venda->valor_total ?? 0, 2, ',', '.');
         }
 
         return view('vendas.index', compact('vendas', 'count_vendas'));
@@ -360,7 +360,7 @@ class VendaController extends Controller
             $venda->valor_total = str_replace('.00', '', $venda->valor_total);
 
         //     $venda->valor_total = $venda->valor_total * 0.1;
-            $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+            $venda->valor_total = number_format($venda->valor_total ?? 0, 2, ',', '.');
         }
 
         //Contagem de vendas com o filtro aplicado
