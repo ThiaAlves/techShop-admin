@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\VendaProduto;
 
 class Venda extends Model
 {
@@ -95,14 +96,12 @@ class Venda extends Model
 
     public static function listaVendedoresRelatorio($dataInicial, $dataFinal, $status)
     {
-
-        //Retorn Ranking de Vendas realizadas por vendedores
-        return Venda::orderBy('data_venda', 'asc')
-        ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
-        ->join('usuario', 'venda.usuario_id', '=', 'usuario.id')
-        ->select('usuario.nome as vendedor', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),
-        db::raw('count(venda.id) as quantidade_vendas'))
-        ->groupBy('usuario.nome')
+        return VendaProduto::orderBy('quantidade_vendas', 'desc')
+        ->join('venda', 'venda.id', '=', 'venda_produto.venda_id')
+        ->join('usuario', 'usuario.id', '=', 'venda.usuario_id')
+        ->select('usuario.nome as vendedor', db::raw('count(venda.id) as quantidade_vendas'),
+        db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'))
+        ->groupBy('venda.usuario_id', 'usuario.nome')
         ->where(function($query) use ($dataInicial, $dataFinal, $status) {
             if($dataInicial != null && $dataFinal != null) {
                 $query->whereBetween('venda.updated_at', [$dataInicial, $dataFinal]);
@@ -110,16 +109,13 @@ class Venda extends Model
             if($status != null) {
                 $query->where('venda.status', $status);
             }
-            // if($vendedor_id != null) {
-            //     $query->where('venda.usuario_id', $vendedor_id);
-            // }
         })
         ->get();
     }
 
     public static function rankingVendedores($dataInicial, $dataFinal, $status)
     {
-        return Venda::orderBy('data_venda', 'asc')
+        return Venda::orderBy('valor_total', 'desc')
         ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
         ->join('cliente', 'venda.cliente_id', '=', 'cliente.id')
         ->join('usuario', 'venda.usuario_id', '=', 'usuario.id')
@@ -158,7 +154,7 @@ class Venda extends Model
 
     public static function listaProdutosRelatorio($data_inicial, $data_final, $categoria_id)
     {
-        return Venda::orderBy('venda.created_at', 'desc')
+        return Venda::orderBy('quantidade_vendas', 'desc')
         ->leftjoin('venda_produto', 'venda.id', '=', 'venda_produto.venda_id')
         ->join('produto', 'venda_produto.produto_id', '=', 'produto.id')
         ->select('produto.imagem1 as imagem', 'produto.nome as produto', db::raw('sum(venda_produto.valor * venda_produto.quantidade) as valor_total'),

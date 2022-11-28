@@ -247,10 +247,10 @@ class VendaController extends Controller
         //Formata Valor Total
         foreach ($vendas as $venda) {
 
-            if(!empty($venda_valor_total)) {
+            if(!empty($venda->valor_total)) {
             //Remove .00 do valor
-                $venda->valor_total = str_replace('.00', '', $venda->valor_total);
-                $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+                $venda->valor_total = str_replace('0.00', '', $venda->valor_total);
+                //$venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
             } else {
                 $venda->valor_total = '0,00';
             }
@@ -360,10 +360,10 @@ class VendaController extends Controller
         //Formata Valor Total
         foreach ($vendas as $venda) {
 
-            if(!empty($venda_valor_total)) {
+            if(!empty($venda->valor_total)) {
                 //Remove .00 do valor
-                    $venda->valor_total = str_replace('.00', '', $venda->valor_total);
-                    $venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
+                    $venda->valor_total = str_replace('0.00', '', $venda->valor_total);
+                    //$venda->valor_total = number_format($venda->valor_total, 2, ',', '.');
                 } else {
                     $venda->valor_total = '0,00';
                 }
@@ -406,7 +406,6 @@ class VendaController extends Controller
         $ranking->segundo = $ranking->segundo->vendedor ?? 'Não há';
         $ranking->terceiro = Venda::rankingVendedores($data_inicio, $data_fim, $status)->skip(2)->first();
         $ranking->terceiro = $ranking->terceiro->vendedor ?? 'Não há';
-
         return view('relatorios.vendedores', compact('vendas', 'ranking', 'vendedores', 'filtro'));
     }
 
@@ -426,11 +425,11 @@ class VendaController extends Controller
         $produtos = VendaProduto::listaProdutosRelatorio($data_inicio, $data_fim);
 
         //Ranking de produtos pelo período selecionado
-        $ranking->primeiro = VendaProduto::rankingProdutos($data_inicio, $data_fim)->first();
-        $ranking->primeiro = $ranking->primeiro->produto;
-        $ranking->segundo = VendaProduto::rankingProdutos($data_inicio, $data_fim)->skip(1)->first();
+        $ranking->primeiro = $produtos->first();
+        $ranking->primeiro = $ranking->primeiro->produto ?? 'Não Há';
+        $ranking->segundo = $produtos->skip(1)->first();
         $ranking->segundo = $ranking->segundo->produto ?? 'Não há';
-        $ranking->terceiro = VendaProduto::rankingProdutos($data_inicio, $data_fim)->skip(2)->first();
+        $ranking->terceiro = $produtos->skip(2)->first();
         $ranking->terceiro = $ranking->terceiro->produto ?? 'Não há';
 
         return view('relatorios.produtos', compact('produtos', 'ranking', 'categorias', 'filtro'));

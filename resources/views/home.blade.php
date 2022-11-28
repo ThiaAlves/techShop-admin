@@ -54,7 +54,7 @@
                             <td width="5%" class="text-center">{{ $venda->id }}</td>
                             {{-- Mostrar nome do produto até 50 caracteres --}}
                             <td>{{ $venda->nome }}</td>
-                            <td  width="20%" class="text-center">{{  date('d/m/Y H:i:s', strtotime($venda->created_at)) }}</td> 
+                            <td  width="20%" class="text-center">{{  $venda->created_at->diffForHumans() }}</td>
 
                             <td width="10%" class="text-center">
                                 @if ($venda->status == 'A')

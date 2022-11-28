@@ -33,8 +33,8 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::readProdutos()->where('status', 1)->get();
-        return $produtos;
+        $produtos = Produto::readProdutos()->get();
+        return $produtos->where('status', 1);
     }
 
     /**
@@ -520,11 +520,11 @@ class ProdutoController extends Controller
         
                 $vendas = Venda::listaProdutosRelatorio($data_inicio, $data_fim, $categoria_id);
                 //Ranking de produtos pelo período selecionado
-                $ranking->primeiro = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->first();
+                $ranking->primeiro = $vendas->first();
                 $ranking->primeiro = $ranking->primeiro->produto;
-                $ranking->segundo = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->skip(1)->first();
+                $ranking->segundo = $vendas->skip(1)->first();
                 $ranking->segundo = $ranking->segundo->produto ?? 'Não há';
-                $ranking->terceiro = Venda::rankingProdutos($data_inicio, $data_fim, $categoria_id)->skip(2)->first();
+                $ranking->terceiro = $vendas->skip(2)->first();
                 $ranking->terceiro = $ranking->terceiro->produto ?? 'Não há';
         
                 return view('relatorios.produtos', compact('vendas', 'ranking', 'categorias', 'filtro'));

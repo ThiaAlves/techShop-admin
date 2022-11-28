@@ -96,8 +96,12 @@
                                     <td width="5%" class="text-center">{{ $venda->id }}</td>
                                     <td>{{$venda->cliente }}</td>
                                     <td>
-                                        {{-- Mostra valor total em formato brasileiro --}}
-                                        R${{$venda->valor_total }}
+                                        {{-- Mostra valor total em R$ --}}
+                                        @if($venda->valor_total != null)
+                                        R${{ number_format(intval($venda->valor_total), 2, ',', '.') }}
+                                        @else
+                                        R$0,00
+                                        @endif
                                     </td>
                                     <td>{{ $venda->data_atualizacao
                                         ->format('d/m/Y H:i:s') }}</td>

@@ -83,7 +83,7 @@
                                 <tr>
                                     <td>{{$loop->iteration}}°</td>
                                     <td width="10%" class="text-center bg-white"><img src="/produtos/{{ $venda->imagem }}" width="80%"></td>
-                                    <td>{{$venda->produto }}</td>
+                                    <td>{{Str::limit($venda->produto, 50)}}</td>
                                     <td>
                                         {{-- Mostra valor total em formato brasileiro --}}
                                         R${{ number_format($venda->valor_total, 2, ',', '.') }}

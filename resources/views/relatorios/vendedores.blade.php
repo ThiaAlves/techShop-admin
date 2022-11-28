@@ -86,7 +86,11 @@
                                     <td>{{$venda->vendedor }}</td>
                                     <td>
                                         {{-- Mostra valor total em formato brasileiro --}}
-                                        R${{ number_format($venda->valor_total, 2, ',', '.') }}
+                                        @if($venda->valor_total != null)
+                                        R${{ number_format(intval($venda->valor_total), 2, ',', '.') }}
+                                        @else
+                                        R$0,00
+                                        @endif
                                     </td>
                                     <td>{{ $venda->quantidade_vendas }}</td>
                                    

@@ -310,6 +310,11 @@ class VendaProdutoController extends Controller
             } else {
                 //Converte valor para inteiro
                 $valor = str_replace(',', '.', str_replace('.', '', $request->valor));
+
+                //se valor contém .00 ou .99, retira
+                if(substr($valor, -3) == '.00' || substr($valor, -3) == '.99'){
+                    $valor = substr($valor, 0, -3);
+                }
                 //Se não estiver na venda, cria um novo produto na venda
                 $data = array(
                     'venda_id' => $request->venda_id,

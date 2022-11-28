@@ -54,11 +54,13 @@
                                     <td>{{$venda->cliente }}</td>
                                     <td>
                                         {{-- Mostra valor total em formato brasileiro --}}
-                                        {{-- R${{ number_format($venda->valor_total, 2, ',', '.') }} --}}
-                                        R${{$venda->valor_total}}
+                                        @if($venda->valor_total != null)
+                                        R${{ number_format(intval($venda->valor_total), 2, ',', '.') }}
+                                        @else
+                                        R$0,00
+                                        @endif
                                     </td>
-                                    <td>{{ $venda->data_atualizacao
-                                        ->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ $venda->data_atualizacao->diffForHumans() }}</td>
                                     <td width="10%" class="text-center">
                                         @if ($venda->status == 'A')
                                             <span class="badge badge-warning">

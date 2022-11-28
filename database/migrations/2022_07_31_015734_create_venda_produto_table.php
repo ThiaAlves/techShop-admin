@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('produto_id');
             $table->foreign('produto_id')->references('id')->on('produto');
             $table->integer('quantidade');
-            $table->decimal('valor', 10, 2);
+            $table->integer('valor');
             $table->timestamps();
         });
     }
